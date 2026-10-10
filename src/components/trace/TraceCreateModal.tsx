@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Camera, ChevronDown, ChevronRight, X, Check } from 'lucide-react';
 import { LogbookEntry, Phase, TraceDoc } from '../../types/project';
-import { compressImageFile } from '../../utils/imageCompression';
+import { compressImageFile, resizeImageToMax } from '../../utils/imageCompression';
 import { dataUrlToBlob, putFile } from '../../utils/traceStorage';
 import { PHASE_COLORS, getPhaseColor } from '../../utils/theme';
+import { isAiEnabled, suggestFormulation, FormulationSuggestion } from '../../ai/gemini';
+import { FormulationSuggestionsCard } from './FormulationSuggestionsCard';
 import { DocAdder, DocList } from './DocAdder';
 import { FIELD_CLS, LABEL_CLS } from './ui';
 
@@ -74,6 +76,10 @@ export const TraceCreateModal: React.FC<Props> = ({
   const [tags, setTags] = useState<string[]>(draft?.tags ?? []);
   const [saving, setSaving] = useState(false);
 
+  const [aiLoading, setAiLoading] = useState(false);
+  const [suggestion, setSuggestion] = useState<FormulationSuggestion | null>(null);
+  const [aiError, setAiError] = useState<string | null>(null);
+
   const [openDone, setOpenDone] = useState(!!(done || decided));
   const [openWork, setOpenWork] = useState(false);
   const [openResult, setOpenResult] = useState(false);
@@ -106,6 +112,39 @@ export const TraceCreateModal: React.FC<Props> = ({
       console.error('Erreur compression image:', err);
     } finally {
       setPhotoBusy(false);
+    }
+  };
+
+  const handleAiFormulate = async () => {
+    if (!isAiEnabled() || aiLoading) return;
+    if (!observed.trim() && !photo) {
+      setAiError('Renseigne au moins un début de constat ou une photo pour obtenir de l’aide.');
+      setTimeout(() => setAiError(null), 4000);
+      return;
+    }
+
+    setAiLoading(true);
+    setAiError(null);
+
+    try {
+      const resizedPhoto = photo ? await resizeImageToMax(photo, 768) : undefined;
+      const res = await suggestFormulation({
+        constat: observed.trim(),
+        photo: resizedPhoto,
+        tagsExistants: availableTags || [],
+      });
+
+      if (res.data) {
+        setSuggestion(res.data);
+      } else {
+        setAiError(res.error || 'Impossible de proposer une reformulation pour le moment.');
+        setTimeout(() => setAiError(null), 5000);
+      }
+    } catch {
+      setAiError('Erreur de connexion à Gemini.');
+      setTimeout(() => setAiError(null), 5000);
+    } finally {
+      setAiLoading(false);
     }
   };
 
@@ -220,11 +259,44 @@ export const TraceCreateModal: React.FC<Props> = ({
           </label>
 
           {/* Constat (seul champ requis) */}
-          <label className="block space-y-1">
-            <span className={LABEL_CLS}>
-              Ce que je constate <span className="text-[#F0505A]" aria-hidden="true">*</span>
-            </span>
+          <div className="space-y-1.5">
+            <div className="flex items-center justify-between gap-2">
+              <label htmlFor="trace-create-observed" className={LABEL_CLS}>
+                Ce que je constate <span className="text-[#F0505A]" aria-hidden="true">*</span>
+              </label>
+              {isAiEnabled() && (
+                <button
+                  type="button"
+                  disabled={aiLoading}
+                  onClick={handleAiFormulate}
+                  className="btn-riso-secondary py-0.5 px-2.5 text-xs font-bold flex items-center gap-1.5 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  <span>{aiLoading ? 'Gemini réfléchit…' : '✦ Aide à formuler'}</span>
+                </button>
+              )}
+            </div>
+
+            {aiError && (
+              <div className="p-2 bg-[#FFF0F0] border-2 border-[#F0505A] rounded-[8px] text-[11px] font-bold text-[#F0505A]">
+                {aiError}
+              </div>
+            )}
+
+            {suggestion && (
+              <FormulationSuggestionsCard
+                suggestion={suggestion}
+                onApplyTitle={(t) => setTitle(t)}
+                onApplyObserved={(c) => setObserved(c)}
+                onApplyTags={(newTags) => {
+                  setTags((prev) => Array.from(new Set([...prev, ...newTags])));
+                  setOpenDone(true);
+                }}
+                onClose={() => setSuggestion(null)}
+              />
+            )}
+
             <textarea
+              id="trace-create-observed"
               value={observed}
               onChange={(e) => setObserved(e.target.value)}
               rows={3}
@@ -233,7 +305,7 @@ export const TraceCreateModal: React.FC<Props> = ({
               required
               autoFocus
             />
-          </label>
+          </div>
 
           {/* Phase + date pré-remplies */}
           <div className="grid grid-cols-2 gap-3">

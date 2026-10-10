@@ -19,6 +19,7 @@ import {
   toLocalYMD,
 } from '../../utils/dateCalculations';
 import { PHASE_COLORS, RISO_THEME, getPhaseColor } from '../../utils/theme';
+import { InertiaActionModal } from '../modals/InertiaActionModal';
 export { PHASE_COLORS };
 
 export const TodaySection: React.FC = () => {
@@ -100,6 +101,7 @@ export const TodaySection: React.FC = () => {
 
   // État pour la création d'un rendu intermédiaire si aucun n'est présent
   const [isAddIntermediateOpen, setIsAddIntermediateOpen] = useState(false);
+  const [isInertiaOpen, setIsInertiaOpen] = useState(false);
   const [newIntermediateTitle, setNewIntermediateTitle] = useState('Rendu intermédiaire');
   const [newIntermediateDate, setNewIntermediateDate] = useState(() => {
     const d = new Date();
@@ -286,6 +288,18 @@ export const TodaySection: React.FC = () => {
               </span>
             </div>
           )}
+
+          {/* Grand bouton principal : Je m'y mets (Mobile) */}
+          <div className="pt-1">
+            <button
+              type="button"
+              onClick={() => setIsInertiaOpen(true)}
+              className="btn-riso-primary w-full text-base py-3.5 px-6 font-bold shadow-[0_4px_0_#F0505A] flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <Play className="w-5 h-5 fill-current" />
+              <span>Je m'y mets</span>
+            </button>
+          </div>
         </div>
 
         {/* 2. Au centre : CARTE tâche du moment */}
@@ -558,6 +572,18 @@ export const TodaySection: React.FC = () => {
               {finalBadge}
             </div>
           </div>
+        </div>
+
+        {/* Grand bouton principal : Je m'y mets (Desktop) */}
+        <div>
+          <button
+            type="button"
+            onClick={() => setIsInertiaOpen(true)}
+            className="btn-riso-primary w-full text-lg py-4 px-8 font-bold shadow-[0_4px_0_#F0505A] flex items-center justify-center gap-3 cursor-pointer group"
+          >
+            <Play className="w-5 h-5 fill-current transition-transform group-hover:scale-110" />
+            <span className="font-heading tracking-wide">Je m'y mets</span>
+          </button>
         </div>
 
         {/* 2 Colonnes : Gauche (60%) / Droite (40%) */}
@@ -1015,6 +1041,12 @@ export const TodaySection: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Modal Anti-Inertie « Je m'y mets » */}
+      <InertiaActionModal
+        isOpen={isInertiaOpen}
+        onClose={() => setIsInertiaOpen(false)}
+      />
     </>
   );
 };

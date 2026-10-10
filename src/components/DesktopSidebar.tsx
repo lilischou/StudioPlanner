@@ -142,7 +142,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
                 className="w-full text-left px-3 py-2 hover:bg-[#EBF1FF] flex items-center gap-2 text-[#22408F] font-bold transition-colors cursor-pointer"
               >
                 <Plus className="w-4 h-4 text-[#22408F]" />
-                <span>+ Nouveau projet</span>
+                <span>Nouveau projet</span>
               </button>
 
               <button
@@ -163,7 +163,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
       </div>
 
       {/* 3. Navigation items (4 tabs) */}
-      <nav className="flex-1 px-2 xl:px-3 py-4 space-y-2 overflow-y-auto">
+      <nav className="flex-1 px-2 xl:px-3 py-4 space-y-2 overflow-visible xl:overflow-y-auto">
         <div className="hidden xl:block px-2 pb-1 text-[11px] font-bold uppercase tracking-wider text-[#5A6A94]">
           Navigation
         </div>
@@ -177,7 +177,8 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
               type="button"
               onClick={() => setActiveTab(tab.id)}
               title={tab.label}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-[8px] text-xs transition-all cursor-pointer group focus-visible:outline-none ${
+              aria-label={tab.label}
+              className={`relative w-full flex items-center gap-3 px-3 py-2.5 rounded-[8px] text-xs transition-all cursor-pointer group focus-visible:outline-none ${
                 isActive
                   ? 'bg-[#EBF1FF] text-[#22408F] font-bold border-2 border-[#22408F] shadow-[0_2px_0_#22408F]'
                   : 'text-[#5A6A94] hover:text-[#22408F] hover:bg-[#FBFAF6] font-semibold border-2 border-transparent'
@@ -194,6 +195,15 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
               <span className="hidden xl:inline-block flex-1 text-left truncate font-bold text-xs">
                 {tab.label}
               </span>
+
+              {/* Infobulle en mode réduit (< xl) */}
+              <div
+                role="tooltip"
+                className="hidden md:flex xl:hidden pointer-events-none absolute left-full ml-2.5 top-1/2 -translate-y-1/2 px-2.5 py-1 bg-[#22408F] text-white text-xs font-bold rounded-[8px] shadow-[0_2px_0_#22408F] whitespace-nowrap opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-150 z-50 items-center gap-1.5"
+              >
+                <span>{tab.label}</span>
+                <span className="text-[10px] text-[#F2D21B] font-mono">[{tab.shortcut}]</span>
+              </div>
             </button>
           );
         })}

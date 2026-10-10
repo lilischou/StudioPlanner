@@ -104,9 +104,6 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({
                     <h3 className="font-bold text-sm text-[#22408F] font-heading mb-1.5">
                       Pas à pas
                     </h3>
-                    <p className="text-xs text-[#5A6A94] leading-relaxed">
-                      L'assistant guidé écran par écran. Idéal pour structurer vos objectifs, vos séances et vos livrables sans surcharge cognitive.
-                    </p>
                   </div>
                   <div className="pt-4 flex items-center gap-1 text-xs font-bold text-[#22408F] group-hover:underline">
                     <span>Lancer l'assistant</span>
@@ -127,9 +124,6 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({
                     <h3 className="font-bold text-sm text-[#22408F] font-heading mb-1.5">
                       Remplir moi-même
                     </h3>
-                    <p className="text-xs text-[#5A6A94] leading-relaxed">
-                      Formulaire direct en une page : nom, dates et mode. Crée immédiatement votre projet avec les 3 phases par défaut.
-                    </p>
                   </div>
                   <div className="pt-4 flex items-center gap-1 text-xs font-bold text-[#22408F] group-hover:underline">
                     <span>Remplir le formulaire</span>

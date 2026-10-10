@@ -35,6 +35,7 @@ import {
   calculatePhaseDates,
 } from '../../utils/planGenerator';
 import { PlanDiffModal } from '../modals/PlanDiffModal';
+import { getAiDailyUsage, setAiEnabled } from '../../ai/gemini';
 
 export const SettingsSection: React.FC = () => {
   const {
@@ -107,6 +108,15 @@ export const SettingsSection: React.FC = () => {
   const [newDeadlineName, setNewDeadlineName] = useState('');
   const [newDeadlineDate, setNewDeadlineDate] = useState('');
   const [newExceptionDate, setNewExceptionDate] = useState('');
+
+  // Réglages IA
+  const [aiUsage, setAiUsage] = useState(getAiDailyUsage());
+
+  const handleToggleAi = () => {
+    const next = !aiUsage.enabled;
+    setAiEnabled(next);
+    setAiUsage(getAiDailyUsage());
+  };
 
   // Vérifie si des réglages de planification sont en attente d'application
   const isPlanningModified =
@@ -778,6 +788,40 @@ export const SettingsSection: React.FC = () => {
                 Ajouter
               </button>
             </form>
+          </div>
+
+          {/* Section IA */}
+          <div className="bg-white border-2 border-[#22408F] rounded-2xl p-5 shadow-[0_4px_0_#22408F] space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="font-bold text-sm text-[#22408F] flex items-center gap-2 font-heading">
+                <Sparkles className="w-4 h-4 text-[#2F6DBB]" />
+                IA
+              </h3>
+            </div>
+
+            <div className="flex items-center justify-between py-1">
+              <span className="text-xs font-bold text-[#22408F]">
+                Activer l'aide de Gemini
+              </span>
+              <button
+                type="button"
+                onClick={handleToggleAi}
+                className={`px-3 py-1.5 rounded-[999px] text-xs font-bold border-2 transition-all cursor-pointer ${
+                  aiUsage.enabled
+                    ? 'bg-[#2E8B4A] text-white border-[#22408F] shadow-[0_2px_0_#22408F]'
+                    : 'bg-[#FBFAF6] text-[#5A6A94] border-[#22408F]/40'
+                }`}
+              >
+                {aiUsage.enabled ? 'Activé' : 'Désactivé'}
+              </button>
+            </div>
+
+            <div className="flex items-center justify-between p-3 bg-[#FBFAF6] border border-[#DCE2EF] rounded-xl text-xs">
+              <span className="text-[#5A6A94] font-medium">Compteur :</span>
+              <span className="font-bold text-[#22408F] tabular-nums font-mono">
+                {aiUsage.count} appel{aiUsage.count > 1 ? 's' : ''} aujourd'hui sur 30
+              </span>
+            </div>
           </div>
         </div>
       </div>

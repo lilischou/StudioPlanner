@@ -815,6 +815,7 @@ export const LogbookSection: React.FC = () => {
           key={selectedEntry.id}
           entry={selectedEntry}
           phases={phases}
+          availableTags={availableTags}
           onUpdate={(patch) => updateLogbookEntry(selectedEntry.id, patch)}
           onClose={() => setSelectedEntry(null)}
           onDelete={() => handleDeleteTrace(selectedEntry)}

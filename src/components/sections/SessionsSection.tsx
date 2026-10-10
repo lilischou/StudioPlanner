@@ -177,10 +177,10 @@ export const SessionsSection: React.FC = () => {
       author: settings.team[0]?.name || 'Moi-même',
       phaseId: session.phaseId,
       title: session.objective,
-      whatWeDid: `Session ${session.type === 'individuelle' ? 'solo' : session.type === 'groupe' ? 'en groupe' : 'encadrée'} : ${session.objective}`,
+      whatWeDid: `Session ${session.type === 'individuelle' || (session.type as string) === 'solo' ? 'solo' : session.type === 'groupe' ? 'en groupe' : 'encadrée'} : ${session.objective}`,
       whatWeNoticed: '',
       whatWeDecided: '',
-      tags: [session.type],
+      tags: [getSessionTypeLabel(session.type).toLowerCase()],
     });
     updateSession(session.id, { status: 'realisee' });
     setSelectedSession(null);
@@ -347,7 +347,7 @@ export const SessionsSection: React.FC = () => {
                               backgroundColor: isDone ? '#EBF1FF' : colorInfo.hex,
                             }}
                           >
-                            {session.type === 'individuelle' && (
+                            {(session.type === 'individuelle' || (session.type as string) === 'solo') && (
                               <User className="w-5 h-5 text-[#22408F]" />
                             )}
                             {session.type === 'groupe' && (
@@ -669,7 +669,7 @@ export const SessionsSection: React.FC = () => {
                           {/* Bottom tags avec étiquette 'Fait' qui reste à l'intérieur */}
                           <div className="pl-1 pt-1.5 flex flex-wrap items-center justify-between gap-1 text-[11px] text-[#5A6A94] border-t border-[#22408F]/20 mt-2">
                             <span className="inline-flex items-center gap-1 font-bold text-[#22408F]">
-                              {session.type === 'individuelle' && <User className="w-3 h-3 text-[#22408F]" />}
+                              {(session.type === 'individuelle' || (session.type as string) === 'solo') && <User className="w-3 h-3 text-[#22408F]" />}
                               {session.type === 'groupe' && settings.mode === 'groupe' && (
                                 <Users className="w-3 h-3 text-[#22408F]" />
                               )}
@@ -677,11 +677,7 @@ export const SessionsSection: React.FC = () => {
                                 <GraduationCap className="w-3 h-3 text-[#22408F]" />
                               )}
                               <span>
-                                {session.type === 'individuelle'
-                                  ? 'Solo'
-                                  : session.type === 'groupe'
-                                  ? 'Groupe'
-                                  : 'Tuteur'}
+                                {getSessionTypeLabel(session.type)}
                               </span>
                             </span>
 

@@ -75,10 +75,10 @@ export const SessionsTableSection: React.FC = () => {
       sessionId: session.id,
       author,
       phaseId: session.phaseId,
-      whatWeDid: `Session ${session.type} : ${session.objective}`,
+      whatWeDid: `Session ${getSessionTypeLabel(session.type).toLowerCase()} : ${session.objective}`,
       whatWeNoticed: '',
       whatWeDecided: '',
-      tags: [session.type],
+      tags: [getSessionTypeLabel(session.type).toLowerCase()],
     });
 
     // Mark session as 'realisee'

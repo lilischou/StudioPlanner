@@ -20,6 +20,7 @@ import {
   getAssigneeInitials,
 } from '../../utils/dateCalculations';
 import { getPhaseColor } from '../../utils/theme';
+import { isAiEnabled, suggestTasksForPhase, ProposedTask } from '../../ai/gemini';
 
 interface PhaseDetailPanelProps {
   phase: Phase;
@@ -36,6 +37,7 @@ interface PhaseDetailPanelProps {
   deleteError: string | null;
   onNavigateToTasks: (phaseId: string) => void;
   onUpdateTask: (taskId: string, updates: Partial<Task>) => void;
+  onAddTask: (task: Omit<Task, 'id'>) => void;
 }
 
 const PhaseDetailPanel: React.FC<PhaseDetailPanelProps> = ({
@@ -53,9 +55,16 @@ const PhaseDetailPanel: React.FC<PhaseDetailPanelProps> = ({
   deleteError,
   onNavigateToTasks,
   onUpdateTask,
+  onAddTask,
 }) => {
   const phaseColor = getPhaseColor(phase, phases);
   const phaseTasks = tasks.filter((t) => t.phaseId === phase.id);
+
+  // AI Task suggestions
+  const [isLoadingAi, setIsLoadingAi] = useState(false);
+  const [proposedTasks, setProposedTasks] = useState<ProposedTask[] | null>(null);
+  const [selectedIndices, setSelectedIndices] = useState<Set<number>>(new Set());
+  const [aiError, setAiError] = useState<string | null>(null);
 
   // Inline editing states
   const [isEditingName, setIsEditingName] = useState(false);
@@ -83,7 +92,75 @@ const PhaseDetailPanel: React.FC<PhaseDetailPanelProps> = ({
     setIsEditingObjective(false);
     setIsEditingDeliverable(false);
     setStepMenuOpen(false);
+    setProposedTasks(null);
+    setSelectedIndices(new Set());
+    setAiError(null);
+    setIsLoadingAi(false);
   }, [phase.id, phase.nom, phase.name, phase.objectif, phase.objective, phase.livrableAttendu, phase.deliverableSummary]);
+
+  const handleRequestAiTasks = async () => {
+    if (!isAiEnabled() || isLoadingAi) return;
+    setIsLoadingAi(true);
+    setAiError(null);
+
+    const startDate = phase.debut || phase.calculatedStartDate || '';
+    const endDate = phase.fin || phase.calculatedEndDate || '';
+    const datesStr = startDate && endDate
+      ? `Du ${formatFrenchDate(startDate, false)} au ${formatFrenchDate(endDate, false)}`
+      : 'Dates non définies';
+
+    const res = await suggestTasksForPhase({
+      nomPhase: phase.nom || phase.name || 'Phase sans nom',
+      objectif: phase.objectif || phase.objective || 'Non spécifié',
+      livrableAttendu: phase.livrableAttendu || phase.deliverableSummary || 'Non spécifié',
+      datesPhase: datesStr,
+      briefProjet: (settings.brief || settings.description || '').slice(0, 300),
+    });
+
+    setIsLoadingAi(false);
+
+    if (res.data && res.data.length > 0) {
+      setProposedTasks(res.data);
+      setSelectedIndices(new Set());
+    } else {
+      setAiError(res.error || 'Impossible de proposer des tâches pour le moment.');
+      setTimeout(() => setAiError(null), 5000);
+    }
+  };
+
+  const handleToggleTaskSelection = (idx: number) => {
+    setSelectedIndices((prev) => {
+      const next = new Set(prev);
+      if (next.has(idx)) {
+        next.delete(idx);
+      } else {
+        next.add(idx);
+      }
+      return next;
+    });
+  };
+
+  const handleAddSelectedTasks = () => {
+    if (!proposedTasks) return;
+    const sortedIndices = Array.from(selectedIndices).sort((a, b) => a - b);
+    for (const idx of sortedIndices) {
+      const pTask = proposedTasks[idx];
+      if (pTask) {
+        onAddTask({
+          title: pTask.titre,
+          phaseId: phase.id,
+          assignee: settings.mode === 'groupe' && settings.team.length > 0 ? settings.team[0].name : 'Tous',
+          deadline: phase.fin || phase.calculatedEndDate || settings.deadlineDate,
+          durationMinutes: pTask.dureeMinutes,
+          status: 'a_faire',
+          source: 'ia',
+          dependsOn: [],
+        });
+      }
+    }
+    setProposedTasks(null);
+    setSelectedIndices(new Set());
+  };
 
   // Click outside menu
   useEffect(() => {
@@ -355,7 +432,7 @@ const PhaseDetailPanel: React.FC<PhaseDetailPanelProps> = ({
 
       {/* Tâches de l'étape avec lien « Modifier les tâches → » */}
       <div className="space-y-2.5">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <span className="font-bold text-xs uppercase tracking-wider text-[#22408F]">
               Tâches à accomplir
@@ -365,15 +442,104 @@ const PhaseDetailPanel: React.FC<PhaseDetailPanelProps> = ({
             </span>
           </div>
 
-          <button
-            type="button"
-            onClick={() => onNavigateToTasks(phase.id)}
-            className="text-xs font-bold text-[#22408F] hover:underline flex items-center gap-1 cursor-pointer"
-          >
-            <span>Modifier les tâches</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
+          <div className="flex items-center gap-2">
+            {isAiEnabled() && (
+              <button
+                type="button"
+                disabled={isLoadingAi}
+                onClick={handleRequestAiTasks}
+                className="btn-riso-secondary py-1 px-3 text-xs font-bold flex items-center gap-1.5 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                <span>{isLoadingAi ? 'Gemini réfléchit…' : '✦ Proposer des tâches'}</span>
+              </button>
+            )}
+
+            <button
+              type="button"
+              onClick={() => onNavigateToTasks(phase.id)}
+              className="text-xs font-bold text-[#22408F] hover:underline flex items-center gap-1 cursor-pointer"
+            >
+              <span>Modifier les tâches</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
+
+        {/* Message court en cas d'erreur IA */}
+        {aiError && (
+          <div className="p-2.5 bg-[#FFF0F0] border-2 border-[#F0505A] rounded-[8px] text-[11px] font-bold text-[#F0505A] flex items-center gap-2">
+            <AlertTriangle className="w-4 h-4 shrink-0" />
+            <span>{aiError}</span>
+          </div>
+        )}
+
+        {/* Liste des propositions IA avec cases à cocher (décochées par défaut) */}
+        {proposedTasks && proposedTasks.length > 0 && (
+          <div className="p-3.5 bg-white border-2 border-[#22408F] rounded-[8px] shadow-[0_4px_0_#22408F] space-y-3 animate-in fade-in duration-150">
+            <div className="flex items-center justify-between pb-2 border-b border-[#DCE2EF]">
+              <span className="text-xs font-bold text-[#22408F]">
+                ✦ Tâches proposées par Gemini ({proposedTasks.length})
+              </span>
+              <span className="text-[11px] text-[#5A6A94] font-medium">
+                {selectedIndices.size} sélectionnée{selectedIndices.size > 1 ? 's' : ''}
+              </span>
+            </div>
+
+            <div className="space-y-1.5">
+              {proposedTasks.map((pt, idx) => {
+                const isSelected = selectedIndices.has(idx);
+                return (
+                  <div
+                    key={idx}
+                    onClick={() => handleToggleTaskSelection(idx)}
+                    className={`p-2 rounded-[8px] border-2 border-[#22408F] flex items-center gap-2.5 cursor-pointer transition-colors ${
+                      isSelected ? 'bg-[#EBF1FF]' : 'bg-[#FBFAF6] hover:bg-white'
+                    }`}
+                  >
+                    <div
+                      className={`w-5 h-5 rounded-[4px] border-2 border-[#22408F] flex items-center justify-center shrink-0 transition-colors ${
+                        isSelected ? 'bg-[#2F6DBB]' : 'bg-white'
+                      }`}
+                    >
+                      {isSelected && <Check className="w-3.5 h-3.5 stroke-[3] text-white" />}
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                      <div className="text-xs font-bold text-[#22408F] truncate">
+                        {pt.titre}
+                      </div>
+                      <div className="text-[11px] text-[#5A6A94] font-medium flex items-center gap-1 mt-0.5">
+                        <Clock className="w-3 h-3 text-[#22408F]" />
+                        <span>{pt.dureeMinutes} min</span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="flex items-center gap-2 pt-1">
+              <button
+                type="button"
+                disabled={selectedIndices.size === 0}
+                onClick={handleAddSelectedTasks}
+                className="btn-riso-primary py-1.5 px-3.5 text-xs font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Ajouter les tâches cochées
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setProposedTasks(null);
+                  setSelectedIndices(new Set());
+                }}
+                className="btn-riso-secondary py-1.5 px-3.5 text-xs font-bold"
+              >
+                Annuler
+              </button>
+            </div>
+          </div>
+        )}
 
         <div className="space-y-2 max-h-72 overflow-y-auto pr-1">
           {phaseTasks.length === 0 ? (
@@ -455,6 +621,7 @@ const PhaseDetailPanel: React.FC<PhaseDetailPanelProps> = ({
 export const ParcoursSection: React.FC = () => {
   const {
     activeProject,
+    addTask,
     updateTask,
     updatePhase,
     addPhase,
@@ -790,6 +957,7 @@ export const ParcoursSection: React.FC = () => {
                   deleteError={deleteError}
                   onNavigateToTasks={handleNavigateToTasks}
                   onUpdateTask={updateTask}
+                  onAddTask={addTask}
                 />
               </div>
             </div>
@@ -1013,6 +1181,7 @@ export const ParcoursSection: React.FC = () => {
               deleteError={deleteError}
               onNavigateToTasks={handleNavigateToTasks}
               onUpdateTask={updateTask}
+              onAddTask={addTask}
             />
           </div>
         </div>

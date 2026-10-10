@@ -467,6 +467,7 @@ export function migrateProjectData(project: ProjectData): ProjectData {
       return normalizeTrace({
         ...entry,
         phaseId,
+        tags: (entry.tags || []).map((t) => (t === 'individuelle' ? 'solo' : t)),
       });
     });
   }

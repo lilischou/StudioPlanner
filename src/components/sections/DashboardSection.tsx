@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useProject } from '../../context/ProjectContext';
 import {
   formatFrenchDate,
@@ -17,7 +17,9 @@ import {
   FileCheck,
   Check,
 } from 'lucide-react';
-import { getPhaseColor } from '../../utils/theme';
+import { getPhaseColor, getSessionTypeLabel } from '../../utils/theme';
+import { isAiEnabled, generateWeeklySummary, WeeklySummary } from '../../ai/gemini';
+import { WeeklySummaryModal } from '../modals/WeeklySummaryModal';
 
 function polarToCartesian(centerX: number, centerY: number, radius: number, angleInDegrees: number) {
   const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
@@ -41,6 +43,86 @@ export const DashboardSection: React.FC = () => {
   const { activeProject, setActiveTab } = useProject();
   const { settings, phases, tasks, sessions, deliverables } = activeProject;
   const todayISO = formatISODate(new Date());
+
+  const [isSummaryModalOpen, setIsSummaryModalOpen] = useState(false);
+  const [weeklySummary, setWeeklySummary] = useState<WeeklySummary | null>(null);
+  const [isLoadingAi, setIsLoadingAi] = useState(false);
+  const [aiError, setAiError] = useState<string | null>(null);
+
+  const handleGenerateWeeklySummary = async () => {
+    setIsLoadingAi(true);
+    setAiError(null);
+    try {
+      const sevenDaysAgoISO = addDaysToISO(todayISO, -7);
+
+      // Traces des 7 derniers jours (titres et constats seulement)
+      const recentTraces = (activeProject.logbook || [])
+        .filter((tr) => tr.date && tr.date >= sevenDaysAgoISO && tr.date <= todayISO)
+        .map((tr) => ({
+          titre: tr.title || 'Observation',
+          constat: tr.observed || tr.whatWeNoticed || tr.done || tr.whatWeDid || '',
+        }));
+
+      // Sessions des 7 derniers jours (titres seulement)
+      const recentSessions = (activeProject.sessions || [])
+        .filter((s) => s.date && s.date >= sevenDaysAgoISO && s.date <= todayISO)
+        .map((s) => ({
+          titre: s.objective || 'Session de travail',
+        }));
+
+      // Tâches faites des 7 derniers jours (titres seulement)
+      const recentDoneTasks = (activeProject.tasks || [])
+        .filter(
+          (t) =>
+            t.status === 'fait' &&
+            (!t.deadline || (t.deadline >= sevenDaysAgoISO && t.deadline <= todayISO))
+        )
+        .map((t) => ({
+          titre: t.title,
+        }));
+
+      // Replis si aucun élément strict n'est daté dans les 7 jours
+      const tracesToSend =
+        recentTraces.length > 0
+          ? recentTraces
+          : (activeProject.logbook || []).slice(-5).map((tr) => ({
+              titre: tr.title || 'Observation',
+              constat: tr.observed || tr.whatWeNoticed || tr.done || tr.whatWeDid || '',
+            }));
+
+      const sessionsToSend =
+        recentSessions.length > 0
+          ? recentSessions
+          : (activeProject.sessions || []).slice(-5).map((s) => ({
+              titre: s.objective || 'Session',
+            }));
+
+      const doneTasksToSend =
+        recentDoneTasks.length > 0
+          ? recentDoneTasks
+          : (activeProject.tasks || [])
+              .filter((t) => t.status === 'fait')
+              .slice(-5)
+              .map((t) => ({ titre: t.title }));
+
+      const res = await generateWeeklySummary({
+        traces: tracesToSend,
+        sessions: sessionsToSend,
+        tachesFaites: doneTasksToSend,
+      });
+
+      if (res.data) {
+        setWeeklySummary(res.data);
+        setIsSummaryModalOpen(true);
+      } else {
+        setAiError(res.error || 'Impossible de générer le bilan pour le moment.');
+      }
+    } catch {
+      setAiError('Erreur de connexion à Gemini.');
+    } finally {
+      setIsLoadingAi(false);
+    }
+  };
 
   // 1. Délais et dates clés
   const startDate = settings.startDate || todayISO;
@@ -132,12 +214,19 @@ export const DashboardSection: React.FC = () => {
     });
   }, [deliverables]);
 
-  // 6. Ruban 7 jours (à partir d'aujourd'hui)
+  // 6. Ruban 7 jours : semaine du lundi au dimanche (comme l'onglet Sessions)
   const weekDays = useMemo(() => {
+    const today = new Date(todayISO + 'T00:00:00');
+    const dayOfWeek = today.getDay();
+    const diffToMonday = today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+    const monday = new Date(today);
+    monday.setDate(diffToMonday);
+
     const days = [];
     for (let i = 0; i < 7; i++) {
-      const dateISO = addDaysToISO(todayISO, i);
-      const dayDate = new Date(dateISO + 'T00:00:00');
+      const dayDate = new Date(monday);
+      dayDate.setDate(monday.getDate() + i);
+      const dateISO = formatISODate(dayDate);
       const dayName = dayDate.toLocaleDateString('fr-FR', { weekday: 'short' });
       const dayNumber = dayDate.getDate();
       const monthName = dayDate.toLocaleDateString('fr-FR', { month: 'short' });
@@ -148,7 +237,7 @@ export const DashboardSection: React.FC = () => {
         dayName: dayName.charAt(0).toUpperCase() + dayName.slice(1).replace('.', ''),
         dayNumber,
         monthName,
-        isToday: i === 0,
+        isToday: dateISO === todayISO,
         sessions: daySessions,
       });
     }
@@ -169,6 +258,42 @@ export const DashboardSection: React.FC = () => {
 
   return (
     <div className="space-y-6">
+      {/* En-tête Synthèse & Action IA Bilan de la semaine */}
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h1 className="text-xl sm:text-2xl font-bold font-heading text-[#22408F] lowercase">
+            synthèse
+          </h1>
+          <p className="text-xs sm:text-sm text-[#5A6A94] font-medium">
+            Vue d’ensemble de la démarche et indicateurs clés
+          </p>
+        </div>
+
+        {isAiEnabled() && (
+          <button
+            type="button"
+            disabled={isLoadingAi}
+            onClick={handleGenerateWeeklySummary}
+            className="btn-riso-secondary py-1.5 px-3.5 text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            <span>{isLoadingAi ? 'Gemini réfléchit…' : '✦ Bilan de la semaine'}</span>
+          </button>
+        )}
+      </div>
+
+      {aiError && (
+        <div className="p-3 bg-[#FFF0F0] border-2 border-[#F0505A] rounded-[8px] text-xs font-bold text-[#F0505A] flex items-center justify-between">
+          <span>{aiError}</span>
+          <button
+            type="button"
+            onClick={() => setAiError(null)}
+            className="text-[#F0505A] hover:underline cursor-pointer ml-3 text-xs"
+          >
+            Fermer
+          </button>
+        </div>
+      )}
+
       {/* 1. HÉROS (pleine largeur) */}
       <div className="riso-card p-6 sm:p-8 space-y-6 relative overflow-hidden bg-white">
         {/* Ligne haute : Gauche (J-XX) & Droite (Phase en cours) */}
@@ -788,7 +913,7 @@ export const DashboardSection: React.FC = () => {
                               className="w-1.5 h-1.5 rounded-full shrink-0"
                               style={{ backgroundColor: sessColor.hex }}
                             />
-                            <span className="truncate">{sess.type}</span>
+                            <span className="truncate">{getSessionTypeLabel(sess.type)}</span>
                           </div>
                           <div className="text-[9px] text-[#5A6A94] truncate">
                             {sess.plannedDurationHours || 2} h · {sess.objective}
@@ -824,7 +949,7 @@ export const DashboardSection: React.FC = () => {
               onClick={() => setActiveTab('checklist')}
               className="riso-text-link text-xs cursor-pointer"
             >
-              Checklist complète →
+              Toutes les tâches →
             </button>
           </div>
 
@@ -893,6 +1018,12 @@ export const DashboardSection: React.FC = () => {
           )}
         </div>
       </div>
+
+      <WeeklySummaryModal
+        isOpen={isSummaryModalOpen}
+        summary={weeklySummary}
+        onClose={() => setIsSummaryModalOpen(false)}
+      />
     </div>
   );
 };

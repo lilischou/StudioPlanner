@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Pencil, Check, Camera } from 'lucide-react';
 import { LogbookEntry, Phase, TraceDoc } from '../../types/project';
 import { formatFrenchDate } from '../../utils/dateCalculations';
-import { compressImageFile } from '../../utils/imageCompression';
+import { compressImageFile, resizeImageToMax } from '../../utils/imageCompression';
 import { dataUrlToBlob, putFile } from '../../utils/traceStorage';
 import {
   getDecided,
@@ -14,6 +14,8 @@ import {
   getWorkDocs,
 } from '../../utils/trace';
 import { PHASE_COLORS, getPhaseColor } from '../../utils/theme';
+import { isAiEnabled, suggestFormulation, FormulationSuggestion } from '../../ai/gemini';
+import { FormulationSuggestionsCard } from './FormulationSuggestionsCard';
 import { TraceCover, useCoverSrc, DEFAULT_CROP } from './TraceCover';
 import { CoverCropper } from './CoverCropper';
 import { DocAdder, DocList } from './DocAdder';
@@ -22,6 +24,7 @@ import { FIELD_CLS, LABEL_CLS, TEXT_LINK_CLS } from './ui';
 interface Props {
   entry: LogbookEntry;
   phases: Phase[];
+  availableTags?: string[];
   onUpdate: (patch: Partial<LogbookEntry>) => void;
   onDelete: () => void;
   onClose: () => void;
@@ -36,6 +39,7 @@ const SAVE_DELAY = 500;
 export const TracePanel: React.FC<Props> = ({
   entry,
   phases,
+  availableTags = [],
   onUpdate,
   onDelete,
   onClose,
@@ -50,6 +54,17 @@ export const TracePanel: React.FC<Props> = ({
   const [photoBusy, setPhotoBusy] = useState(false);
   const [saved, setSaved] = useState(false);
   const photoInput = useRef<HTMLInputElement>(null);
+
+  const [aiLoading, setAiLoading] = useState(false);
+  const [suggestion, setSuggestion] = useState<FormulationSuggestion | null>(null);
+  const [aiError, setAiError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!editing) {
+      setSuggestion(null);
+      setAiError(null);
+    }
+  }, [editing]);
 
   // Brouillon local pour les champs texte (sauvegarde automatique différée)
   const [draft, setDraft] = useState(() => ({
@@ -139,6 +154,40 @@ export const TracePanel: React.FC<Props> = ({
     const old = entry.cover?.imageRef;
     onUpdate({ cover: undefined, photoUrl: undefined });
     if (old) onReleaseFiles([old]);
+  };
+
+  const handleAiFormulate = async () => {
+    if (!isAiEnabled() || aiLoading) return;
+    const currentObserved = draft.observed || getObserved(entry);
+    if (!currentObserved.trim() && !coverSrc) {
+      setAiError('Renseigne au moins un début de constat ou une photo pour obtenir de l’aide.');
+      setTimeout(() => setAiError(null), 4000);
+      return;
+    }
+
+    setAiLoading(true);
+    setAiError(null);
+
+    try {
+      const resizedPhoto = coverSrc ? await resizeImageToMax(coverSrc, 768) : undefined;
+      const res = await suggestFormulation({
+        constat: currentObserved.trim(),
+        photo: resizedPhoto,
+        tagsExistants: availableTags || [],
+      });
+
+      if (res.data) {
+        setSuggestion(res.data);
+      } else {
+        setAiError(res.error || 'Impossible de proposer une reformulation pour le moment.');
+        setTimeout(() => setAiError(null), 5000);
+      }
+    } catch {
+      setAiError('Erreur de connexion à Gemini.');
+      setTimeout(() => setAiError(null), 5000);
+    } finally {
+      setAiLoading(false);
+    }
   };
 
   const boxes: { key: 'done' | 'observed' | 'decided'; label: string; hint: string }[] = [
@@ -289,7 +338,39 @@ export const TracePanel: React.FC<Props> = ({
 
           {/* C. Ma démarche */}
           <section className="space-y-3" aria-label="Ma démarche">
-            <h3 className="font-heading font-bold text-sm text-[#22408F]">Ma démarche</h3>
+            <div className="flex items-center justify-between gap-2">
+              <h3 className="font-heading font-bold text-sm text-[#22408F]">Ma démarche</h3>
+              {editing && isAiEnabled() && (
+                <button
+                  type="button"
+                  disabled={aiLoading}
+                  onClick={handleAiFormulate}
+                  className="btn-riso-secondary py-0.5 px-2.5 text-xs font-bold flex items-center gap-1.5 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  <span>{aiLoading ? 'Gemini réfléchit…' : '✦ Aide à formuler'}</span>
+                </button>
+              )}
+            </div>
+
+            {aiError && (
+              <div className="p-2 bg-[#FFF0F0] border-2 border-[#F0505A] rounded-[8px] text-[11px] font-bold text-[#F0505A]">
+                {aiError}
+              </div>
+            )}
+
+            {editing && suggestion && (
+              <FormulationSuggestionsCard
+                suggestion={suggestion}
+                onApplyTitle={(t) => setField('title', t)}
+                onApplyObserved={(c) => setField('observed', c)}
+                onApplyTags={(newTags) => {
+                  const merged = Array.from(new Set([...(entry.tags || []), ...newTags]));
+                  onUpdate({ tags: merged });
+                }}
+                onClose={() => setSuggestion(null)}
+              />
+            )}
+
             {boxes.map((b) => {
               const value = draft[b.key];
               return (

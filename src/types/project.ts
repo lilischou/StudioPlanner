@@ -18,7 +18,7 @@ export interface TeamMember {
   color?: string;
 }
 
-export type PlanningSource = 'auto' | 'manual';
+export type PlanningSource = 'auto' | 'manual' | 'ia';
 
 export type ProjectTemplateId =
   | 'semestre'
