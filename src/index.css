@@ -1,0 +1,299 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Couleurs Riso fondamentales */
+    --riso-paper: #FBFAF6;
+    --riso-card: #FFFFFF;
+    --riso-ink: #22408F;
+    --riso-ink-secondary: #5A6A94;
+    --riso-ink-subtle: #8C9BBD;
+
+    /* 6 Phases */
+    --riso-p1: #2F6DBB;
+    --riso-p2: #2E8B4A;
+    --riso-p3: #F2D21B;
+    --riso-p4: #F0505A;
+    --riso-p5: #F2661F;
+    --riso-p6: #7A4A9E;
+
+    /* Pastels phases */
+    --riso-p1-light: #EBF2FB;
+    --riso-p2-light: #EAF6EE;
+    --riso-p3-light: #FEFCE8;
+    --riso-p4-light: #FDEEEF;
+    --riso-p5-light: #FEF0E9;
+    --riso-p6-light: #F3EEF8;
+  }
+
+  body {
+    background-color: var(--riso-paper);
+    color: var(--riso-ink);
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  h1, h2, h3, .font-heading {
+    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 700;
+  }
+
+  /* Règle stricte : AUCUNE police à chasse fixe. Les chiffres utilisent DM Sans avec tabular-nums */
+  code, pre, .font-mono, .tabular-nums {
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Sélection de texte */
+  ::selection {
+    background: #F2D21B;
+    color: #22408F;
+  }
+}
+
+/* ============================================================ */
+/* RÈGLES STYLISTIQUES DU SYSTÈME RISO                          */
+/* ============================================================ */
+
+/* 1. ÉLÉMENTS CLIQUABLES GÉNÉRAUX */
+/* Contour 2 px #22408F, ombre nette 0 4px 0 #22408F, cursor: pointer. Au survol : monte de 2 px. Au clic : descend de 4 px, sans ombre. Focus clavier : anneau 3 px #F2D21B */
+.riso-clickable {
+  border: 2px solid #22408F;
+  border-radius: 8px;
+  box-shadow: 0 4px 0 #22408F;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  user-select: none;
+}
+.riso-clickable:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #22408F;
+}
+.riso-clickable:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 #22408F;
+}
+.riso-clickable:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+a:focus-visible {
+  outline: 3px solid #F2D21B !important;
+  outline-offset: 2px;
+}
+
+/* 2. CARTES ET PANNEAUX */
+/* Contour 2px #22408F, arrondi 8px, ombre nette 0 4px 0 #22408F */
+.riso-card {
+  background-color: #FFFFFF;
+  border: 2px solid #22408F;
+  border-radius: 8px;
+  box-shadow: 0 4px 0 #22408F;
+  color: #22408F;
+}
+
+/* 3. INFORMATION SEULE (cartes de chiffres, encadrés « objectif », « livrable ») */
+/* Aucune ombre ni contour bleu, fond blanc ou pastel, filet 1 px #DCE2EF */
+.riso-info-box {
+  border: 1px solid #DCE2EF !important;
+  box-shadow: none !important;
+  border-radius: 8px;
+}
+
+/* 4. NOTIFICATIONS (Arrondi 16px) */
+.riso-notification {
+  background-color: #FFFFFF;
+  border: 2px solid #22408F;
+  border-radius: 16px;
+  box-shadow: 0 4px 0 #22408F;
+  color: #22408F;
+}
+
+/* 5. LES BOUTONS (Arrondi 999px) */
+/* Principal : fond #2F6DBB, texte blanc, contour 2px #22408F, ombre 0 4px 0 #F0505A */
+.btn-riso-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #2F6DBB;
+  color: #FFFFFF;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  border: 2px solid #22408F;
+  border-radius: 999px;
+  box-shadow: 0 4px 0 #F0505A;
+  padding: 0.625rem 1.25rem;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  cursor: pointer;
+  user-select: none;
+}
+.btn-riso-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #F0505A;
+}
+.btn-riso-primary:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 #F0505A;
+}
+
+/* Secondaire : fond #FFFFFF, contour 2px #22408F, texte #22408F, arrondi 999px */
+.btn-riso-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #FFFFFF;
+  color: #22408F;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  border: 2px solid #22408F;
+  border-radius: 999px;
+  box-shadow: 0 4px 0 #22408F;
+  padding: 0.5rem 1rem;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.1s ease;
+  cursor: pointer;
+  user-select: none;
+}
+.btn-riso-secondary:hover {
+  background-color: #EBF1FF;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #22408F;
+}
+.btn-riso-secondary:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 #22408F;
+}
+
+/* Discret / Liens texte : toujours soulignés, #22408F, suivis de « → ». Plus d'orange */
+.btn-riso-discreet,
+.riso-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #22408F;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.btn-riso-discreet:hover,
+.riso-text-link:hover {
+  opacity: 0.8;
+}
+
+/* Curseur pointer garanti sur tous les éléments cliquables */
+button,
+[role="button"],
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+/* 4. PASTILLES ET BADGES (Arrondi 999px) */
+.riso-pill {
+  border: 2px solid #22408F;
+  border-radius: 999px;
+  padding: 0.125rem 0.625rem;
+  font-size: 13px;
+  font-weight: 700;
+  color: #22408F;
+  background-color: #FFFFFF;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Trame de points risographique pour les étapes à venir */
+.riso-dots {
+  background-image: radial-gradient(#22408F 1.5px, transparent 1.5px);
+  background-size: 6px 6px;
+}
+
+/* Trame de points fine pour fond de phase à venir */
+.riso-dots-light {
+  background-image: radial-gradient(rgba(34, 64, 143, 0.25) 1.5px, transparent 1.5px);
+  background-size: 6px 6px;
+}
+
+/* Custom scrollbars aux couleurs de l'encre bleue */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #FBFAF6;
+}
+::-webkit-scrollbar-thumb {
+  background: #22408F;
+  border-radius: 999px;
+}
+
+/* Boutons désactivés : opacité 40 %, curseur not-allowed */
+button:disabled,
+button[disabled],
+.btn-disabled {
+  opacity: 0.4 !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+  transform: none !important;
+  pointer-events: auto !important;
+}
+
+/* ============================================================ */
+/* FEUILLE DE STYLE D'IMPRESSION (@media print) A4 PORTRAIT     */
+/* ============================================================ */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 15mm;
+  }
+
+  body, html {
+    background: #FFFFFF !important;
+    color: #22408F !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    font-size: 11pt !important;
+    font-family: 'DM Sans', sans-serif !important;
+  }
+
+  /* Masquer tous les éléments d'interface hors planches de carnet */
+  header,
+  footer,
+  aside,
+  nav,
+  .print-hidden,
+  .print\:hidden,
+  button,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Planche de carnet : une par page A4 portrait */
+  .print-plate {
+    break-after: page;
+    page-break-after: always;
+    min-height: 100vh;
+    border: 2px solid #22408F !important;
+    background: #FFFFFF !important;
+    padding: 15mm !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+  }
+
+  .print-plate:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+}

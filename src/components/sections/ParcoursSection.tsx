@@ -1,0 +1,1022 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { useProject } from '../../context/ProjectContext';
+import { Phase, Task, Milestone, ProjectSettings } from '../../types/project';
+import {
+  Check,
+  Flag,
+  X,
+  Clock,
+  ArrowRight,
+  AlertTriangle,
+  Pencil,
+  Plus,
+  MoreVertical,
+  Trash2,
+} from 'lucide-react';
+import {
+  diffInDays,
+  formatFrenchDate,
+  formatISODate,
+  getAssigneeInitials,
+} from '../../utils/dateCalculations';
+import { getPhaseColor } from '../../utils/theme';
+
+interface PhaseDetailPanelProps {
+  phase: Phase;
+  phases: Phase[];
+  tasks: Task[];
+  settings: ProjectSettings;
+  isCurrent: boolean;
+  isMobile?: boolean;
+  onClose?: () => void;
+  onRenamePhase: (phaseId: string, newName: string) => void;
+  onUpdateObjective: (phaseId: string, newObjective: string) => void;
+  onUpdateDeliverable: (phaseId: string, newDeliverable: string) => void;
+  onDeletePhase: (phaseId: string) => void;
+  deleteError: string | null;
+  onNavigateToTasks: (phaseId: string) => void;
+  onUpdateTask: (taskId: string, updates: Partial<Task>) => void;
+}
+
+const PhaseDetailPanel: React.FC<PhaseDetailPanelProps> = ({
+  phase,
+  phases,
+  tasks,
+  settings,
+  isCurrent,
+  isMobile = false,
+  onClose,
+  onRenamePhase,
+  onUpdateObjective,
+  onUpdateDeliverable,
+  onDeletePhase,
+  deleteError,
+  onNavigateToTasks,
+  onUpdateTask,
+}) => {
+  const phaseColor = getPhaseColor(phase, phases);
+  const phaseTasks = tasks.filter((t) => t.phaseId === phase.id);
+
+  // Inline editing states
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [nameDraft, setNameDraft] = useState(phase.nom || phase.name || '');
+
+  const [isEditingObjective, setIsEditingObjective] = useState(false);
+  const [objectiveDraft, setObjectiveDraft] = useState(
+    phase.objectif || phase.objective || ''
+  );
+
+  const [isEditingDeliverable, setIsEditingDeliverable] = useState(false);
+  const [deliverableDraft, setDeliverableDraft] = useState(
+    phase.livrableAttendu || phase.deliverableSummary || ''
+  );
+
+  const [stepMenuOpen, setStepMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Sync draft when phase changes
+  useEffect(() => {
+    setNameDraft(phase.nom || phase.name || '');
+    setObjectiveDraft(phase.objectif || phase.objective || '');
+    setDeliverableDraft(phase.livrableAttendu || phase.deliverableSummary || '');
+    setIsEditingName(false);
+    setIsEditingObjective(false);
+    setIsEditingDeliverable(false);
+    setStepMenuOpen(false);
+  }, [phase.id, phase.nom, phase.name, phase.objectif, phase.objective, phase.livrableAttendu, phase.deliverableSummary]);
+
+  // Click outside menu
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setStepMenuOpen(false);
+      }
+    };
+    if (stepMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [stepMenuOpen]);
+
+  const handleSaveName = () => {
+    if (nameDraft.trim()) {
+      onRenamePhase(phase.id, nameDraft.trim());
+    } else {
+      setNameDraft(phase.nom || phase.name || '');
+    }
+    setIsEditingName(false);
+  };
+
+  const handleSaveObjective = () => {
+    const val = objectiveDraft.trim();
+    const isEx =
+      !val ||
+      val.toLowerCase() === 'objectifs de cette phase' ||
+      val.toLowerCase() === 'objectif de cette étape' ||
+      val.toLowerCase() === 'objectifs de cette étape';
+    onUpdateObjective(phase.id, isEx ? '' : val);
+    setIsEditingObjective(false);
+  };
+
+  const handleSaveDeliverable = () => {
+    const val = deliverableDraft.trim();
+    const isEx =
+      !val ||
+      val.toLowerCase() === 'livrable attendu' ||
+      val.toLowerCase() === 'livrable attendu à cette étape';
+    onUpdateDeliverable(phase.id, isEx ? '' : val);
+    setIsEditingDeliverable(false);
+  };
+
+  return (
+    <div className="space-y-5 text-xs">
+      {/* Header */}
+      <div className="pb-3 border-b-2 border-[#22408F]/20 flex items-start justify-between gap-3">
+        <div className="space-y-1 flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <span
+              className="w-3.5 h-3.5 rounded-[999px] shrink-0 border border-[#22408F]"
+              style={{ backgroundColor: phaseColor.hex }}
+            ></span>
+            <span className="text-xs font-bold text-[#5A6A94] uppercase tracking-wider">
+              Phase {phase.number || phases.findIndex((p) => p.id === phase.id) + 1} sur {phases.length}
+            </span>
+          </div>
+
+          {/* Inline editable name */}
+          {isEditingName ? (
+            <input
+              type="text"
+              autoFocus
+              value={nameDraft}
+              onChange={(e) => setNameDraft(e.target.value)}
+              onBlur={handleSaveName}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleSaveName();
+                if (e.key === 'Escape') {
+                  setNameDraft(phase.nom || phase.name || '');
+                  setIsEditingName(false);
+                }
+              }}
+              className="text-xl sm:text-2xl font-bold text-[#22408F] bg-white border-2 border-[#22408F] rounded px-2 py-0.5 w-full focus:outline-none"
+            />
+          ) : (
+            <h3
+              onClick={() => setIsEditingName(true)}
+              className="text-xl sm:text-2xl font-bold text-[#22408F] tracking-tight font-heading cursor-pointer hover:underline hover:decoration-dashed decoration-[#22408F]/40 flex items-center gap-2 group truncate"
+              title="Cliquer pour renommer"
+            >
+              <span className="truncate">{phase.nom || phase.name}</span>
+              <Pencil className="w-3.5 h-3.5 text-[#5A6A94] opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+            </h3>
+          )}
+
+          <p className="text-xs text-[#5A6A94] tabular-nums font-medium">
+            Du {formatFrenchDate(phase.debut || phase.calculatedStartDate || '', false)} au{' '}
+            {formatFrenchDate(phase.fin || phase.calculatedEndDate || '', false)}
+            {phase.durationDays && ` (${phase.durationDays} jours)`}
+          </p>
+        </div>
+
+        <div className="flex items-center gap-1.5 shrink-0">
+          {isCurrent && (
+            <span className="px-2.5 py-0.5 bg-white border-2 border-[#22408F] rounded-[999px] text-[11px] font-bold text-[#22408F]">
+              En cours
+            </span>
+          )}
+
+          {/* Menu d'options de l'étape (Retirer) */}
+          <div className="relative" ref={menuRef}>
+            <button
+              type="button"
+              onClick={() => setStepMenuOpen((v) => !v)}
+              className="p-1.5 text-[#5A6A94] hover:text-[#22408F] rounded-[8px] hover:bg-[#EBF1FF] transition-colors cursor-pointer border border-transparent hover:border-[#22408F]/20"
+              aria-label="Options de l'étape"
+              title="Options de l'étape"
+            >
+              <MoreVertical className="w-4 h-4" />
+            </button>
+
+            {stepMenuOpen && (
+              <div className="absolute right-0 top-full mt-1 w-44 bg-white border-2 border-[#22408F] rounded-[8px] shadow-[0_4px_0_#22408F] z-30 py-1">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setStepMenuOpen(false);
+                    onDeletePhase(phase.id);
+                  }}
+                  className="w-full text-left px-3 py-1.5 text-xs font-semibold text-[#F0505A] hover:bg-[#FFF0F0] flex items-center gap-2 cursor-pointer"
+                >
+                  <Trash2 className="w-3.5 h-3.5 shrink-0" />
+                  <span>Retirer cette étape</span>
+                </button>
+              </div>
+            )}
+          </div>
+
+          {isMobile && onClose && (
+            <button
+              type="button"
+              onClick={onClose}
+              className="p-1.5 text-[#5A6A94] hover:text-[#22408F] rounded-[8px] hover:bg-[#EBF1FF] transition-colors cursor-pointer"
+              aria-label="Fermer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Message court en cas de refus de suppression */}
+      {deleteError && (
+        <div className="p-2.5 bg-[#FFF0F0] border-2 border-[#F0505A] rounded-[8px] text-[11px] font-bold text-[#F0505A] flex items-center gap-2 animate-in fade-in">
+          <AlertTriangle className="w-4 h-4 shrink-0" />
+          <span>{deleteError}</span>
+        </div>
+      )}
+
+      {/* Objectif - fond pastel phase (Édition inline avec crayon) */}
+      <div
+        className="p-4 rounded-[8px] border border-[#DCE2EF] space-y-1.5 shadow-none"
+        style={{ backgroundColor: phaseColor.bgLight }}
+      >
+        <div className="flex items-center justify-between">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-[#22408F] block">
+            Objectif de cette étape
+          </span>
+          {!isEditingObjective && (
+            <button
+              type="button"
+              onClick={() => setIsEditingObjective(true)}
+              className="p-1 text-[#22408F]/70 hover:text-[#22408F] rounded hover:bg-white/60 transition-colors cursor-pointer"
+              title="Modifier l'objectif"
+            >
+              <Pencil className="w-3.5 h-3.5" />
+            </button>
+          )}
+        </div>
+
+        {isEditingObjective ? (
+          <div className="space-y-1.5 pt-1">
+            <textarea
+              autoFocus
+              rows={2}
+              value={objectiveDraft}
+              onChange={(e) => setObjectiveDraft(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSaveObjective();
+                }
+                if (e.key === 'Escape') {
+                  setObjectiveDraft(phase.objectif || phase.objective || '');
+                  setIsEditingObjective(false);
+                }
+              }}
+              onBlur={handleSaveObjective}
+              className="w-full p-2 bg-white border-2 border-[#22408F] rounded text-xs text-[#22408F] focus:outline-none resize-none font-medium"
+              placeholder="Objectifs de cette phase"
+            />
+            <div className="text-[10px] text-[#5A6A94] font-medium">
+              Entrée pour valider · Échap pour annuler
+            </div>
+          </div>
+        ) : (
+          <p
+            className={`text-xs leading-relaxed ${
+              phase.objectif || phase.objective
+                ? 'text-[#22408F] font-medium'
+                : 'text-[#5A6A94] italic font-normal'
+            }`}
+          >
+            {phase.objectif || phase.objective || 'Objectifs de cette phase'}
+          </p>
+        )}
+      </div>
+
+      {/* Livrable - fond pastel phase (Édition inline avec crayon) */}
+      <div
+        className="p-4 rounded-[8px] border border-[#DCE2EF] space-y-1.5 shadow-none"
+        style={{ backgroundColor: phaseColor.bgLight }}
+      >
+        <div className="flex items-center justify-between">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-[#22408F] block">
+            Livrable attendu
+          </span>
+          {!isEditingDeliverable && (
+            <button
+              type="button"
+              onClick={() => setIsEditingDeliverable(true)}
+              className="p-1 text-[#22408F]/70 hover:text-[#22408F] rounded hover:bg-white/60 transition-colors cursor-pointer"
+              title="Modifier le livrable attendu"
+            >
+              <Pencil className="w-3.5 h-3.5" />
+            </button>
+          )}
+        </div>
+
+        {isEditingDeliverable ? (
+          <div className="space-y-1.5 pt-1">
+            <input
+              type="text"
+              autoFocus
+              value={deliverableDraft}
+              onChange={(e) => setDeliverableDraft(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleSaveDeliverable();
+                }
+                if (e.key === 'Escape') {
+                  setDeliverableDraft(phase.livrableAttendu || phase.deliverableSummary || '');
+                  setIsEditingDeliverable(false);
+                }
+              }}
+              onBlur={handleSaveDeliverable}
+              className="w-full p-2 bg-white border-2 border-[#22408F] rounded text-xs text-[#22408F] focus:outline-none font-bold"
+              placeholder="Livrable attendu"
+            />
+            <div className="text-[10px] text-[#5A6A94] font-medium">
+              Entrée pour valider · Échap pour annuler
+            </div>
+          </div>
+        ) : (
+          <p
+            className={`text-xs leading-relaxed ${
+              phase.livrableAttendu || phase.deliverableSummary
+                ? 'text-[#22408F] font-bold'
+                : 'text-[#5A6A94] italic font-normal'
+            }`}
+          >
+            {phase.livrableAttendu || phase.deliverableSummary || 'Livrable attendu'}
+          </p>
+        )}
+      </div>
+
+      {/* Tâches de l'étape avec lien « Modifier les tâches → » */}
+      <div className="space-y-2.5">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-xs uppercase tracking-wider text-[#22408F]">
+              Tâches à accomplir
+            </span>
+            <span className="tabular-nums text-[#5A6A94] text-xs font-bold">
+              {phaseTasks.filter((t) => t.status === 'fait').length}/{phaseTasks.length} faites
+            </span>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => onNavigateToTasks(phase.id)}
+            className="text-xs font-bold text-[#22408F] hover:underline flex items-center gap-1 cursor-pointer"
+          >
+            <span>Modifier les tâches</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+
+        <div className="space-y-2 max-h-72 overflow-y-auto pr-1">
+          {phaseTasks.length === 0 ? (
+            <div className="p-4 text-center text-[#5A6A94] bg-[#FBFAF6] border-2 border-[#22408F]/20 rounded-[8px]">
+              Aucune tâche assignée à cette phase pour le moment.
+            </div>
+          ) : (
+            phaseTasks.map((task) => {
+              const isTaskDone = task.status === 'fait';
+
+              return (
+                <div
+                  key={task.id}
+                  className={`p-3 rounded-[8px] border-2 border-[#22408F] flex items-center gap-3 transition-colors ${
+                    isTaskDone
+                      ? 'bg-[#EAF6EE] text-[#5A6A94]'
+                      : 'bg-white text-[#22408F]'
+                  }`}
+                >
+                  <button
+                    type="button"
+                    onClick={() =>
+                      onUpdateTask(task.id, {
+                        status: isTaskDone ? 'a_faire' : 'fait',
+                      })
+                    }
+                    className="w-10 h-10 shrink-0 flex items-center justify-center cursor-pointer"
+                    aria-label={isTaskDone ? 'Marquer à faire' : 'Marquer comme fait'}
+                  >
+                    <div
+                      className={`w-6 h-6 rounded-[999px] border-2 border-[#22408F] flex items-center justify-center transition-all ${
+                        isTaskDone
+                          ? 'bg-[#2E8B4A] text-white'
+                          : 'bg-white hover:bg-[#EBF1FF]'
+                      }`}
+                    >
+                      {isTaskDone && <Check className="w-4 h-4 stroke-[3]" />}
+                    </div>
+                  </button>
+
+                  <div className="flex-1 min-w-0 pr-1">
+                    <h4
+                      className={`text-xs font-bold leading-snug truncate ${
+                        isTaskDone ? 'line-through text-[#5A6A94]' : 'text-[#22408F]'
+                      }`}
+                    >
+                      {task.title}
+                    </h4>
+
+                    <div className="flex items-center gap-2 text-[11px] text-[#5A6A94] mt-1 tabular-nums font-bold">
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-3 h-3 text-[#22408F]" />
+                        {task.durationMinutes} min
+                      </span>
+
+                      {settings.mode === 'groupe' && task.assignee && (
+                        <>
+                          <span>·</span>
+                          <span className="flex items-center gap-1">
+                            <span className="w-4 h-4 rounded-[999px] bg-[#EBF1FF] border border-[#22408F] text-[#22408F] text-[9px] font-bold flex items-center justify-center">
+                              {getAssigneeInitials(task.assignee)}
+                            </span>
+                            <span className="truncate max-w-[90px]">{task.assignee}</span>
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const ParcoursSection: React.FC = () => {
+  const {
+    activeProject,
+    updateTask,
+    updatePhase,
+    addPhase,
+    deletePhase,
+    setActiveTab,
+    setTasksPhaseFilter,
+  } = useProject();
+
+  const { phases, tasks, milestones, settings } = activeProject;
+  const todayISO = formatISODate(new Date());
+
+  const currentPhaseRef = useRef<HTMLDivElement>(null);
+  const [selectedPhase, setSelectedPhase] = useState<Phase | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+
+  // Determine current active phase:
+  // Rule B.2 : En cours = contient la date du jour
+  let currentPhaseIndex = phases.findIndex((p) => {
+    if (p.calculatedStartDate && p.calculatedEndDate) {
+      if (todayISO >= p.calculatedStartDate && todayISO <= p.calculatedEndDate) {
+        return true;
+      }
+    }
+    return false;
+  });
+
+  if (currentPhaseIndex === -1) {
+    currentPhaseIndex = phases.findIndex((p) => {
+      const phaseTasks = tasks.filter((t) => t.phaseId === p.id);
+      return phaseTasks.some((t) => t.status !== 'fait');
+    });
+  }
+
+  if (currentPhaseIndex === -1) {
+    currentPhaseIndex = Math.max(0, phases.length - 1);
+  }
+
+  const currentPhase = phases[currentPhaseIndex] || phases[0];
+
+  // Auto-scroll to current phase on load
+  useEffect(() => {
+    if (currentPhaseRef.current) {
+      const timer = setTimeout(() => {
+        currentPhaseRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      }, 150);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  // Global project progress
+  const totalTasks = tasks.length;
+  const completedTasks = tasks.filter((t) => t.status === 'fait').length;
+  const globalProgress = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
+  // Days remaining before final deadline
+  const daysRemaining = diffInDays(todayISO, settings.deadlineDate);
+  const jBadge = daysRemaining >= 0 ? `J-${daysRemaining}` : `J+${Math.abs(daysRemaining)}`;
+
+  // Find the final milestone (J-0 or latest)
+  const finalMilestone =
+    milestones.find((m) => m.daysBeforeDeadline === 0) ||
+    milestones[milestones.length - 1];
+
+  // Alternating lateral offsets for the winding path
+  const offsets = [-28, 32, -36, 28, -24, 0];
+
+  const activeDetailPhase =
+    phases.find((p) => p.id === (selectedPhase?.id || currentPhase?.id)) ||
+    currentPhase ||
+    phases[0];
+
+  // Helper pour vérifier si un objectif est hors des dates de sa phase
+  const isMilestoneOutOfPhase = (m: Milestone, ph: Phase) => {
+    if (!m.calculatedDate || !ph.calculatedStartDate || !ph.calculatedEndDate) return false;
+    return m.calculatedDate < ph.calculatedStartDate || m.calculatedDate > ph.calculatedEndDate;
+  };
+
+  const handleRenamePhase = (phaseId: string, newName: string) => {
+    updatePhase(phaseId, { nom: newName });
+  };
+
+  const handleUpdateObjective = (phaseId: string, newObjective: string) => {
+    updatePhase(phaseId, { objectif: newObjective });
+  };
+
+  const handleUpdateDeliverable = (phaseId: string, newDeliverable: string) => {
+    updatePhase(phaseId, { livrableAttendu: newDeliverable });
+  };
+
+  const handleDeletePhase = (phaseId: string) => {
+    const res = deletePhase(phaseId);
+    if (!res.success) {
+      setDeleteError(res.reason || 'Impossible de supprimer cette étape.');
+      setTimeout(() => setDeleteError(null), 4000);
+    } else {
+      setDeleteError(null);
+      if (selectedPhase?.id === phaseId) {
+        const remaining = phases.filter((p) => p.id !== phaseId);
+        setSelectedPhase(remaining[0] || null);
+      }
+    }
+  };
+
+  const handleNavigateToTasks = (phaseId: string) => {
+    setTasksPhaseFilter(phaseId);
+    setActiveTab('checklist');
+  };
+
+  return (
+    <>
+      {/* ============================================================ */}
+      {/* 1. MOBILE VIEW (< 768px)                                      */}
+      {/* ============================================================ */}
+      <div className="block md:hidden max-w-md mx-auto py-2 px-1 space-y-6 animate-in fade-in duration-200">
+        {/* En haut de l'écran : Progression globale */}
+        <div className="sticky top-14 z-20 bg-[#FBFAF6]/95 backdrop-blur-md py-2 px-1 space-y-2 border-b-2 border-[#22408F]/20">
+          <div className="flex items-center justify-between text-xs font-bold text-[#22408F]">
+            <span>
+              Étape {currentPhaseIndex + 1} sur {phases.length} · {currentPhase?.shortName || currentPhase?.nom || currentPhase?.name}
+            </span>
+            <span className="tabular-nums">
+              {globalProgress}% accompli
+            </span>
+          </div>
+
+          {/* Thin progress bar */}
+          <div className="w-full bg-white border-2 border-[#22408F] rounded-[999px] h-2.5 overflow-hidden p-0.5">
+            <div
+              className="h-full bg-[#22408F] rounded-[999px] transition-all duration-500 ease-out"
+              style={{ width: `${globalProgress}%` }}
+            ></div>
+          </div>
+        </div>
+
+        {/* Le chemin serpentant et les objectifs */}
+        <div className="relative py-6 flex flex-col items-center">
+          {phases.map((phase, idx) => {
+            const phaseTasks = tasks.filter((t) => t.phaseId === phase.id);
+            const doneTasks = phaseTasks.filter((t) => t.status === 'fait');
+            const remainingTasksCount = phaseTasks.length - doneTasks.length;
+
+            const isDone =
+              phaseTasks.length > 0 &&
+              doneTasks.length === phaseTasks.length &&
+              phase.calculatedEndDate &&
+              todayISO > phase.calculatedEndDate;
+            const isCurrent = idx === currentPhaseIndex;
+
+            const colorInfo = getPhaseColor(phase, phases);
+            const isYellow = colorInfo.key === 'yellow';
+            const offsetX = offsets[idx % offsets.length];
+
+            const phaseMilestones = milestones.filter(
+              (m) => m.phaseId === phase.id && m.daysBeforeDeadline !== 0
+            );
+
+            return (
+              <React.Fragment key={phase.id}>
+                {/* Connector Segment to next phase - Encre #22408F */}
+                {idx > 0 && (
+                  <div className="w-1 h-12 sm:h-14 flex items-center justify-center my-0.5 relative">
+                    <div
+                      className={`w-1 h-full ${
+                        isDone
+                          ? 'bg-[#22408F]'
+                          : 'border-l-2 border-dashed border-[#22408F]'
+                      }`}
+                    ></div>
+                  </div>
+                )}
+
+                {/* Milestones placed along the path */}
+                {phaseMilestones.map((m) => {
+                  const outOfBounds = isMilestoneOutOfPhase(m, phase);
+                  return (
+                    <div
+                      key={m.id}
+                      className="my-1.5 flex items-center gap-2 select-none z-10"
+                      style={{ transform: `translateX(${offsetX * 0.4}px)` }}
+                    >
+                      <div className="flex items-center gap-1.5 px-3 py-1 bg-white border-2 border-[#22408F] shadow-[0_2px_0_#22408F] rounded-[999px] text-xs font-bold text-[#22408F]">
+                        <Flag className="w-3.5 h-3.5 text-[#22408F]" />
+                        <span className="truncate max-w-[170px]">{m.title}</span>
+                        {outOfBounds && (
+                          <span
+                            className="w-2 h-2 rounded-[999px] bg-[#F0505A] border border-[#22408F]"
+                            title="Objectif placé hors des dates de sa phase"
+                          />
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+
+                {/* Phase Node Container with horizontal offset */}
+                <div
+                  ref={isCurrent ? currentPhaseRef : null}
+                  style={{ transform: `translateX(${offsetX}px)` }}
+                  className="relative flex items-center my-1 select-none transition-transform"
+                >
+                  <button
+                    type="button"
+                    onClick={() => setSelectedPhase(phase)}
+                    className={`relative flex items-center justify-center rounded-[999px] border-2 border-[#22408F] transition-all cursor-pointer focus:outline-none ${
+                      isCurrent
+                        ? 'w-16 h-16 sm:w-18 sm:h-18 shadow-[0_4px_0_#22408F] ring-4 ring-[#22408F]/20'
+                        : 'w-12 h-12 shadow-[0_2px_0_#22408F]'
+                    }`}
+                    style={{
+                      backgroundColor: colorInfo.hex,
+                    }}
+                    aria-label={`Phase ${phase.number || idx + 1} : ${phase.nom || phase.name}`}
+                  >
+                    {isDone ? (
+                      <Check
+                        className={`w-6 h-6 stroke-[3] ${
+                          isYellow ? 'text-[#22408F]' : 'text-white'
+                        }`}
+                      />
+                    ) : (
+                      <span
+                        className={`font-heading ${
+                          isCurrent ? 'text-xl' : 'text-base'
+                        } font-bold tracking-tight ${
+                          isYellow ? 'text-[#22408F]' : 'text-white'
+                        }`}
+                      >
+                        {phase.number || idx + 1}
+                      </span>
+                    )}
+                  </button>
+
+                  <div
+                    onClick={() => setSelectedPhase(phase)}
+                    className={`cursor-pointer whitespace-nowrap pl-3.5 pr-2 py-1 text-left ${
+                      offsetX > 0
+                        ? 'order-first pr-3.5 pl-0 text-right'
+                        : 'order-last'
+                    }`}
+                  >
+                    <div
+                      className={`text-xs font-bold ${
+                        isCurrent
+                          ? 'text-[#22408F] text-sm'
+                          : isDone
+                          ? 'text-[#22408F]'
+                          : 'text-[#5A6A94]'
+                      }`}
+                    >
+                      {phase.nom || phase.shortName || phase.name}
+                    </div>
+
+                    {isCurrent ? (
+                      <div className="text-[11px] font-bold text-[#F2661F] mt-0.5">
+                        {phaseTasks.length === 0
+                          ? 'aucune tâche'
+                          : remainingTasksCount > 0
+                          ? `${remainingTasksCount} tâche${
+                              remainingTasksCount > 1 ? 's' : ''
+                            } restante${remainingTasksCount > 1 ? 's' : ''}`
+                          : 'Toutes les tâches faites !'}
+                      </div>
+                    ) : isDone ? (
+                      <div className="text-[11px] text-[#2E8B4A] font-bold mt-0.5">
+                        Validée ✓
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+              </React.Fragment>
+            );
+          })}
+
+          {/* Bouton + Ajouter une étape en fin de parcours */}
+          <div className="my-5 flex flex-col items-center">
+            <div className="w-1 h-6 border-l-2 border-dashed border-[#22408F]"></div>
+            <button
+              type="button"
+              onClick={() => addPhase()}
+              className="btn-riso-secondary py-1.5 px-3.5 text-xs flex items-center gap-1.5 shadow-[0_2px_0_#22408F] hover:translate-y-[-1px] transition-all cursor-pointer font-bold"
+            >
+              <Plus className="w-4 h-4" />
+              <span>+ Ajouter une étape</span>
+            </button>
+          </div>
+
+          {/* Final Submission Flag */}
+          {finalMilestone && (
+            <div className="mt-4 pt-2 flex flex-col items-center space-y-2">
+              <div className="w-1 h-6 border-l-2 border-dashed border-[#22408F]"></div>
+              <div
+                onClick={() => setSelectedPhase(phases[phases.length - 1])}
+                className="riso-card px-5 py-2.5 flex items-center gap-3 cursor-pointer hover:translate-y-[-1px] transition-all"
+              >
+                <div className="w-8 h-8 rounded-[8px] bg-[#7A4A9E] text-white flex items-center justify-center border-2 border-[#22408F]">
+                  <Flag className="w-4 h-4 fill-white text-white" />
+                </div>
+                <div>
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#5A6A94] block">
+                    Rendu final ({jBadge})
+                  </span>
+                  <span className="font-bold text-xs text-[#22408F]">
+                    {finalMilestone.title}
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Bottom Sheet Mobile : Détail d'une phase */}
+        {selectedPhase && (
+          <div className="fixed inset-0 z-50 bg-[#22408F]/40 backdrop-blur-xs flex items-end justify-center">
+            <div className="bg-white w-full max-w-lg rounded-t-[16px] border-t-2 border-x-2 border-[#22408F] shadow-[0_-4px_0_#22408F] max-h-[85vh] flex flex-col animate-in slide-in-from-bottom duration-200">
+              <div className="w-12 h-1 bg-[#22408F]/30 rounded-[999px] mx-auto mt-3 shrink-0"></div>
+
+              <div className="p-6 overflow-y-auto">
+                <PhaseDetailPanel
+                  phase={selectedPhase}
+                  phases={phases}
+                  tasks={tasks}
+                  settings={settings}
+                  isCurrent={selectedPhase.id === currentPhase?.id}
+                  isMobile={true}
+                  onClose={() => setSelectedPhase(null)}
+                  onRenamePhase={handleRenamePhase}
+                  onUpdateObjective={handleUpdateObjective}
+                  onUpdateDeliverable={handleUpdateDeliverable}
+                  onDeletePhase={handleDeletePhase}
+                  deleteError={deleteError}
+                  onNavigateToTasks={handleNavigateToTasks}
+                  onUpdateTask={updateTask}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* ============================================================ */}
+      {/* 2. VUE DESKTOP (>= 768px)                                     */}
+      {/* ============================================================ */}
+      <div className="hidden md:block max-w-[1280px] mx-auto py-4 px-2 space-y-6 animate-in fade-in duration-200">
+        {/* Top Header Row */}
+        <div className="flex items-center justify-end border-b-2 border-[#22408F] pb-4">
+          <div className="flex items-center gap-4">
+            <div className="text-right">
+              <span className="text-xs font-bold text-[#22408F] block">
+                Étape {currentPhaseIndex + 1} sur {phases.length}
+              </span>
+              <span className="text-[11px] tabular-nums font-medium text-[#5A6A94]">
+                {globalProgress}% de tâches faites
+              </span>
+            </div>
+
+            <div className="w-32 bg-white border-2 border-[#22408F] rounded-[999px] h-3 p-0.5 overflow-hidden">
+              <div
+                className="h-full bg-[#22408F] rounded-[999px] transition-all duration-500 ease-out"
+                style={{ width: `${globalProgress}%` }}
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        {/* 2 Colonnes : Chemin interactif (Gauche ~45%) / Panneau détail (Droite ~55%) */}
+        <div className="grid grid-cols-12 gap-8 items-start">
+          {/* Colonne Gauche : Chemin Duolingo */}
+          <div className="col-span-12 md:col-span-5 flex flex-col items-center py-6">
+            {phases.map((phase, idx) => {
+              const phaseTasks = tasks.filter((t) => t.phaseId === phase.id);
+              const doneTasks = phaseTasks.filter((t) => t.status === 'fait');
+              const remainingTasksCount = phaseTasks.length - doneTasks.length;
+              const isDone =
+                phaseTasks.length > 0 &&
+                doneTasks.length === phaseTasks.length &&
+                phase.calculatedEndDate &&
+                todayISO > phase.calculatedEndDate;
+              const isCurrent = idx === currentPhaseIndex;
+              const isSelected = activeDetailPhase.id === phase.id;
+
+              const colorInfo = getPhaseColor(phase, phases);
+              const isYellow = colorInfo.key === 'yellow';
+              const offsetX = offsets[idx % offsets.length];
+
+              const phaseMilestones = milestones.filter(
+                (m) => m.phaseId === phase.id && m.daysBeforeDeadline !== 0
+              );
+
+              return (
+                <React.Fragment key={phase.id}>
+                  {idx > 0 && (
+                    <div className="w-1 h-12 flex items-center justify-center my-0.5 relative">
+                      <div
+                        className={`w-1 h-full ${
+                          isDone
+                            ? 'bg-[#22408F]'
+                            : 'border-l-2 border-dashed border-[#22408F]'
+                        }`}
+                      ></div>
+                    </div>
+                  )}
+
+                  {/* Objectifs de la phase */}
+                  {phaseMilestones.map((m) => {
+                    const outOfBounds = isMilestoneOutOfPhase(m, phase);
+                    return (
+                      <div
+                        key={m.id}
+                        className="my-1.5 flex items-center gap-2 select-none z-10"
+                        style={{ transform: `translateX(${offsetX * 0.4}px)` }}
+                      >
+                        <div className="flex items-center gap-1.5 px-3 py-1 bg-white border-2 border-[#22408F] shadow-[0_2px_0_#22408F] rounded-[999px] text-xs font-bold text-[#22408F]">
+                          <Flag className="w-3.5 h-3.5 text-[#22408F]" />
+                          <span className="truncate max-w-[170px]">{m.title}</span>
+                          {outOfBounds && (
+                            <span
+                              className="w-2 h-2 rounded-[999px] bg-[#F0505A] border border-[#22408F]"
+                              title="Objectif placé hors des dates de sa phase"
+                            />
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+
+                  <div
+                    style={{ transform: `translateX(${offsetX}px)` }}
+                    className="relative flex items-center my-1 select-none transition-transform"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setSelectedPhase(phase)}
+                      className={`relative flex items-center justify-center rounded-[999px] border-2 border-[#22408F] transition-all cursor-pointer focus:outline-none ${
+                        isSelected
+                          ? 'w-16 h-16 shadow-[0_4px_0_#22408F] ring-4 ring-[#22408F]/30 scale-105'
+                          : isCurrent
+                          ? 'w-16 h-16 shadow-[0_4px_0_#22408F] ring-2 ring-[#22408F]/20'
+                          : 'w-12 h-12 shadow-[0_2px_0_#22408F]'
+                      }`}
+                      style={{
+                        backgroundColor: colorInfo.hex,
+                      }}
+                      aria-label={`Étape ${phase.number || idx + 1} : ${phase.nom || phase.name}`}
+                    >
+                      {isDone ? (
+                        <Check
+                          className={`w-6 h-6 stroke-[3] ${
+                            isYellow ? 'text-[#22408F]' : 'text-white'
+                          }`}
+                        />
+                      ) : (
+                        <span
+                          className={`font-heading ${
+                            isSelected || isCurrent ? 'text-xl' : 'text-base'
+                          } font-bold tracking-tight ${
+                            isYellow ? 'text-[#22408F]' : 'text-white'
+                          }`}
+                        >
+                          {phase.number || idx + 1}
+                        </span>
+                      )}
+                    </button>
+
+                    <div
+                      onClick={() => setSelectedPhase(phase)}
+                      className={`cursor-pointer whitespace-nowrap pl-3.5 pr-2 py-1 text-left ${
+                        offsetX > 0 ? 'order-first pr-3.5 pl-0 text-right' : 'order-last'
+                      }`}
+                    >
+                      <div
+                        className={`text-xs font-bold ${
+                          isSelected || isCurrent
+                            ? 'text-[#22408F] text-sm'
+                            : isDone
+                            ? 'text-[#22408F]'
+                            : 'text-[#5A6A94]'
+                        }`}
+                      >
+                        {phase.nom || phase.shortName || phase.name}
+                      </div>
+
+                      {isCurrent ? (
+                        <div className="text-[11px] font-bold text-[#F2661F] mt-0.5">
+                          {phaseTasks.length === 0
+                            ? 'aucune tâche'
+                            : remainingTasksCount > 0
+                            ? `${remainingTasksCount} tâche${
+                                remainingTasksCount > 1 ? 's' : ''
+                              } restante${remainingTasksCount > 1 ? 's' : ''}`
+                            : 'Toutes les tâches faites !'}
+                        </div>
+                      ) : isDone ? (
+                        <div className="text-[11px] text-[#2E8B4A] font-bold mt-0.5">
+                          Validée ✓
+                        </div>
+                      ) : null}
+                    </div>
+                  </div>
+                </React.Fragment>
+              );
+            })}
+
+            {/* Bouton + Ajouter une étape en fin de parcours */}
+            <div className="my-5 flex flex-col items-center">
+              <div className="w-1 h-8 border-l-2 border-dashed border-[#22408F]"></div>
+              <button
+                type="button"
+                onClick={() => addPhase()}
+                className="btn-riso-secondary py-1.5 px-3.5 text-xs flex items-center gap-1.5 shadow-[0_2px_0_#22408F] hover:translate-y-[-1px] transition-all cursor-pointer font-bold"
+              >
+                <Plus className="w-4 h-4" />
+                <span>+ Ajouter une étape</span>
+              </button>
+            </div>
+
+            {/* Rendu final */}
+            {finalMilestone && (
+              <div className="mt-4 pt-2 flex flex-col items-center space-y-2">
+                <div className="w-1 h-6 border-l-2 border-dashed border-[#22408F]"></div>
+                <div
+                  onClick={() => setSelectedPhase(phases[phases.length - 1])}
+                  className="riso-card px-5 py-2.5 flex items-center gap-3 cursor-pointer hover:translate-y-[-1px] transition-all"
+                >
+                  <div className="w-8 h-8 rounded-[8px] bg-[#7A4A9E] text-white flex items-center justify-center border-2 border-[#22408F]">
+                    <Flag className="w-4 h-4 fill-white text-white" />
+                  </div>
+                  <div>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#5A6A94] block">
+                      Rendu final ({jBadge})
+                    </span>
+                    <span className="font-bold text-xs text-[#22408F]">
+                      {finalMilestone.title}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Colonne Droite : Carte de détail */}
+          <div className="col-span-12 md:col-span-7 sticky top-20 riso-card p-7 space-y-6">
+            <PhaseDetailPanel
+              phase={activeDetailPhase}
+              phases={phases}
+              tasks={tasks}
+              settings={settings}
+              isCurrent={activeDetailPhase.id === currentPhase?.id}
+              isMobile={false}
+              onRenamePhase={handleRenamePhase}
+              onUpdateObjective={handleUpdateObjective}
+              onUpdateDeliverable={handleUpdateDeliverable}
+              onDeletePhase={handleDeletePhase}
+              deleteError={deleteError}
+              onNavigateToTasks={handleNavigateToTasks}
+              onUpdateTask={updateTask}
+            />
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};

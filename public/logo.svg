@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000">
+  <defs>
+    <!-- Trame demi-teinte (halftone dots riso) pour le corps du crayon -->
+    <pattern id="halftone-dots" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <circle cx="5" cy="5" r="2.8" fill="#000000" />
+    </pattern>
+  </defs>
+
+  <g id="illustration">
+    <!-- 1. Cabillou du béret (petite tige sur le dessus) -->
+    <path d="M 515,256 C 510,212 522,185 540,166 C 548,158 558,160 562,170 C 564,180 556,190 544,204 C 532,218 526,236 526,256 Z" 
+          fill="#000000" />
+
+    <!-- 2. Béret (dôme principal) -->
+    <path d="M 334,415 
+             C 324,350 365,268 450,250 
+             C 490,242 545,242 590,258 
+             C 655,282 694,345 688,418 
+             Z" 
+          fill="#000000" />
+
+    <!-- 3. Chevelure volumineuse noire (boucles et lobes) -->
+    <path d="M 334,415
+             C 310,410 265,420 235,455
+             C 200,495 185,550 155,595
+             C 135,625 140,665 175,690
+             C 195,705 225,705 250,685
+             C 275,715 315,725 348,700
+             C 358,690 365,675 368,660
+             C 368,660 348,645 348,620
+             L 348,540
+             C 348,470 380,425 435,405
+             C 475,390 500,410 500,410
+             C 500,410 525,390 565,405
+             C 620,425 652,470 652,540
+             L 652,620
+             C 652,645 632,660 632,660
+             C 635,675 642,690 652,700
+             C 685,725 725,715 750,685
+             C 775,705 805,705 825,690
+             C 860,665 865,625 845,595
+             C 815,550 800,495 765,455
+             C 735,420 690,410 688,415
+             Z"
+          fill="#000000" />
+
+    <!-- 4. Oreille gauche -->
+    <path d="M 346,555 
+             C 305,555 296,585 296,605 
+             C 296,630 315,655 352,655" 
+          fill="#FFFFFF" stroke="#000000" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" />
+
+    <!-- 5. Oreille droite -->
+    <path d="M 654,535 
+             C 695,535 710,560 710,585 
+             C 710,612 692,640 650,640" 
+          fill="#FFFFFF" stroke="#000000" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" />
+
+    <!-- 6. Visage (contour menton et joues, fond blanc pur) -->
+    <path d="M 346,550
+             L 346,645
+             C 350,710 405,795 500,795
+             C 595,795 650,710 654,640
+             L 654,530
+             C 654,460 615,420 570,405
+             C 530,392 505,412 500,415
+             C 495,412 470,392 430,405
+             C 385,420 346,460 346,550
+             Z"
+          fill="#FFFFFF" stroke="#000000" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" />
+
+    <!-- 7. Crayon tramé glissé dans les cheveux (orienté vers le front) -->
+    <g transform="translate(640, 490) rotate(-22)">
+      <!-- Corps du crayon (rectangle avec texture tramée) -->
+      <rect x="-100" y="-22" width="165" height="44" rx="4"
+            fill="#FFFFFF" stroke="#000000" stroke-width="9" />
+      <rect x="-100" y="-22" width="165" height="44" rx="4"
+            fill="url(#halftone-dots)" />
+
+      <!-- Facette supérieure / ligne médiane du crayon -->
+      <line x1="-100" y1="0" x2="65" y2="0" stroke="#000000" stroke-width="4" />
+
+      <!-- Bois taillé (triangle cône blanc) -->
+      <polygon points="-100,-22 -155,0 -100,22"
+               fill="#FFFFFF" stroke="#000000" stroke-width="9" stroke-linejoin="round" />
+
+      <!-- Mine en graphite noire au bout -->
+      <polygon points="-132,-9 -155,0 -132,9"
+               fill="#000000" stroke="#000000" stroke-width="3" stroke-linejoin="round" />
+    </g>
+
+    <!-- Mèche de cheveux qui recouvre légèrement l'arrière du crayon -->
+    <path d="M 645,455 C 675,470 705,485 715,510 C 685,505 660,490 645,455 Z" fill="#000000" />
+
+    <!-- 8. Sourcils -->
+    <path d="M 390,526 C 402,520 418,518 428,522" 
+          fill="none" stroke="#000000" stroke-width="11" stroke-linecap="round" />
+
+    <path d="M 554,518 C 566,516 580,520 592,526" 
+          fill="none" stroke="#000000" stroke-width="11" stroke-linecap="round" />
+
+    <!-- 9. Yeux (regard pensif vers la gauche) -->
+    <path d="M 392,562 C 404,556 422,556 438,564" 
+          fill="none" stroke="#000000" stroke-width="10" stroke-linecap="round" />
+    <path d="M 394,562 C 390,578 396,598 412,606 C 420,598 420,580 416,564 Z" 
+          fill="#000000" />
+
+    <path d="M 514,562 C 526,556 544,556 560,564" 
+          fill="none" stroke="#000000" stroke-width="10" stroke-linecap="round" />
+    <path d="M 512,562 C 508,578 514,598 530,606 C 538,598 538,580 534,564 Z" 
+          fill="#000000" />
+
+    <!-- 10. Nez minimaliste avec pointe vers le bas -->
+    <line x1="488" y1="552" x2="488" y2="670" 
+          stroke="#000000" stroke-width="10" stroke-linecap="round" />
+    <path d="M 464,650 L 488,674 L 512,650" 
+          fill="none" stroke="#000000" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+
+    <!-- 11. Bouche (trait horizontal neutre et concentré) -->
+    <line x1="472" y1="714" x2="536" y2="710" 
+          stroke="#000000" stroke-width="9" stroke-linecap="round" />
+  </g>
+</svg>
