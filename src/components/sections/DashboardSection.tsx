@@ -402,7 +402,7 @@ export const DashboardSection: React.FC = () => {
                     className="h-full border-r-2 border-riso-ink last:border-r-0 flex items-center justify-center px-2 relative group overflow-hidden mix-blend-multiply"
                     title={`${phase.nom || phase.name} (${Math.round(pPct)} %)`}
                   >
-                    <span className="text-white text-xs font-bold font-heading truncate drop-shadow-xs">
+                    <span className={`${phaseColor.key === 'yellow' ? 'text-riso-ink' : 'text-white'} text-xs font-bold font-heading truncate`}>
                       {phase.nom || phase.name}
                     </span>
                   </div>
