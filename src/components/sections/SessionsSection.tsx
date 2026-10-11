@@ -349,7 +349,7 @@ export const SessionsSection: React.FC = () => {
                           <div
                             className="w-10 h-10 rounded-[999px] border-2 border-riso-ink flex items-center justify-center shrink-0 shadow-2xs relative"
                             style={{
-                              backgroundColor: isDone ? '#EBF1FF' : colorInfo.hex,
+                              backgroundColor: isDone ? 'var(--riso-p1-light)' : colorInfo.hex,
                             }}
                           >
                             {(session.type === 'individuelle' || (session.type as string) === 'solo') && (
