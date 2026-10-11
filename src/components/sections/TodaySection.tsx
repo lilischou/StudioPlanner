@@ -15,11 +15,13 @@ import {
   formatFrenchDate,
   formatISODate,
   formatHours,
-  getAssigneeInitials,
   toLocalYMD,
 } from '../../utils/dateCalculations';
 import { PHASE_COLORS, RISO_THEME, getPhaseColor } from '../../utils/theme';
 import { InertiaActionModal } from '../modals/InertiaActionModal';
+import { Button, Card, Pill, ProgressRing, EmptyState } from '../ui';
+import { AssigneeAvatar } from '../AssigneeAvatar';
+import { IconJalon } from '../icons';
 export { PHASE_COLORS };
 
 export const TodaySection: React.FC = () => {
@@ -259,9 +261,9 @@ export const TodaySection: React.FC = () => {
       <div className="block md:hidden max-w-md mx-auto py-2 px-1 space-y-5 animate-in fade-in duration-200">
         {/* 1. Date du jour et 2 compteurs */}
         <div className="space-y-2 px-1">
-          <div className="flex items-center justify-between text-xs text-[#5A6A94] font-medium">
-            <span className="capitalize font-bold text-[#22408F] text-sm">{todayFormatted}</span>
-            <div className="bg-white text-[#22408F] border-2 border-[#DCE2EF] px-2.5 py-1 rounded-[999px] text-[11px] font-semibold tabular-nums">
+          <div className="flex items-center justify-between text-xs text-[var(--riso-ink-secondary)] font-medium">
+            <span className="capitalize font-bold text-[var(--riso-ink)] text-sm">{todayFormatted}</span>
+            <div className="bg-white text-[var(--riso-ink)] border-2 border-[var(--riso-line)] px-2.5 py-1 rounded-[999px] text-[11px] font-semibold tabular-nums">
               {finalBadge}
             </div>
           </div>
@@ -269,21 +271,21 @@ export const TodaySection: React.FC = () => {
           {/* Compteur mis en avant si présent */}
           {nextIntermediate && (
             <div
-              className="bg-[#EBF1FF] text-[#22408F] border-2 border-[#22408F] shadow-[0_2px_0_#22408F] px-3 py-1.5 rounded-[999px] text-xs font-bold flex items-center gap-1.5 truncate"
+              className="bg-[var(--riso-p1-light)] text-[var(--riso-ink)] border-2 border-[var(--riso-ink)] shadow-[var(--shadow-press)] px-3 py-1.5 rounded-[999px] text-xs font-bold flex items-center gap-1.5 truncate"
               title={`Rendu intermédiaire : ${nextIntermediate.name}`}
             >
-              <span className="w-2 h-2 rounded-full bg-[#2F6DBB] shrink-0"></span>
+              <span className="w-2 h-2 rounded-full bg-[var(--riso-p1)] shrink-0"></span>
               <span className="tabular-nums shrink-0">
                 {nextIntermediate.days === 0
-                  ? "Aujourd'hui"
+                  ? "aujourd'hui"
                   : nextIntermediate.days > 0
                   ? `J-${nextIntermediate.days}`
                   : `J+${Math.abs(nextIntermediate.days)}`}
               </span>
               <span>·</span>
-              <span className="truncate">Rendu intermédiaire : {nextIntermediate.name}</span>
+              <span className="truncate">rendu intermédiaire : {nextIntermediate.name}</span>
               <span>·</span>
-              <span className="tabular-nums shrink-0 font-mono text-[11px]">
+              <span className="tabular-nums shrink-0 text-[11px]">
                 {formatFrenchDate(nextIntermediate.date, false)}
               </span>
             </div>
@@ -291,237 +293,174 @@ export const TodaySection: React.FC = () => {
 
           {/* Grand bouton principal : Je m'y mets (Mobile) */}
           <div className="pt-1">
-            <button
-              type="button"
+            <Button
+              variant="primary"
+              size="lg"
+              fullWidth
               onClick={() => setIsInertiaOpen(true)}
-              className="btn-riso-primary w-full text-base py-3.5 px-6 font-bold shadow-[0_4px_0_#F0505A] flex items-center justify-center gap-2 cursor-pointer"
+              className="shadow-[var(--shadow-primary)]"
             >
               <Play className="w-5 h-5 fill-current" />
-              <span>Je m'y mets</span>
-            </button>
+              <span>je m'y mets</span>
+            </Button>
           </div>
         </div>
 
         {/* 2. Au centre : CARTE tâche du moment */}
         {currentTask ? (
-          <div className="riso-card p-6 relative overflow-hidden">
+          <Card variant="default" radius="md" className="p-6 relative overflow-hidden space-y-4">
             {/* Phase & Durée */}
-            <div className="flex items-center justify-between text-xs mb-3">
+            <div className="flex items-center justify-between text-xs">
               <div className="flex items-center gap-2">
                 <span
-                  className="w-3 h-3 rounded-[999px] shrink-0 border border-[#22408F]"
-                  style={{ backgroundColor: phaseColor?.hex || '#2F6DBB' }}
+                  className="w-3 h-3 rounded-[999px] shrink-0 border-2 border-[var(--riso-ink)]"
+                  style={{ backgroundColor: phaseColor?.hex || 'var(--riso-p1)' }}
                 ></span>
-                <span className="font-bold text-[#22408F] truncate max-w-[160px] text-xs">
-                  {taskPhase?.shortName || 'Phase en cours'}
+                <span className="font-bold text-[var(--riso-ink)] truncate max-w-[160px] text-xs lowercase">
+                  {taskPhase?.shortName || 'phase en cours'}
                 </span>
               </div>
 
-              <div className="flex items-center gap-1.5 tabular-nums text-xs font-bold text-[#22408F] bg-[#FBFAF6] px-2.5 py-1 rounded-[8px] border-2 border-[#22408F]">
-                <Clock className="w-3.5 h-3.5 text-[#22408F]" />
+              <div className="flex items-center gap-1.5 tabular-nums text-xs font-bold text-[var(--riso-ink)] bg-[var(--riso-paper)] px-2.5 py-1 rounded-[8px] border-2 border-[var(--riso-ink)]">
+                <Clock className="w-3.5 h-3.5 text-[var(--riso-ink)]" />
                 <span>{currentTask.durationMinutes} min</span>
               </div>
             </div>
 
             {/* Titre */}
-            <h2 className="text-xl sm:text-2xl font-bold text-[#22408F] tracking-tight leading-snug my-3 font-heading">
+            <h2 className="text-xl sm:text-2xl font-bold text-[var(--riso-ink)] tracking-tight leading-snug my-2 font-heading lowercase">
               {currentTask.title}
             </h2>
 
             {/* Métadonnées : Responsable & Échéance */}
-            <div className="flex items-center justify-between text-xs text-[#5A6A94] pt-3 border-t-2 border-[#22408F]/20 mt-4">
+            <div className="flex items-center justify-between text-xs text-[var(--riso-ink-secondary)] pt-3 border-t-2 border-[var(--riso-line)]">
               {settings.mode === 'groupe' ? (
-                <div className="flex items-center gap-1.5">
-                  <div className="w-6 h-6 rounded-[999px] bg-[#EBF1FF] text-[#22408F] border-2 border-[#22408F] flex items-center justify-center text-[11px] font-bold">
-                    {getAssigneeInitials(currentTask.assignee)}
-                  </div>
-                  <span className="font-bold text-[#22408F]">{currentTask.assignee}</span>
+                <div className="flex items-center gap-2">
+                  <AssigneeAvatar assignee={currentTask.assignee} size={24} />
+                  <span className="font-bold text-[var(--riso-ink)]">{currentTask.assignee}</span>
                 </div>
               ) : (
                 <div />
               )}
 
               <div className="flex items-center gap-1.5 tabular-nums text-xs">
-                <span>Échéance :</span>
-                <span className="font-bold text-[#22408F]">
+                <span>échéance :</span>
+                <span className="font-bold text-[var(--riso-ink)] bg-[var(--riso-paper)] border border-[var(--riso-line)] px-2 py-0.5 rounded-[8px]">
                   {formatFrenchDate(currentTask.deadline, false)}
                 </span>
               </div>
             </div>
-          </div>
+          </Card>
         ) : (
           /* Empty State */
-          <div className="riso-card p-8 text-center space-y-4">
-            <div className="w-20 h-20 rounded-[8px] bg-white border-2 border-[#22408F] shadow-[0_4px_0_#22408F] p-2 mx-auto flex items-center justify-center">
-              <img
-                src="/logo.png"
-                alt=""
-                className="w-full h-full object-contain"
-                onError={(e) => {
-                  const img = e.currentTarget;
-                  if (!img.dataset.hasFailed) {
-                    img.dataset.hasFailed = 'true';
-                    img.src = '/logo.svg';
-                  }
-                }}
-              />
-            </div>
-            <div className="space-y-1.5 max-w-sm mx-auto">
-              <h2 className="text-base font-bold text-[#22408F] font-heading">
-                Rien de prévu aujourd'hui.
-              </h2>
-              <p className="text-xs text-[#5A6A94] leading-relaxed">
-                Choisis une tâche dans ton parcours.
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={() => setActiveTab('parcours')}
-              className="btn-riso-primary text-xs"
-            >
-              <span>Voir le parcours</span>
-            </button>
-          </div>
+          <EmptyState
+            message="rien de prévu aujourd'hui."
+            actionText="voir le parcours"
+            onAction={() => setActiveTab('parcours')}
+          />
         )}
 
-        {/* 3. Bouton principal « Commencer » & Secondaire « Autre tâche » */}
+        {/* 3. Boutons d'action */}
         {currentTask && (
           <div className="flex flex-col items-center gap-2.5 pt-1">
-            <button
-              type="button"
+            <Button
+              variant="secondary"
+              size="md"
+              fullWidth
               onClick={() => handleStartTask(currentTask)}
-              className="btn-riso-primary w-full text-sm py-3.5"
             >
-              <Play className="w-4 h-4 fill-white text-white" />
-              <span>Commencer cette tâche</span>
-            </button>
+              <Play className="w-4 h-4 fill-[var(--riso-ink)] text-[var(--riso-ink)]" />
+              <span>commencer cette tâche</span>
+            </Button>
 
             {pendingTasks.length > 1 && (
-              <button
-                type="button"
+              <Button
+                variant="ghost"
+                size="sm"
+                fullWidth
                 onClick={handleNextTask}
-                className="btn-riso-secondary w-full"
               >
-                <span>Autre tâche ({safeIndex + 1}/{pendingTasks.length})</span>
+                <span>autre tâche ({safeIndex + 1}/{pendingTasks.length})</span>
                 <ChevronRight className="w-3.5 h-3.5" />
-              </button>
+              </Button>
             )}
           </div>
         )}
 
-        {/* 4. Deux anneaux de progression concentriques (Information seule) */}
-        <div className="riso-info-box bg-white p-5 flex items-center gap-5 text-[#22408F]">
-          <div className="relative shrink-0 flex items-center justify-center">
-            <svg
-              width={ringSize}
-              height={ringSize}
-              viewBox={`0 0 ${ringSize} ${ringSize}`}
-              className="rotate-[-90deg]"
-            >
-              <circle
-                cx={center}
-                cy={center}
-                r={outerRadius}
-                stroke="rgba(34, 64, 143, 0.15)"
-                strokeWidth={strokeWidth}
-                fill="transparent"
-              />
-              <circle
-                cx={center}
-                cy={center}
-                r={outerRadius}
-                stroke="#2F6DBB"
-                strokeWidth={strokeWidth}
-                strokeDasharray={outerCircumference}
-                strokeDashoffset={outerOffset}
-                strokeLinecap="round"
-                fill="transparent"
-                className="transition-all duration-700 ease-out"
-              />
-              <circle
-                cx={center}
-                cy={center}
-                r={innerRadius}
-                stroke="rgba(34, 64, 143, 0.15)"
-                strokeWidth={strokeWidth}
-                fill="transparent"
-              />
-              <circle
-                cx={center}
-                cy={center}
-                r={innerRadius}
-                stroke="#2E8B4A"
-                strokeWidth={strokeWidth}
-                strokeDasharray={innerCircumference}
-                strokeDashoffset={innerOffset}
-                strokeLinecap="round"
-                fill="transparent"
-                className="transition-all duration-700 ease-out"
-              />
-            </svg>
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-              <span className="tabular-nums text-xs font-bold text-[#22408F]">
+        {/* 4. Deux anneaux de progression concentriques */}
+        <Card variant="flat" radius="sm" className="bg-white p-5 flex items-center gap-5 text-[var(--riso-ink)] border-2 border-[var(--riso-line)]">
+          <ProgressRing
+            outerFraction={taskProgressFraction}
+            innerFraction={hoursProgressFraction}
+            size={110}
+            outerColor="var(--riso-p1)"
+            innerColor="var(--riso-p2)"
+            label={
+              <span className="tabular-nums text-xs font-bold text-[var(--riso-ink)]">
                 {Math.round(taskProgressFraction * 100)}%
               </span>
-            </div>
-          </div>
+            }
+          />
 
           <div className="space-y-3 text-xs flex-1">
             <div>
               <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-[999px] bg-[#2F6DBB] shrink-0 border border-[#22408F]"></span>
-                <span className="font-bold text-[#22408F]">Tâches faites</span>
+                <span className="w-3 h-3 rounded-[999px] bg-[var(--riso-p1)] shrink-0 border border-[var(--riso-ink)]"></span>
+                <span className="font-bold text-[var(--riso-ink)] lowercase">tâches faites</span>
               </div>
-              <div className="tabular-nums text-[#5A6A94] pl-5 text-[11px] mt-0.5">
-                <strong className="text-[#22408F]">{completedTasks}</strong> sur {totalTasks} ({Math.round(taskProgressFraction * 100)}%)
+              <div className="tabular-nums text-[var(--riso-ink-secondary)] pl-5 text-[11px] mt-0.5">
+                <strong className="text-[var(--riso-ink)]">{completedTasks}</strong> sur {totalTasks} ({Math.round(taskProgressFraction * 100)}%)
               </div>
             </div>
 
             <div>
               <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-[999px] bg-[#2E8B4A] shrink-0 border border-[#22408F]"></span>
-                <span className="font-bold text-[#22408F]">Heures réalisées</span>
+                <span className="w-3 h-3 rounded-[999px] bg-[var(--riso-p2)] shrink-0 border border-[var(--riso-ink)]"></span>
+                <span className="font-bold text-[var(--riso-ink)] lowercase">heures réalisées</span>
               </div>
-              <div className="tabular-nums text-[#5A6A94] pl-5 text-[11px] mt-0.5">
-                <strong className="text-[#22408F]">{formatHours(actualHoursDone)}</strong> sur {targetTotalHours} h ({Math.round(hoursProgressFraction * 100)}%)
+              <div className="tabular-nums text-[var(--riso-ink-secondary)] pl-5 text-[11px] mt-0.5">
+                <strong className="text-[var(--riso-ink)]">{formatHours(actualHoursDone)}</strong> sur {targetTotalHours} h ({Math.round(hoursProgressFraction * 100)}%)
               </div>
             </div>
           </div>
-        </div>
+        </Card>
 
         {/* 5. Prochain objectif */}
         {nextMilestone && (
-          <div
+          <Card
+            variant="default"
+            radius="sm"
+            interactive
             onClick={() => setActiveTab('parcours')}
-            className="riso-card riso-clickable p-4 flex items-center justify-between gap-3 group"
+            className="p-4 flex items-center justify-between gap-3 group"
           >
             <div className="flex items-center gap-3 min-w-0">
-              <div className="w-9 h-9 rounded-[8px] bg-[#FEFCE8] text-[#22408F] flex items-center justify-center shrink-0 border-2 border-[#22408F]">
-                <Flag className="w-4 h-4 text-[#22408F]" />
+              <div className="w-9 h-9 rounded-[8px] bg-[var(--riso-p3-light)] text-[var(--riso-ink)] flex items-center justify-center shrink-0 border-2 border-[var(--riso-ink)]">
+                <IconJalon size={18} className="text-[var(--riso-ink)]" />
               </div>
               <div className="min-w-0 truncate">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#5A6A94] block">
-                  Prochain objectif
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--riso-ink-secondary)] block">
+                  prochain objectif
                 </span>
-                <span className="font-bold text-[#22408F] text-xs truncate block">
+                <span className="font-bold text-[var(--riso-ink)] text-xs truncate block lowercase">
                   {nextMilestone.title}
                 </span>
-                <span className="tabular-nums text-[11px] text-[#5A6A94]">
+                <span className="tabular-nums text-[11px] text-[var(--riso-ink-secondary)]">
                   {formatFrenchDate(nextMilestone.calculatedDate, false)}
                 </span>
               </div>
             </div>
 
-            <span className="shrink-0 riso-pill bg-[#EBF1FF]">
+            <Pill variant="default" className="shrink-0 bg-[var(--riso-p1-light)]">
               {milestoneDays === 0
-                ? "Aujourd'hui"
+                ? "aujourd'hui"
                 : milestoneDays === 1
                 ? 'demain'
                 : milestoneDays! < 0
                 ? `dépassé (${Math.abs(milestoneDays!)} j)`
                 : `dans ${milestoneDays} j`}
-            </span>
-          </div>
+            </Pill>
+          </Card>
         )}
       </div>
 
@@ -530,13 +469,13 @@ export const TodaySection: React.FC = () => {
       {/* ============================================================ */}
       <div className="hidden md:block max-w-[1280px] mx-auto py-4 px-2 space-y-6 animate-in fade-in duration-200">
         {/* Top Header Row : Titre et 2 Compteurs en haut à droite */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between border-b-2 border-[#22408F] pb-4 gap-3">
+        <div className="flex flex-col md:flex-row md:items-center justify-between border-b-2 border-[var(--riso-ink)] pb-4 gap-3">
           <div>
-            <span className="text-xs uppercase font-bold tracking-wider text-[#5A6A94] block">
+            <span className="text-xs uppercase font-bold tracking-wider text-[var(--riso-ink-secondary)] block">
               {todayFormatted}
             </span>
-            <h1 className="text-2xl font-bold text-[#22408F] tracking-tight font-heading mt-0.5">
-              Tableau de bord du jour
+            <h1 className="text-2xl font-bold text-[var(--riso-ink)] tracking-tight font-heading mt-0.5 lowercase">
+              tableau de bord du jour
             </h1>
           </div>
 
@@ -545,30 +484,30 @@ export const TodaySection: React.FC = () => {
             {/* Mis en avant : Prochain Rendu intermédiaire si présent */}
             {nextIntermediate && (
               <div
-                className="bg-[#EBF1FF] text-[#22408F] border-2 border-[#22408F] shadow-[0_2px_0_#22408F] px-3.5 py-1.5 rounded-[999px] text-xs font-bold flex items-center gap-2"
+                className="bg-[var(--riso-p1-light)] text-[var(--riso-ink)] border-2 border-[var(--riso-ink)] shadow-[var(--shadow-press)] px-3.5 py-1.5 rounded-[999px] text-xs font-bold flex items-center gap-2"
                 title={`Rendu intermédiaire : ${nextIntermediate.name}`}
               >
-                <span className="w-2 h-2 rounded-full bg-[#2F6DBB] shrink-0"></span>
+                <span className="w-2 h-2 rounded-full bg-[var(--riso-p1)] shrink-0"></span>
                 <span className="tabular-nums">
                   {nextIntermediate.days === 0
-                    ? "Aujourd'hui"
+                    ? "aujourd'hui"
                     : nextIntermediate.days > 0
                     ? `J-${nextIntermediate.days}`
                     : `J+${Math.abs(nextIntermediate.days)}`}
                 </span>
                 <span>·</span>
                 <span className="truncate max-w-[220px]">
-                  Rendu intermédiaire : {nextIntermediate.name}
+                  rendu intermédiaire : {nextIntermediate.name}
                 </span>
                 <span>·</span>
-                <span className="tabular-nums font-mono text-[11px]">
+                <span className="tabular-nums text-[11px]">
                   {formatFrenchDate(nextIntermediate.date, false)}
                 </span>
               </div>
             )}
 
             {/* Secondaire : Rendu final */}
-            <div className="bg-white text-[#22408F] border-2 border-[#DCE2EF] px-3 py-1.5 rounded-[999px] text-xs font-semibold tabular-nums">
+            <div className="bg-white text-[var(--riso-ink)] border-2 border-[var(--riso-line)] px-3 py-1.5 rounded-[999px] text-xs font-semibold tabular-nums">
               {finalBadge}
             </div>
           </div>
@@ -576,14 +515,16 @@ export const TodaySection: React.FC = () => {
 
         {/* Grand bouton principal : Je m'y mets (Desktop) */}
         <div>
-          <button
-            type="button"
+          <Button
+            variant="primary"
+            size="lg"
+            fullWidth
             onClick={() => setIsInertiaOpen(true)}
-            className="btn-riso-primary w-full text-lg py-4 px-8 font-bold shadow-[0_4px_0_#F0505A] flex items-center justify-center gap-3 cursor-pointer group"
+            className="shadow-[var(--shadow-primary)] min-h-[52px]"
           >
-            <Play className="w-5 h-5 fill-current transition-transform group-hover:scale-110" />
-            <span className="font-heading tracking-wide">Je m'y mets</span>
-          </button>
+            <Play className="w-5 h-5 fill-current" />
+            <span className="font-heading">je m'y mets</span>
+          </Button>
         </div>
 
         {/* 2 Colonnes : Gauche (60%) / Droite (40%) */}
@@ -591,45 +532,43 @@ export const TodaySection: React.FC = () => {
           {/* Colonne Gauche : Tâche du moment */}
           <div className="col-span-12 lg:col-span-7 space-y-5">
             {currentTask ? (
-              <div className="riso-card p-7 relative overflow-hidden space-y-6">
+              <Card variant="default" radius="md" className="p-7 relative overflow-hidden space-y-6">
                 {/* Phase tag & Duration */}
                 <div className="flex items-center justify-between text-xs">
                   <div className="flex items-center gap-2.5">
                     <span
-                      className="w-3.5 h-3.5 rounded-[999px] shrink-0 border border-[#22408F]"
-                      style={{ backgroundColor: phaseColor?.hex || '#2F6DBB' }}
+                      className="w-3.5 h-3.5 rounded-[999px] shrink-0 border-2 border-[var(--riso-ink)]"
+                      style={{ backgroundColor: phaseColor?.hex || 'var(--riso-p1)' }}
                     ></span>
-                    <span className="font-bold text-[#22408F] text-xs">
-                      {taskPhase?.name || 'Phase en cours'}
+                    <span className="font-bold text-[var(--riso-ink)] text-xs lowercase">
+                      {taskPhase?.name || 'phase en cours'}
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-1.5 tabular-nums text-xs font-bold text-[#22408F] bg-[#FBFAF6] px-3 py-1 rounded-[8px] border-2 border-[#22408F]">
-                    <Clock className="w-3.5 h-3.5 text-[#22408F]" />
+                  <div className="flex items-center gap-1.5 tabular-nums text-xs font-bold text-[var(--riso-ink)] bg-[var(--riso-paper)] px-3 py-1 rounded-[8px] border-2 border-[var(--riso-ink)]">
+                    <Clock className="w-3.5 h-3.5 text-[var(--riso-ink)]" />
                     <span>{currentTask.durationMinutes} min</span>
                   </div>
                 </div>
 
                 {/* Titre */}
                 <div className="py-1">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#5A6A94] block mb-1">
-                    Tâche du moment
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--riso-ink-secondary)] block mb-1">
+                    tâche du moment
                   </span>
-                  <h2 className="text-2xl xl:text-3xl font-bold text-[#22408F] tracking-tight leading-snug font-heading">
+                  <h2 className="text-2xl xl:text-3xl font-bold text-[var(--riso-ink)] tracking-tight leading-snug font-heading lowercase">
                     {currentTask.title}
                   </h2>
                 </div>
 
                 {/* Responsable & Échéance */}
-                <div className="flex items-center justify-between text-xs text-[#5A6A94] pt-4 border-t-2 border-[#22408F]/20">
+                <div className="flex items-center justify-between text-xs text-[var(--riso-ink-secondary)] pt-4 border-t-2 border-[var(--riso-line)]">
                   {settings.mode === 'groupe' ? (
-                    <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-[999px] bg-[#EBF1FF] text-[#22408F] border-2 border-[#22408F] flex items-center justify-center text-xs font-bold">
-                        {getAssigneeInitials(currentTask.assignee)}
-                      </div>
+                    <div className="flex items-center gap-2.5">
+                      <AssigneeAvatar assignee={currentTask.assignee} size={28} />
                       <div>
-                        <span className="text-[10px] text-[#5A6A94] block leading-none">Responsable</span>
-                        <span className="font-bold text-[#22408F]">{currentTask.assignee}</span>
+                        <span className="text-[10px] text-[var(--riso-ink-secondary)] block leading-none">responsable</span>
+                        <span className="font-bold text-[var(--riso-ink)]">{currentTask.assignee}</span>
                       </div>
                     </div>
                   ) : (
@@ -637,8 +576,8 @@ export const TodaySection: React.FC = () => {
                   )}
 
                   <div className="flex items-center gap-2 tabular-nums text-xs">
-                    <span className="text-[#5A6A94]">Échéance :</span>
-                    <span className="font-bold text-[#22408F] bg-[#FBFAF6] border-2 border-[#22408F] px-2.5 py-0.5 rounded-[8px]">
+                    <span className="text-[var(--riso-ink-secondary)]">échéance :</span>
+                    <span className="font-bold text-[var(--riso-ink)] bg-[var(--riso-paper)] border-2 border-[var(--riso-ink)] px-2.5 py-0.5 rounded-[8px]">
                       {formatFrenchDate(currentTask.deadline, false)}
                     </span>
                   </div>
@@ -646,196 +585,130 @@ export const TodaySection: React.FC = () => {
 
                 {/* Action buttons */}
                 <div className="pt-2 flex items-center gap-3">
-                  <button
-                    type="button"
+                  <Button
+                    variant="secondary"
+                    size="md"
+                    className="flex-1 min-h-[44px]"
                     onClick={() => handleStartTask(currentTask)}
-                    className="btn-riso-primary flex-1 py-3.5"
                   >
-                    <Play className="w-4 h-4 fill-white text-white" />
-                    <span>Commencer cette tâche</span>
-                  </button>
+                    <Play className="w-4 h-4 fill-[var(--riso-ink)] text-[var(--riso-ink)]" />
+                    <span>commencer cette tâche</span>
+                  </Button>
 
                   {pendingTasks.length > 1 && (
-                    <button
-                      type="button"
+                    <Button
+                      variant="ghost"
+                      size="md"
                       onClick={handleNextTask}
-                      className="btn-riso-secondary py-3.5 px-4"
-                      title="Passer à une autre tâche"
+                      title="passer à une autre tâche"
                     >
-                      <span>Autre tâche ({safeIndex + 1}/{pendingTasks.length})</span>
+                      <span>autre tâche ({safeIndex + 1}/{pendingTasks.length})</span>
                       <ChevronRight className="w-4 h-4" />
-                    </button>
+                    </Button>
                   )}
                 </div>
-              </div>
+              </Card>
             ) : (
-              <div className="riso-card p-12 text-center space-y-4">
-                <div className="w-20 h-20 rounded-[8px] bg-white border-2 border-[#22408F] shadow-[0_4px_0_#22408F] p-2 mx-auto flex items-center justify-center">
-                  <img
-                    src="/logo.png"
-                    alt=""
-                    className="w-full h-full object-contain"
-                    onError={(e) => {
-                      const img = e.currentTarget;
-                      if (!img.dataset.hasFailed) {
-                        img.dataset.hasFailed = 'true';
-                        img.src = '/logo.svg';
-                      }
-                    }}
-                  />
-                </div>
-                <div className="space-y-1.5 max-w-sm mx-auto">
-                  <h2 className="text-lg font-bold text-[#22408F] font-heading">
-                    {totalTasks === 0 ? "Aucune tâche pour l'instant" : "Rien de prévu aujourd'hui."}
-                  </h2>
-                  <p className="text-xs text-[#5A6A94] leading-relaxed">
-                    {totalTasks === 0
-                      ? "Aucune tâche pour l'instant. Choisis une action dans ton parcours pour commencer."
-                      : "Toutes les tâches en cours sont terminées. Choisis une tâche dans ton parcours pour continuer à avancer."}
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('parcours')}
-                  className="btn-riso-primary"
-                >
-                  <span>Voir le parcours</span>
-                </button>
-              </div>
+              <EmptyState
+                message={totalTasks === 0 ? "aucune tâche pour l'instant" : "rien de prévu aujourd'hui."}
+                actionText="voir le parcours"
+                onAction={() => setActiveTab('parcours')}
+              />
             )}
           </div>
 
           {/* Colonne Droite : Anneaux, Objectif, Tâches suivantes */}
           <div className="col-span-12 lg:col-span-5 space-y-5">
-            {/* Anneaux de progression concentriques (Information seule) */}
-            <div className="riso-info-box bg-white p-5 flex items-center gap-5 text-[#22408F]">
-              <div className="relative shrink-0 flex items-center justify-center">
-                <svg
-                  width={ringSize}
-                  height={ringSize}
-                  viewBox={`0 0 ${ringSize} ${ringSize}`}
-                  className="rotate-[-90deg]"
-                >
-                  <circle
-                    cx={center}
-                    cy={center}
-                    r={outerRadius}
-                    stroke="rgba(34, 64, 143, 0.15)"
-                    strokeWidth={strokeWidth}
-                    fill="transparent"
-                  />
-                  <circle
-                    cx={center}
-                    cy={center}
-                    r={outerRadius}
-                    stroke="#2F6DBB"
-                    strokeWidth={strokeWidth}
-                    strokeDasharray={outerCircumference}
-                    strokeDashoffset={outerOffset}
-                    strokeLinecap="round"
-                    fill="transparent"
-                    className="transition-all duration-700 ease-out"
-                  />
-                  <circle
-                    cx={center}
-                    cy={center}
-                    r={innerRadius}
-                    stroke="rgba(34, 64, 143, 0.15)"
-                    strokeWidth={strokeWidth}
-                    fill="transparent"
-                  />
-                  <circle
-                    cx={center}
-                    cy={center}
-                    r={innerRadius}
-                    stroke="#2E8B4A"
-                    strokeWidth={strokeWidth}
-                    strokeDasharray={innerCircumference}
-                    strokeDashoffset={innerOffset}
-                    strokeLinecap="round"
-                    fill="transparent"
-                    className="transition-all duration-700 ease-out"
-                  />
-                </svg>
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                  <span className="tabular-nums text-xs font-bold text-[#22408F]">
+            {/* Anneaux de progression concentriques */}
+            <Card variant="flat" radius="sm" className="bg-white p-5 flex items-center gap-5 text-[var(--riso-ink)] border-2 border-[var(--riso-line)]">
+              <ProgressRing
+                outerFraction={taskProgressFraction}
+                innerFraction={hoursProgressFraction}
+                size={120}
+                outerColor="var(--riso-p1)"
+                innerColor="var(--riso-p2)"
+                label={
+                  <span className="tabular-nums text-xs font-bold text-[var(--riso-ink)]">
                     {Math.round(taskProgressFraction * 100)}%
                   </span>
-                </div>
-              </div>
+                }
+              />
 
               <div className="space-y-3 text-xs flex-1">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-[999px] bg-[#2F6DBB] shrink-0 border border-[#22408F]"></span>
-                    <span className="font-bold text-[#22408F]">Tâches faites</span>
+                    <span className="w-3 h-3 rounded-[999px] bg-[var(--riso-p1)] shrink-0 border border-[var(--riso-ink)]"></span>
+                    <span className="font-bold text-[var(--riso-ink)] lowercase">tâches faites</span>
                   </div>
-                  <div className="tabular-nums text-[#5A6A94] pl-5 text-[11px] mt-0.5">
-                    <strong className="text-[#22408F]">{completedTasks}</strong> sur {totalTasks} ({Math.round(taskProgressFraction * 100)}%)
+                  <div className="tabular-nums text-[var(--riso-ink-secondary)] pl-5 text-[11px] mt-0.5">
+                    <strong className="text-[var(--riso-ink)]">{completedTasks}</strong> sur {totalTasks} ({Math.round(taskProgressFraction * 100)}%)
                   </div>
                 </div>
 
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-[999px] bg-[#2E8B4A] shrink-0 border border-[#22408F]"></span>
-                    <span className="font-bold text-[#22408F]">Heures réalisées</span>
+                    <span className="w-3 h-3 rounded-[999px] bg-[var(--riso-p2)] shrink-0 border border-[var(--riso-ink)]"></span>
+                    <span className="font-bold text-[var(--riso-ink)] lowercase">heures réalisées</span>
                   </div>
-                  <div className="tabular-nums text-[#5A6A94] pl-5 text-[11px] mt-0.5">
-                    <strong className="text-[#22408F]">{formatHours(actualHoursDone)}</strong> sur {targetTotalHours} h ({Math.round(hoursProgressFraction * 100)}%)
+                  <div className="tabular-nums text-[var(--riso-ink-secondary)] pl-5 text-[11px] mt-0.5">
+                    <strong className="text-[var(--riso-ink)]">{formatHours(actualHoursDone)}</strong> sur {targetTotalHours} h ({Math.round(hoursProgressFraction * 100)}%)
                   </div>
                 </div>
               </div>
-            </div>
+            </Card>
 
             {/* Prochain objectif */}
             {nextMilestone && (
-              <div
+              <Card
+                variant="default"
+                radius="sm"
+                interactive
                 onClick={() => setActiveTab('parcours')}
-                className="riso-card riso-clickable p-4 flex items-center justify-between gap-3 group"
+                className="p-4 flex items-center justify-between gap-3 group"
               >
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-9 h-9 rounded-[8px] bg-[#FEFCE8] text-[#22408F] flex items-center justify-center shrink-0 border-2 border-[#22408F]">
-                    <Flag className="w-4 h-4 text-[#22408F]" />
+                  <div className="w-9 h-9 rounded-[8px] bg-[var(--riso-p3-light)] text-[var(--riso-ink)] flex items-center justify-center shrink-0 border-2 border-[var(--riso-ink)]">
+                    <IconJalon size={18} className="text-[var(--riso-ink)]" />
                   </div>
                   <div className="min-w-0 truncate">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#5A6A94] block">
-                      Prochain objectif
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-[var(--riso-ink-secondary)] block">
+                      prochain objectif
                     </span>
-                    <span className="font-bold text-[#22408F] text-xs truncate block">
+                    <span className="font-bold text-[var(--riso-ink)] text-xs truncate block lowercase">
                       {nextMilestone.title}
                     </span>
-                    <span className="tabular-nums text-[11px] text-[#5A6A94]">
+                    <span className="tabular-nums text-[11px] text-[var(--riso-ink-secondary)]">
                       {formatFrenchDate(nextMilestone.calculatedDate, false)}
                     </span>
                   </div>
                 </div>
 
-                <span className="shrink-0 riso-pill bg-[#EBF1FF]">
+                <Pill variant="default" className="shrink-0 bg-[var(--riso-p1-light)]">
                   {milestoneDays === 0
-                    ? "Aujourd'hui"
+                    ? "aujourd'hui"
                     : milestoneDays === 1
                     ? 'demain'
                     : milestoneDays! < 0
                     ? `dépassé (${Math.abs(milestoneDays!)} j)`
                     : `dans ${milestoneDays} j`}
-                </span>
-              </div>
+                </Pill>
+              </Card>
             )}
 
             {/* Ensuite (les 3 tâches suivantes) */}
-            <div className="riso-card p-4 space-y-3">
+            <Card variant="flat" radius="sm" className="bg-white p-4 space-y-3 border-2 border-[var(--riso-line)]">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#22408F]">
-                  Ensuite
+                <span className="text-xs font-bold uppercase tracking-wider text-[var(--riso-ink)]">
+                  ensuite
                 </span>
-                <span className="text-[11px] tabular-nums text-[#5A6A94] font-bold">
+                <span className="text-[11px] tabular-nums text-[var(--riso-ink-secondary)] font-bold">
                   {pendingTasks.length > 1 ? `${Math.min(3, pendingTasks.length - 1)} tâche(s)` : '0 tâche'}
                 </span>
               </div>
 
               {nextThreeTasks.length === 0 ? (
-                <p className="text-xs text-[#5A6A94] py-2">
-                  Aucune autre tâche en attente.
+                <p className="text-xs text-[var(--riso-ink-secondary)] py-2">
+                  aucune autre tâche en attente.
                 </p>
               ) : (
                 <div className="space-y-2">
@@ -850,29 +723,27 @@ export const TodaySection: React.FC = () => {
                           const targetIdx = pendingTasks.findIndex((pt) => pt.id === t.id);
                           if (targetIdx !== -1) setCurrentIndex(targetIdx);
                         }}
-                        className="p-2.5 rounded-[8px] border-2 border-[#22408F]/20 hover:border-[#22408F] hover:bg-[#EBF1FF] transition-all cursor-pointer flex items-center justify-between gap-3 group"
-                        title="Cliquer pour passer en tâche active"
+                        className="p-2.5 rounded-[8px] border-2 border-[var(--riso-line)] hover:border-[var(--riso-ink)] hover:bg-[var(--riso-p1-light)] transition-all cursor-pointer flex items-center justify-between gap-3 group min-h-[44px]"
+                        title="cliquer pour passer en tâche active"
                       >
                         <div className="flex items-center gap-2.5 min-w-0">
                           <span
-                            className="w-2.5 h-2.5 rounded-[999px] shrink-0 border border-[#22408F]"
+                            className="w-2.5 h-2.5 rounded-[999px] shrink-0 border border-[var(--riso-ink)]"
                             style={{ backgroundColor: tPhaseColor.hex }}
                           ></span>
-                          <span className="font-bold text-xs text-[#22408F] truncate">
+                          <span className="font-bold text-xs text-[var(--riso-ink)] truncate lowercase">
                             {t.title}
                           </span>
                         </div>
 
                         <div className="flex items-center gap-2 shrink-0">
                           {settings.mode === 'groupe' && t.assignee && (
-                            <span className="w-5 h-5 rounded-[999px] bg-[#EBF1FF] text-[#22408F] border border-[#22408F] flex items-center justify-center text-[10px] font-bold">
-                              {getAssigneeInitials(t.assignee)}
-                            </span>
+                            <AssigneeAvatar assignee={t.assignee} size={20} />
                           )}
-                          <span className="tabular-nums text-[11px] font-bold text-[#22408F] bg-[#FBFAF6] border border-[#22408F] px-1.5 py-0.5 rounded-[8px]">
+                          <span className="tabular-nums text-[11px] font-bold text-[var(--riso-ink)] bg-[var(--riso-paper)] border border-[var(--riso-line)] px-1.5 py-0.5 rounded-[8px]">
                             {t.durationMinutes} min
                           </span>
-                          <span className="text-sm font-bold text-[#22408F] group-hover:translate-x-0.5 transition-transform">
+                          <span className="text-sm font-bold text-[var(--riso-ink)] group-hover:translate-x-0.5 transition-transform">
                             ›
                           </span>
                         </div>
@@ -881,19 +752,22 @@ export const TodaySection: React.FC = () => {
                   })}
                 </div>
               )}
-            </div>
+            </Card>
 
             {/* Sessions de la semaine */}
-            <div
+            <Card
+              variant="default"
+              radius="sm"
+              interactive
               onClick={() => setActiveTab('sessions')}
-              className="riso-card p-4 hover:translate-y-[-1px] transition-all cursor-pointer space-y-3 group"
+              className="p-4 space-y-3 group"
             >
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#22408F]">
-                  Sessions de la semaine
+                <span className="text-xs font-bold uppercase tracking-wider text-[var(--riso-ink)]">
+                  sessions de la semaine
                 </span>
-                <span className="btn-riso-discreet text-xs">
-                  <span>Voir l'agenda</span>
+                <span className="text-xs text-[var(--riso-ink)] font-bold flex items-center gap-1 hover:underline">
+                  <span>voir l'agenda</span>
                   <ChevronRight className="w-3.5 h-3.5" />
                 </span>
               </div>
@@ -903,10 +777,10 @@ export const TodaySection: React.FC = () => {
                 {currentWeekDays.map((day) => (
                   <div
                     key={day.iso}
-                    className={`p-2 rounded-[8px] border-2 transition-colors ${
+                    className={`p-2 rounded-[8px] border-2 transition-colors min-h-[44px] ${
                       day.isToday
-                        ? 'bg-[#EBF1FF] border-[#22408F] font-bold text-[#22408F]'
-                        : 'bg-[#FBFAF6] border-[#22408F]/20 text-[#5A6A94] hover:border-[#22408F]'
+                        ? 'bg-[var(--riso-p1-light)] border-[var(--riso-ink)] font-bold text-[var(--riso-ink)]'
+                        : 'bg-[var(--riso-paper)] border-[var(--riso-line)] text-[var(--riso-ink-secondary)] hover:border-[var(--riso-ink)]'
                     }`}
                   >
                     <span className="text-[11px] uppercase block font-bold">
@@ -919,8 +793,8 @@ export const TodaySection: React.FC = () => {
                       {day.sessions.slice(0, 3).map((s) => (
                         <span
                           key={s.id}
-                          className={`w-2 h-2 rounded-[999px] border border-[#22408F] ${
-                            s.status === 'realisee' ? 'bg-[#2E8B4A]' : 'bg-[#2F6DBB]'
+                          className={`w-2 h-2 rounded-[999px] border border-[var(--riso-ink)] ${
+                            s.status === 'realisee' ? 'bg-[var(--riso-p2)]' : 'bg-[var(--riso-p1)]'
                           }`}
                         ></span>
                       ))}
@@ -928,7 +802,7 @@ export const TodaySection: React.FC = () => {
                   </div>
                 ))}
               </div>
-            </div>
+            </Card>
           </div>
         </div>
       </div>
@@ -936,25 +810,25 @@ export const TodaySection: React.FC = () => {
       {/* Modal : Ajouter un rendu intermédiaire / Nouvel objectif */}
       {isAddIntermediateOpen && (
         <div
-          className="fixed inset-0 z-50 bg-[#22408F]/40 backdrop-blur-2xs flex items-center justify-center p-4 animate-in fade-in duration-150"
+          className="fixed inset-0 z-50 bg-[var(--riso-ink)]/40 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-150"
           onClick={() => setIsAddIntermediateOpen(false)}
         >
           <div
-            className="bg-white rounded-2xl max-w-md w-full border-2 border-[#22408F] shadow-[0_6px_0_#22408F] max-h-[90vh] flex flex-col overflow-hidden"
+            className="bg-white rounded-[16px] max-w-md w-full border-2 border-[var(--riso-ink)] shadow-[var(--shadow)] max-h-[90vh] flex flex-col overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="px-6 py-4 bg-[#FBFAF6] border-b-2 border-[#22408F] flex items-center justify-between shrink-0">
+            <div className="px-6 py-4 bg-[var(--riso-paper)] border-b-2 border-[var(--riso-ink)] flex items-center justify-between shrink-0">
               <div className="flex items-center gap-2">
-                <Flag className="w-4 h-4 text-[#22408F]" />
-                <h3 className="font-bold text-sm text-[#22408F] font-heading">
-                  Nouvel objectif : Rendu intermédiaire
+                <Flag className="w-4 h-4 text-[var(--riso-ink)]" />
+                <h3 className="font-bold text-sm text-[var(--riso-ink)] font-heading lowercase">
+                  nouvel objectif : rendu intermédiaire
                 </h3>
               </div>
               <button
                 type="button"
                 onClick={() => setIsAddIntermediateOpen(false)}
-                className="p-1.5 text-[#5A6A94] hover:text-[#22408F] rounded-lg hover:bg-[#EBF1FF] transition-colors cursor-pointer"
-                aria-label="Fermer"
+                className="p-1.5 text-[var(--riso-ink-secondary)] hover:text-[var(--riso-ink)] rounded-[8px] hover:bg-[var(--riso-p1-light)] transition-colors cursor-pointer"
+                aria-label="fermer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -963,40 +837,40 @@ export const TodaySection: React.FC = () => {
             <form onSubmit={handleCreateIntermediate} className="flex-1 overflow-y-auto p-6 space-y-4 text-xs flex flex-col justify-between">
               <div className="space-y-4">
                 <div>
-                  <label className="block font-bold text-[#22408F] mb-1">
-                    Intitulé de l'objectif <span className="text-[#F0505A]">*</span>
+                  <label className="block font-bold text-[var(--riso-ink)] mb-1 lowercase">
+                    intitulé de l'objectif <span className="text-[var(--riso-p4)]">*</span>
                   </label>
                   <input
                     type="text"
                     value={newIntermediateTitle}
                     onChange={(e) => setNewIntermediateTitle(e.target.value)}
-                    placeholder="ex: Rendu intermédiaire, Revue de maquette…"
-                    className="w-full px-3 py-2 bg-white border-2 border-[#22408F]/30 rounded-lg text-[#22408F] font-medium focus:border-[#22408F] focus:outline-none"
+                    placeholder="ex: rendu intermédiaire, revue de maquette…"
+                    className="w-full px-3 py-2 bg-white border-2 border-[var(--riso-line)] rounded-[8px] text-[var(--riso-ink)] font-medium focus:border-[var(--riso-ink)] focus:outline-none focus:ring-3 focus:ring-[var(--riso-p3)] min-h-[44px]"
                     autoFocus
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block font-bold text-[#22408F] mb-1">
-                      Date cible <span className="text-[#F0505A]">*</span>
+                    <label className="block font-bold text-[var(--riso-ink)] mb-1 lowercase">
+                      date cible <span className="text-[var(--riso-p4)]">*</span>
                     </label>
                     <input
                       type="date"
                       value={newIntermediateDate}
                       onChange={(e) => setNewIntermediateDate(e.target.value)}
-                      className="w-full px-3 py-2 bg-white border-2 border-[#22408F]/30 rounded-lg text-[#22408F] font-medium focus:border-[#22408F] focus:outline-none"
+                      className="w-full px-3 py-2 bg-white border-2 border-[var(--riso-line)] rounded-[8px] text-[var(--riso-ink)] font-medium focus:border-[var(--riso-ink)] focus:outline-none focus:ring-3 focus:ring-[var(--riso-p3)] min-h-[44px]"
                     />
                   </div>
 
                   <div>
-                    <label className="block font-bold text-[#22408F] mb-1">
-                      Phase associée
+                    <label className="block font-bold text-[var(--riso-ink)] mb-1 lowercase">
+                      phase associée
                     </label>
                     <select
                       value={newIntermediatePhaseId}
                       onChange={(e) => setNewIntermediatePhaseId(e.target.value)}
-                      className="w-full px-3 py-2 bg-white border-2 border-[#22408F]/30 rounded-lg text-[#22408F] font-medium focus:border-[#22408F] focus:outline-none"
+                      className="w-full px-3 py-2 bg-white border-2 border-[var(--riso-line)] rounded-[8px] text-[var(--riso-ink)] font-medium focus:border-[var(--riso-ink)] focus:outline-none focus:ring-3 focus:ring-[var(--riso-p3)] min-h-[44px]"
                     >
                       {phases.map((p) => (
                         <option key={p.id} value={p.id}>
@@ -1008,34 +882,36 @@ export const TodaySection: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block font-bold text-[#22408F] mb-1">
-                    Notes (facultatif)
+                  <label className="block font-bold text-[var(--riso-ink)] mb-1 lowercase">
+                    notes (facultatif)
                   </label>
                   <textarea
                     rows={2}
                     value={newIntermediateNotes}
                     onChange={(e) => setNewIntermediateNotes(e.target.value)}
-                    placeholder="Critères d'évaluation, livrables attendus…"
-                    className="w-full px-3 py-2 bg-white border-2 border-[#22408F]/30 rounded-lg text-[#22408F] focus:border-[#22408F] focus:outline-none"
+                    placeholder="critères d'évaluation, livrables attendus…"
+                    className="w-full px-3 py-2 bg-white border-2 border-[var(--riso-line)] rounded-[8px] text-[var(--riso-ink)] focus:border-[var(--riso-ink)] focus:outline-none focus:ring-3 focus:ring-[var(--riso-p3)]"
                   />
                 </div>
               </div>
 
-              <div className="flex items-center justify-end gap-2 pt-3 border-t border-[#DCE2EF] shrink-0 mt-4">
-                <button
+              <div className="flex items-center justify-end gap-2 pt-3 border-t-2 border-[var(--riso-line)] shrink-0 mt-4">
+                <Button
                   type="button"
+                  variant="secondary"
+                  size="sm"
                   onClick={() => setIsAddIntermediateOpen(false)}
-                  className="btn-riso-secondary py-2 px-3.5 text-xs"
                 >
-                  Annuler
-                </button>
-                <button
+                  annuler
+                </Button>
+                <Button
                   type="submit"
+                  variant="primary"
+                  size="sm"
                   disabled={!newIntermediateTitle.trim()}
-                  className="btn-riso-primary py-2 px-4 text-xs"
                 >
-                  Créer l'objectif
-                </button>
+                  créer l'objectif
+                </Button>
               </div>
             </form>
           </div>

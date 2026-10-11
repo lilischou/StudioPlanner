@@ -1,5 +1,47 @@
 @import "tailwindcss";
 
+@theme {
+  --color-riso-paper: #FBFAF6;
+  --color-riso-card: #FFFFFF;
+  --color-riso-ink: #22408F;
+  --color-riso-ink-secondary: #5A6A94;
+  --color-riso-ink-subtle: #8C9BBD;
+  --color-riso-line: #DCE2EF;
+
+  --color-riso-p1: #2F6DBB;
+  --color-riso-p2: #2E8B4A;
+  --color-riso-p3: #F2D21B;
+  --color-riso-p4: #F0505A;
+  --color-riso-p5: #F2661F;
+  --color-riso-p6: #7A4A9E;
+
+  --color-riso-p1-tint: #D3E0F2;
+  --color-riso-p2-tint: #D3E8DA;
+  --color-riso-p3-tint: #FCF3C4;
+  --color-riso-p4-tint: #FAD7DA;
+  --color-riso-p5-tint: #FCDCCB;
+  --color-riso-p6-tint: #E2D8EE;
+
+  --color-riso-p1-light: #D1DFF0;
+  --color-riso-p2-light: #D1E5D7;
+  --color-riso-p3-light: #FCF5CD;
+  --color-riso-p4-light: #FCD8DB;
+  --color-riso-p5-light: #FCDDCE;
+  --color-riso-p6-light: #E2D7EA;
+
+  --color-riso-p4-text: #C4111C;
+  --color-riso-p5-text: #B8410A;
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 999px;
+
+  --shadow-riso: 0 4px 0 #22408F;
+  --shadow-riso-press: 0 2px 0 #22408F;
+  --shadow-riso-primary: 0 4px 0 #F0505A;
+}
+
 @layer base {
   :root {
     /* Couleurs Riso fondamentales */
@@ -17,13 +59,48 @@
     --riso-p5: #F2661F;
     --riso-p6: #7A4A9E;
 
-    /* Pastels phases */
-    --riso-p1-light: #EBF2FB;
-    --riso-p2-light: #EAF6EE;
-    --riso-p3-light: #FEFCE8;
-    --riso-p4-light: #FDEEEF;
-    --riso-p5-light: #FEF0E9;
-    --riso-p6-light: #F3EEF8;
+    /* Pastels phases (selon planche Riso) */
+    --riso-p1-light: #D1DFF0;
+    --riso-p2-light: #D1E5D7;
+    --riso-p3-light: #FCF5CD;
+    --riso-p4-light: #FCD8DB;
+    --riso-p5-light: #FCDDCE;
+    --riso-p6-light: #E2D7EA;
+
+    /* Textes contrastés phases */
+    --riso-p1-text: #2A61A7;
+    --riso-p2-text: #246C3A;
+    --riso-p3-text: #7C6B07;
+    --riso-p4-text: #C4111C;
+    --riso-p5-text: #B8410A;
+    --riso-p6-text: #77489B;
+
+    /* Nouveaux tokens de la charte d'uniformisation */
+    --riso-line: #DCE2EF;
+    --riso-p1-tint: #D3E0F2;
+    --riso-p2-tint: #D3E8DA;
+    --riso-p3-tint: #FCF3C4;
+    --riso-p4-tint: #FAD7DA;
+    --riso-p5-tint: #FCDCCB;
+    --riso-p6-tint: #E2D8EE;
+
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-full: 999px;
+
+    --border: 2px solid var(--riso-ink);
+    --shadow: 0 4px 0 var(--riso-ink);
+    --shadow-press: 0 2px 0 var(--riso-ink);
+    --shadow-primary: 0 4px 0 var(--riso-p4);
+
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-12: 48px;
   }
 
   body {
@@ -50,6 +127,62 @@
     background: #F2D21B;
     color: #22408F;
   }
+}
+
+/* ============================================================ */
+/* TYPOGRAPHIE CHARTE STUDIO PLANNER                            */
+/* ============================================================ */
+.t-display {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 44px;
+  letter-spacing: -0.5px;
+}
+
+.t-h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 34px;
+}
+
+.t-h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 26px;
+}
+
+.t-item {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 24px;
+}
+
+.t-body {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.t-small {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--riso-ink-secondary);
+}
+
+.t-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 /* ============================================================ */

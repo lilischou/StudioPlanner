@@ -328,22 +328,24 @@ export function migrateProjectData(project: ProjectData): ProjectData {
       }
     } else {
       // Normalisation des champs et correction des phases (3 phases de base)
-      // Point 1 : P1 Exploration (bleu), P2 Idéation (jaune), P3 Finalisation (violet)
-      // Correction du renommage erroné de la phase 1 en « Idéation »
       p.phases = p.phases.map((ph, idx) => {
-        let nom = ph.nom || ph.name || `Phase ${idx + 1}`;
+        let nom = (ph.nom || ph.name || '').trim();
         let couleur = ph.couleur || ph.color;
 
-        if (ph.id === 'p1' || idx === 0) {
-          // Phase 1 : Exploration (bleu), correction si renommée Idéation par erreur
-          nom = 'Exploration';
-          couleur = 'blue';
-        } else if (ph.id === 'p2' || idx === 1) {
-          nom = 'Idéation';
-          couleur = 'yellow';
-        } else if (ph.id === 'p3' || idx === 2) {
-          nom = 'Finalisation';
-          couleur = 'purple';
+        // Ne force le nom QUE si la phase n'a ni nom ni name. Ne touche pas aux couleurs choisies.
+        if (!nom) {
+          if (ph.id === 'p1' || idx === 0) {
+            nom = 'Exploration';
+            if (!couleur) couleur = 'blue';
+          } else if (ph.id === 'p2' || idx === 1) {
+            nom = 'Idéation';
+            if (!couleur) couleur = 'yellow';
+          } else if (ph.id === 'p3' || idx === 2) {
+            nom = 'Finalisation';
+            if (!couleur) couleur = 'purple';
+          } else {
+            nom = `Phase ${idx + 1}`;
+          }
         }
 
         const colorEntry = getPhaseColor((couleur as string) || (ph.color as string) || ph.id);
@@ -363,7 +365,7 @@ export function migrateProjectData(project: ProjectData): ProjectData {
           number: ph.number ?? idx + 1,
           nom,
           name: nom,
-          shortName: nom,
+          shortName: ph.shortName || nom,
           couleur,
           color,
           debut,
