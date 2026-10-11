@@ -15,6 +15,7 @@ import { proposerAction, simplifierAction, isAiEnabled } from '../../ai/gemini';
 import { formatISODate } from '../../utils/dateCalculations';
 import { toLocalYMD } from '../../utils/localDate';
 import { buildGoogleCalendarUrl } from '../../utils/calendarLink';
+import { de } from '../../utils/francais';
 
 interface InertiaActionModalProps {
   isOpen: boolean;
@@ -212,8 +213,9 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
     }
 
     // Repli sans IA pour P3
-    const phaseName = currentPhase?.nom || currentPhase?.name || 'la phase';
-    setActionText(`Fais un point sur ton livrable de ${phaseName}`);
+    const rawPhaseName = currentPhase?.nom || currentPhase?.name || 'Exploration';
+    const phaseName = rawPhaseName.charAt(0).toUpperCase() + rawPhaseName.slice(1);
+    setActionText(`Fais un point sur ton livrable ${de(phaseName)}${phaseName}`);
     setDureeMinutes(25);
     setOriginalDureeMinutes(25);
   };
@@ -236,9 +238,12 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
       }
     }
 
-    // Repli sans IA : garde le même texte préfixé par « 5 min : commence par », durée = 5
-    const prefix = '5 min : commence par ';
-    const newText = actionText.startsWith(prefix) ? actionText : `${prefix}${actionText}`;
+    // Repli sans IA : affiche l'action inchangée, précédée de « 5 min seulement : », durée = 5
+    const prefix = '5 min seulement : ';
+    const cleanAction = actionText
+      .replace(/^5 min : commence par\s*/i, '')
+      .replace(/^5 min seulement :\s*/i, '');
+    const newText = `${prefix}${cleanAction}`;
     setActionText(newText.slice(0, 90));
     setDureeMinutes(5);
   };
