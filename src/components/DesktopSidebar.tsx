@@ -9,7 +9,6 @@ import {
   HelpCircle,
   FolderKanban,
   ChevronDown,
-  Plus,
   Settings,
 } from 'lucide-react';
 
@@ -146,8 +145,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
                 }}
                 className="w-full text-left px-3 py-2 hover:bg-[#EBF1FF] flex items-center gap-2 text-[#22408F] font-bold transition-colors cursor-pointer"
               >
-                <Plus className="w-4 h-4 text-[#22408F]" />
-                <span>Nouveau projet</span>
+                <span>+ Nouveau projet</span>
               </button>
 
               <button

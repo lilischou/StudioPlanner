@@ -15,6 +15,7 @@ import {
   X,
   BookOpen,
   Trash2,
+  Pencil,
 } from 'lucide-react';
 import {
   diffInDays,
@@ -45,6 +46,7 @@ export const SessionsSection: React.FC = () => {
   const [selectedSession, setSelectedSession] = useState<WorkSession | null>(null);
   const [actualDurationInput, setActualDurationInput] = useState<number>(2);
   const [moveDateInput, setMoveDateInput] = useState<string>('');
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
 
   // Floating "+" Add Session Modal state
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -140,6 +142,7 @@ export const SessionsSection: React.FC = () => {
 
   const handleOpenSessionSheet = (session: WorkSession) => {
     setSelectedSession(session);
+    setIsEditingTitle(false);
     setActualDurationInput(
       session.actualDurationHours || session.plannedDurationHours || 2
     );
@@ -454,14 +457,41 @@ export const SessionsSection: React.FC = () => {
             >
               <div className="w-12 h-1 bg-[#22408F]/30 rounded-[999px] mx-auto -mt-2 mb-2 shrink-0"></div>
 
-              <div className="flex items-start justify-between shrink-0">
-                <div>
+              <div className="flex items-start justify-between shrink-0 gap-2">
+                <div className="flex-1 min-w-0">
                   <span className="text-xs font-bold text-[#5A6A94] uppercase tracking-wider block">
                     Session {getSessionTypeLabel(selectedSession.type)} · {selectedSession.plannedDurationHours} h
                   </span>
-                  <h3 className="text-base font-bold text-[#22408F] mt-0.5 font-heading">
-                    {selectedSession.objective}
-                  </h3>
+                  {isEditingTitle ? (
+                    <input
+                      type="text"
+                      autoFocus
+                      value={selectedSession.objective}
+                      onChange={(e) => {
+                        const newObjective = e.target.value;
+                        updateSession(selectedSession.id, { objective: newObjective });
+                        setSelectedSession((prev) =>
+                          prev ? { ...prev, objective: newObjective } : null
+                        );
+                      }}
+                      onBlur={() => setIsEditingTitle(false)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          setIsEditingTitle(false);
+                        }
+                      }}
+                      className="w-full mt-1 px-2.5 py-1 bg-white border-2 border-[#22408F] rounded-[8px] text-sm font-bold text-[#22408F] focus:outline-none"
+                    />
+                  ) : (
+                    <h3
+                      onClick={() => setIsEditingTitle(true)}
+                      title="Cliquer pour modifier le titre"
+                      className="text-base font-bold text-[#22408F] mt-0.5 font-heading cursor-pointer hover:underline flex items-center gap-1.5 group"
+                    >
+                      <span className="truncate">{selectedSession.objective || 'Sans titre'}</span>
+                      <Pencil className="w-3.5 h-3.5 text-[#5A6A94] opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+                    </h3>
+                  )}
                 </div>
                 <button
                   type="button"
@@ -786,14 +816,41 @@ export const SessionsSection: React.FC = () => {
               className="w-[420px] max-w-full h-full bg-white shadow-2xl p-7 border-l-2 border-[#22408F] overflow-y-auto animate-in slide-in-from-right duration-200 space-y-6"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="pb-4 border-b-2 border-[#22408F]/20 flex items-start justify-between">
-                <div>
+              <div className="pb-4 border-b-2 border-[#22408F]/20 flex items-start justify-between gap-3">
+                <div className="flex-1 min-w-0">
                   <span className="text-xs font-bold text-[#5A6A94] uppercase tracking-wider block">
                     Session {getSessionTypeLabel(selectedSession.type)} · {selectedSession.plannedDurationHours} h
                   </span>
-                  <h3 className="text-xl font-bold text-[#22408F] mt-1 font-heading">
-                    {selectedSession.objective}
-                  </h3>
+                  {isEditingTitle ? (
+                    <input
+                      type="text"
+                      autoFocus
+                      value={selectedSession.objective}
+                      onChange={(e) => {
+                        const newObjective = e.target.value;
+                        updateSession(selectedSession.id, { objective: newObjective });
+                        setSelectedSession((prev) =>
+                          prev ? { ...prev, objective: newObjective } : null
+                        );
+                      }}
+                      onBlur={() => setIsEditingTitle(false)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          setIsEditingTitle(false);
+                        }
+                      }}
+                      className="w-full mt-1 px-2.5 py-1 bg-white border-2 border-[#22408F] rounded-[8px] text-base font-bold text-[#22408F] focus:outline-none"
+                    />
+                  ) : (
+                    <h3
+                      onClick={() => setIsEditingTitle(true)}
+                      title="Cliquer pour modifier le titre"
+                      className="text-xl font-bold text-[#22408F] mt-1 font-heading cursor-pointer hover:underline flex items-center gap-2 group"
+                    >
+                      <span>{selectedSession.objective || 'Sans titre'}</span>
+                      <Pencil className="w-4 h-4 text-[#5A6A94] opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+                    </h3>
+                  )}
                   <p className="text-xs text-[#5A6A94] tabular-nums mt-0.5">
                     Date prévue : {formatFrenchDate(selectedSession.date, false)}
                   </p>

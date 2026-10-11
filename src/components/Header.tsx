@@ -5,7 +5,6 @@ import {
   AlertTriangle,
   Menu,
   X,
-  Plus,
   TableProperties,
   Settings,
   HelpCircle,
@@ -235,7 +234,6 @@ export const Header: React.FC<HeaderProps> = ({
                   }}
                   className="btn-riso-primary w-full text-xs justify-center py-2.5 cursor-pointer"
                 >
-                  <Plus className="w-4 h-4 stroke-[2.5]" />
                   <span>+ Nouveau projet</span>
                 </button>
 

@@ -170,7 +170,7 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
         const lastTraceWithNext = [...logbook]
           .reverse()
           .find((tr) => (tr.nextStep && tr.nextStep.trim().length > 0) || (tr.decided && tr.decided.trim().length > 0));
-        saved = lastTraceWithNext?.nextStep || lastTraceWithNext?.decided || localStorage.getItem('studioplanner_next_step');
+        saved = lastTraceWithNext?.nextStep || lastTraceWithNext?.decided || null;
       }
       if (saved && saved.trim().length > 0) {
         setActionText(saved.trim().slice(0, 90));
@@ -389,18 +389,16 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
       tags: ['seance', 'je-m-y-mets'],
     });
 
-    // Seule cette case passe la tâche en « fait », et Pause n'enregistre jamais la tâche faite
-    if (!isPause && isTaskCompleted && matchedTaskId) {
+    // Si « Tâche terminée » est cochée, la tâche passe en « fait » quel que soit le bouton (Prochaine étape ou Pause)
+    if (isTaskCompleted && matchedTaskId) {
       updateTask(matchedTaskId, { status: 'fait' });
     }
 
     const nextStepKey = `studioplanner_next_step_${activeProject.id}`;
     if (nextStep.trim().length > 0) {
       localStorage.setItem(nextStepKey, nextStep.trim());
-      localStorage.setItem('studioplanner_next_step', nextStep.trim());
     } else {
       localStorage.removeItem(nextStepKey);
-      localStorage.removeItem('studioplanner_next_step');
     }
 
     return true;
