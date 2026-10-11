@@ -1,7 +1,8 @@
 import React from 'react';
 import { useProject, TabType } from '../context/ProjectContext';
 import {
-  Sparkles,
+  Sun,
+  Layers,
   Clock,
   BookOpen,
   Plus,
@@ -38,7 +39,7 @@ export const BottomNav: React.FC = () => {
                 : ''
             }`}
           >
-            <Sparkles className="w-4 h-4" />
+            <Sun className="w-4 h-4" />
           </div>
           <span className="text-[11px] tracking-tight leading-none mt-0.5 lowercase font-bold">
             aujourd'hui
@@ -63,7 +64,7 @@ export const BottomNav: React.FC = () => {
                 : ''
             }`}
           >
-            <span className="text-sm leading-none font-bold block px-0.5">◇</span>
+            <Layers className="w-4 h-4" />
           </div>
           <span className="text-[11px] tracking-tight leading-none mt-0.5 lowercase font-bold">
             parcours

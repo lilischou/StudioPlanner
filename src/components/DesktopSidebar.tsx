@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useProject, TabType } from '../context/ProjectContext';
 import {
-  Sparkles,
+  Sun,
+  Layers,
   Clock,
   BookOpen,
   TableProperties,
@@ -35,8 +36,8 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
   const [projectMenuOpen, setProjectMenuOpen] = useState(false);
 
   const tabs: { id: TabType; label: string; icon: React.ReactNode; shortcut: string }[] = [
-    { id: 'aujourdhui', label: "aujourd'hui", icon: <Sparkles className="w-5 h-5" />, shortcut: '1' },
-    { id: 'parcours', label: 'parcours', icon: <span className="text-base font-bold leading-none w-5 h-5 flex items-center justify-center">◇</span>, shortcut: '2' },
+    { id: 'aujourdhui', label: "aujourd'hui", icon: <Sun className="w-5 h-5" />, shortcut: '1' },
+    { id: 'parcours', label: 'parcours', icon: <Layers className="w-5 h-5" />, shortcut: '2' },
     { id: 'sessions', label: 'sessions', icon: <Clock className="w-5 h-5" />, shortcut: '3' },
     { id: 'journal', label: 'journal', icon: <BookOpen className="w-5 h-5" />, shortcut: '4' },
   ];
