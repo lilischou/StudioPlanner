@@ -43,7 +43,7 @@ export const LegendModal: React.FC<LegendModalProps> = ({ isOpen, onClose }) => 
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-[var(--riso-ink)]/40 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="bg-white rounded-[16px] max-w-3xl w-full border-2 border-[var(--riso-ink)] shadow-[0_4px_0_var(--riso-ink)] max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150 text-[var(--riso-ink)]">
+      <div className="bg-white rounded-[16px] max-w-3xl w-full border-2 border-[var(--riso-ink)] shadow-riso max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150 text-[var(--riso-ink)]">
         {/* Entête avec onglets Aide / Charte */}
         <div className="flex items-center justify-between px-6 py-3 border-b-2 border-[var(--riso-ink)] bg-[var(--riso-paper)] shrink-0">
           <div className="flex items-center gap-2">
@@ -52,7 +52,7 @@ export const LegendModal: React.FC<LegendModalProps> = ({ isOpen, onClose }) => 
               onClick={() => setActiveTab('aide')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-[999px] text-xs font-bold transition-all cursor-pointer ${
                 activeTab === 'aide'
-                  ? 'bg-[var(--riso-ink)] text-white shadow-[0_2px_0_var(--riso-ink)]'
+                  ? 'bg-[var(--riso-ink)] text-white shadow-riso-press'
                   : 'text-[var(--riso-ink-secondary)] hover:text-[var(--riso-ink)]'
               }`}
             >
@@ -65,7 +65,7 @@ export const LegendModal: React.FC<LegendModalProps> = ({ isOpen, onClose }) => 
               onClick={() => setActiveTab('charte')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-[999px] text-xs font-bold transition-all cursor-pointer ${
                 activeTab === 'charte'
-                  ? 'bg-[var(--riso-ink)] text-white shadow-[0_2px_0_var(--riso-ink)]'
+                  ? 'bg-[var(--riso-ink)] text-white shadow-riso-press'
                   : 'text-[var(--riso-ink-secondary)] hover:text-[var(--riso-ink)]'
               }`}
             >
@@ -245,7 +245,7 @@ export const LegendModal: React.FC<LegendModalProps> = ({ isOpen, onClose }) => 
             <div className="space-y-3">
               <span className="t-label block text-[var(--riso-ink-secondary)]">7. Progression & Notifications</span>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-                <div className="bg-white border-2 border-[var(--riso-ink)] rounded-[8px] p-4 flex items-center gap-4 shadow-[0_4px_0_var(--riso-ink)]">
+                <div className="bg-white border-2 border-[var(--riso-ink)] rounded-[8px] p-4 flex items-center gap-4 shadow-riso">
                   <ProgressRing outerFraction={5 / 11} innerFraction={10.75 / 28} />
                   <div>
                     <h4 className="font-bold font-heading text-sm text-[var(--riso-ink)]">5 / 11 tâches</h4>

@@ -259,14 +259,14 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
     const isDone = task.status === 'fait';
     const daysDiff = task.deadline ? diffInDays(todayISO, task.deadline) : null;
 
-    let datePillStyle = 'bg-[#FBFAF6] border-[#22408F]/20 text-[#22408F]';
+    let datePillStyle = 'bg-riso-paper border-riso-line text-riso-ink';
     if (daysDiff !== null) {
       if (daysDiff < 0) {
-        datePillStyle = 'bg-[#FEEAEB] border-[#F0505A] text-[#F0505A]';
+        datePillStyle = 'bg-riso-p4-light border-riso-p4 text-riso-p4';
       } else if (daysDiff <= 7) {
-        datePillStyle = 'bg-[#FEF0E9] border-[#F2661F] text-[#F2661F]';
+        datePillStyle = 'bg-riso-p5-light border-riso-p5 text-riso-p5';
       } else {
-        datePillStyle = 'bg-[#EBF1FF] border-[#22408F]/40 text-[#22408F]';
+        datePillStyle = 'bg-riso-p1-light border-riso-line text-riso-ink';
       }
     }
 
@@ -274,7 +274,7 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
       <div
         key={task.id}
         onClick={() => handleToggleTask(task)}
-        className="bg-white border-2 border-[#22408F] rounded-xl p-3.5 sm:p-4 shadow-[0_4px_0_#22408F] hover:shadow-[0_6px_0_#22408F] hover:-translate-y-0.5 active:translate-y-1 active:shadow-none transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 cursor-pointer group select-none"
+        className="bg-white border-2 border-riso-ink rounded-[16px] p-3.5 sm:p-4 shadow-riso hover:shadow-riso hover:-translate-y-0.5 active:translate-y-1 active:shadow-none transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 cursor-pointer group select-none"
       >
         <div className="flex items-start gap-3 min-w-0 flex-1">
           {/* Grande case à cocher */}
@@ -284,10 +284,10 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
               e.stopPropagation();
               handleToggleTask(task);
             }}
-            className={`w-6 h-6 sm:w-7 sm:h-7 rounded-lg border-2 border-[#22408F] flex items-center justify-center flex-shrink-0 transition-all cursor-pointer mt-0.5 sm:mt-0 ${
+            className={`w-6 h-6 sm:w-7 sm:h-7 rounded-[8px] border-2 border-riso-ink flex items-center justify-center flex-shrink-0 transition-all cursor-pointer mt-0.5 sm:mt-0 ${
               isDone
-                ? 'bg-[#22408F] text-white shadow-[0_2px_0_#22408F]'
-                : 'bg-white hover:bg-[#EBF1FF] shadow-[0_2px_0_#22408F]'
+                ? 'bg-riso-ink text-white shadow-riso-press'
+                : 'bg-white hover:bg-riso-p1-light shadow-riso-press'
             }`}
             aria-label={
               isDone
@@ -302,7 +302,7 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
           <div className="flex-1 min-w-0">
             <span
               className={`text-sm sm:text-base font-bold leading-snug break-words whitespace-normal font-heading ${
-                isDone ? 'line-through text-[#5A6A94] opacity-70' : 'text-[#22408F]'
+                isDone ? 'line-through text-riso-ink-secondary opacity-70' : 'text-riso-ink'
               }`}
             >
               {task.title}
@@ -320,12 +320,12 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
             </span>
           )}
 
-          <span className="px-2.5 py-1 rounded-[999px] text-xs font-mono font-bold whitespace-nowrap bg-[#FBFAF6] border border-[#22408F]/20 text-[#22408F]">
+          <span className="px-2.5 py-1 rounded-[999px] text-xs font-mono font-bold whitespace-nowrap bg-riso-paper border border-riso-line text-riso-ink">
             {formatHours(task.durationMinutes / 60)}
           </span>
 
           {settings.mode === 'groupe' && task.assignee && (
-            <span className="px-2.5 py-1 rounded-[999px] text-xs font-bold whitespace-nowrap bg-[#EBF1FF] border border-[#22408F] text-[#22408F]">
+            <span className="px-2.5 py-1 rounded-[999px] text-xs font-bold whitespace-nowrap bg-riso-p1-light border-2 border-riso-ink text-riso-ink">
               {task.assignee}
             </span>
           )}
@@ -349,9 +349,9 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
 
     return (
       <div key={groupId} className="space-y-3">
-        <div className="flex items-center justify-between pb-1 border-b-2 border-[#22408F]/20">
+        <div className="flex items-center justify-between pb-1 border-b-2 border-riso-line">
           <div className="flex items-center gap-2">
-            <h3 className="font-bold text-sm sm:text-base text-[#22408F] font-heading">
+            <h3 className="font-bold text-sm sm:text-base text-riso-ink font-heading">
               {groupTitle}
             </h3>
             <span
@@ -360,7 +360,7 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
               {groupTasks.length}
             </span>
           </div>
-          <span className="text-xs text-[#5A6A94] font-medium hidden sm:inline">
+          <span className="text-xs text-riso-ink-secondary font-medium hidden sm:inline">
             {badgeText}
           </span>
         </div>
@@ -373,7 +373,7 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
           <button
             type="button"
             onClick={() => toggleGroupExpand(groupId)}
-            className="text-xs font-bold text-[#22408F] hover:underline flex items-center gap-1.5 py-1 px-2 rounded hover:bg-[#EBF1FF] transition-all cursor-pointer"
+            className="text-xs font-bold text-riso-ink hover:underline flex items-center gap-1.5 py-1 px-2 rounded-[8px] hover:bg-riso-p1-light transition-all cursor-pointer"
           >
             {isExpanded ? (
               <span>Réduire la liste ↑</span>
@@ -387,21 +387,21 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
   };
 
   const renderAddTaskForm = () => (
-    <form onSubmit={handleAddTask} className="p-3.5 bg-[#FBFAF6] flex flex-wrap items-center gap-2.5 text-xs">
-      <span className="font-bold text-[#22408F]">+ Nouvelle action :</span>
+    <form onSubmit={handleAddTask} className="p-3.5 bg-riso-paper flex flex-wrap items-center gap-2.5 text-xs">
+      <span className="font-bold text-riso-ink">+ Nouvelle action :</span>
 
       <input
         type="text"
         placeholder="Nom de l'action (ex: Cartographier les personas)"
         value={newTitle}
         onChange={(e) => setNewTitle(e.target.value)}
-        className="flex-1 min-w-[200px] px-2.5 py-1.5 bg-white border-2 border-[#22408F]/40 focus:border-[#22408F] rounded-lg text-xs font-medium"
+        className="flex-1 min-w-[200px] px-2.5 py-1.5 bg-white border-2 border-riso-line focus:border-riso-ink rounded-[8px] text-xs font-medium"
       />
 
       <select
         value={newPhaseId}
         onChange={(e) => setNewPhaseId(e.target.value)}
-        className="px-2.5 py-1.5 bg-white border-2 border-[#22408F]/40 rounded-lg text-xs font-medium text-[#22408F]"
+        className="px-2.5 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs font-medium text-riso-ink"
       >
         {phases.map((p) => (
           <option key={p.id} value={p.id}>
@@ -414,7 +414,7 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
         <select
           value={newAssignee}
           onChange={(e) => setNewAssignee(e.target.value)}
-          className="px-2.5 py-1.5 bg-white border-2 border-[#22408F]/40 rounded-lg text-xs font-medium text-[#22408F]"
+          className="px-2.5 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs font-medium text-riso-ink"
         >
           {settings.team.map((m) => (
             <option key={m.id} value={m.name}>
@@ -429,7 +429,7 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
         type="date"
         value={newDeadline}
         onChange={(e) => setNewDeadline(e.target.value)}
-        className="px-2.5 py-1.5 bg-white border-2 border-[#22408F]/40 rounded-lg font-mono text-xs text-[#22408F]"
+        className="px-2.5 py-1.5 bg-white border-2 border-riso-line rounded-[8px] font-mono text-xs text-riso-ink"
       />
 
       <div className="flex flex-col">
@@ -451,15 +451,15 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                 setDurationError(null);
               }
             }}
-            className={`w-16 px-2 py-1.5 bg-white border-2 rounded-lg text-xs text-center font-bold ${
-              durationError ? 'border-[#F0505A] text-[#C4111C]' : 'border-[#22408F]/40 text-[#22408F]'
+            className={`w-16 px-2 py-1.5 bg-white border-2 rounded-[8px] text-xs text-center font-bold ${
+              durationError ? 'border-riso-p4 text-riso-p4-text' : 'border-riso-line text-riso-ink'
             }`}
             title="Durée en minutes (5 à 240, multiple de 5)"
           />
-          <span className="text-[#5A6A94] text-[10px]">min</span>
+          <span className="text-riso-ink-secondary text-[10px]">min</span>
         </div>
         {durationError && (
-          <span className="text-[11px] text-[#C4111C] font-bold mt-1">
+          <span className="text-[11px] text-riso-p4-text font-bold mt-1">
             {durationError}
           </span>
         )}
@@ -468,7 +468,7 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
       <select
         value={newPredecessorId}
         onChange={(e) => setNewPredecessorId(e.target.value)}
-        className="px-2.5 py-1.5 bg-white border-2 border-[#22408F]/40 rounded-lg text-xs text-[#5A6A94]"
+        className="px-2.5 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs text-riso-ink-secondary"
       >
         <option value="">(Sans prérequis)</option>
         {tasks.map((t) => (
@@ -492,21 +492,21 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
     <div className="space-y-6">
       {/* Contrôle segmenté affiché uniquement hors vue détaillée modale */}
       {!isInsideModal && (
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white border-2 border-[#22408F] rounded-xl p-4 shadow-[0_4px_0_#22408F]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white border-2 border-riso-ink rounded-[16px] p-4 shadow-riso">
           <div>
-            <h1 className="text-lg font-bold text-[#22408F] font-heading">
+            <h1 className="text-lg font-bold text-riso-ink font-heading">
               Checklist
             </h1>
           </div>
 
-          <div className="inline-flex p-1 bg-[#FBFAF6] border-2 border-[#22408F] rounded-xl self-start sm:self-auto shadow-[0_2px_0_#22408F]">
+          <div className="inline-flex p-1 bg-riso-paper border-2 border-riso-ink rounded-[16px] self-start sm:self-auto shadow-riso-press">
             <button
               type="button"
               onClick={() => handleModeSelect('essentiel')}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-[8px] text-xs font-bold transition-all cursor-pointer ${
                 checklistMode === 'essentiel'
-                  ? 'bg-[#2F6DBB] text-white shadow-[0_2px_0_#22408F]'
-                  : 'text-[#22408F] hover:bg-[#EBF1FF]'
+                  ? 'bg-riso-p1 text-white shadow-riso-press'
+                  : 'text-riso-ink hover:bg-riso-p1-light'
               }`}
             >
               Essentiel
@@ -514,10 +514,10 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
             <button
               type="button"
               onClick={() => handleModeSelect('tout')}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              className={`px-3.5 py-1.5 rounded-[8px] text-xs font-bold transition-all cursor-pointer ${
                 checklistMode === 'tout'
-                  ? 'bg-[#2F6DBB] text-white shadow-[0_2px_0_#22408F]'
-                  : 'text-[#22408F] hover:bg-[#EBF1FF]'
+                  ? 'bg-riso-p1 text-white shadow-riso-press'
+                  : 'text-riso-ink hover:bg-riso-p1-light'
               }`}
             >
               Tout
@@ -530,8 +530,8 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
       {!isInsideModal && checklistMode === 'essentiel' ? (
         <div className="space-y-6">
           {hasNoUrgentTasks ? (
-            <div className="bg-white border-2 border-[#22408F] rounded-xl p-10 sm:p-12 text-center space-y-4 shadow-[0_4px_0_#22408F]">
-              <div className="w-20 h-20 rounded-[8px] bg-white border-2 border-[#22408F] shadow-[0_4px_0_#22408F] p-2 mx-auto flex items-center justify-center">
+            <div className="bg-white border-2 border-riso-ink rounded-[16px] p-10 sm:p-12 text-center space-y-4 shadow-riso">
+              <div className="w-20 h-20 rounded-[8px] bg-white border-2 border-riso-ink shadow-riso p-2 mx-auto flex items-center justify-center">
                 <img
                   src="/logo.png"
                   alt=""
@@ -546,10 +546,10 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                 />
               </div>
               <div className="space-y-1.5 max-w-sm mx-auto">
-                <h3 className="text-base sm:text-lg font-bold text-[#22408F] font-heading">
+                <h3 className="text-base sm:text-lg font-bold text-riso-ink font-heading">
                   {tasks.length === 0 ? "Aucune tâche pour l'instant." : "Rien d'urgent. Tu peux avancer sur la phase suivante."}
                 </h3>
-                <p className="text-xs text-[#5A6A94] leading-relaxed">
+                <p className="text-xs text-riso-ink-secondary leading-relaxed">
                   {tasks.length === 0
                     ? "Ajoute une première tâche ci-dessous ou depuis l'assistant."
                     : "Toutes les tâches prioritaires sont terminées pour le moment."}
@@ -569,21 +569,21 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                 'en_retard',
                 'En retard',
                 overdueTasks,
-                'bg-[#FEEAEB] text-[#F0505A] border-[#F0505A]',
+                'bg-riso-p4-light text-riso-p4 border-riso-p4',
                 'Échéance dépassée'
               )}
               {renderGroup(
                 'cette_semaine',
                 'Cette semaine',
                 thisWeekTasks,
-                'bg-[#FEF0E9] text-[#F2661F] border-[#F2661F]',
+                'bg-riso-p5-light text-riso-p5 border-riso-p5',
                 'Échéance dans les 7 jours'
               )}
               {renderGroup(
                 'phase_en_cours',
                 currentPhase ? `Phase en cours (${currentPhase.name})` : 'Phase en cours',
                 currentPhaseTasks,
-                'bg-[#EBF1FF] text-[#22408F] border-[#22408F]',
+                'bg-riso-p1-light text-riso-ink border-riso-ink',
                 'Reste de la phase'
               )}
             </div>
@@ -595,9 +595,9 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
               <button
                 type="button"
                 onClick={() => setIsDoneExpanded(!isDoneExpanded)}
-                className="flex items-center gap-2 text-xs font-bold text-[#5A6A94] hover:text-[#22408F] py-2 px-3 rounded-lg border-2 border-[#DCE2EF] hover:border-[#22408F] bg-white transition-all cursor-pointer shadow-[0_2px_0_#22408F]/20"
+                className="flex items-center gap-2 text-xs font-bold text-riso-ink-secondary hover:text-riso-ink py-2 px-3 rounded-[8px] border-2 border-riso-line hover:border-riso-ink bg-white transition-all cursor-pointer shadow-riso-press/20"
               >
-                <Check className="w-3.5 h-3.5 text-[#2E8B4A] stroke-[3]" />
+                <Check className="w-3.5 h-3.5 text-riso-p2 stroke-[3]" />
                 <span>
                   ✓ {doneTasks.length} {doneTasks.length > 1 ? 'tâches faites' : 'tâche faite'}
                 </span>
@@ -615,7 +615,7 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
           )}
 
           {/* Formulaire + Nouvelle action affiché aussi en Vue Essentiel */}
-          <div className="bg-white border-2 border-[#22408F] rounded-xl shadow-[0_4px_0_#22408F] overflow-hidden">
+          <div className="bg-white border-2 border-riso-ink rounded-[16px] shadow-riso overflow-hidden">
             {renderAddTaskForm()}
           </div>
         </div>
@@ -628,7 +628,7 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
         /* ============================================================ */
         <div className="space-y-6">
           {/* Top Bar avec retour à la checklist */}
-          <div className="bg-white border-2 border-[#22408F] rounded-xl p-4 shadow-[0_4px_0_#22408F] flex flex-wrap items-center justify-between gap-3">
+          <div className="bg-white border-2 border-riso-ink rounded-[16px] p-4 shadow-riso flex flex-wrap items-center justify-between gap-3">
             <button
               type="button"
               onClick={() => setViewMode('table')}
@@ -638,11 +638,11 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
             </button>
 
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold text-[#5A6A94]">Tâche analysée :</span>
+              <span className="text-xs font-bold text-riso-ink-secondary">Tâche analysée :</span>
               <select
                 value={currentGraphTask?.id || ''}
                 onChange={(e) => setActiveGraphTaskId(e.target.value)}
-                className="bg-white border-2 border-[#22408F] rounded-lg px-3 py-1.5 text-xs font-bold text-[#22408F] max-w-xs truncate cursor-pointer"
+                className="bg-white border-2 border-riso-ink rounded-[8px] px-3 py-1.5 text-xs font-bold text-riso-ink max-w-xs truncate cursor-pointer"
               >
                 {tasks.map((t) => (
                   <option key={t.id} value={t.id}>
@@ -655,10 +655,10 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
 
           {/* Alertes de conflit de dépendance */}
           {dependencyAlerts.length > 0 && (
-            <div className="p-4 bg-[#FEF0E9] border-2 border-[#22408F] rounded-xl space-y-2 text-xs">
+            <div className="p-4 bg-riso-p5-light border-2 border-riso-ink rounded-[16px] space-y-2 text-xs">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 font-bold text-[#22408F]">
-                  <ShieldAlert className="w-4 h-4 text-[#F2661F]" />
+                <div className="flex items-center gap-2 font-bold text-riso-ink">
+                  <ShieldAlert className="w-4 h-4 text-riso-p5" />
                   <span>{dependencyAlerts.length} anomalie(s) d'ordonnancement détectée(s)</span>
                 </div>
                 {dependencyAlerts[0]?.predecessorId && (
@@ -672,10 +672,10 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                   </button>
                 )}
               </div>
-              <div className="space-y-1 text-[#5A6A94]">
+              <div className="space-y-1 text-riso-ink-secondary">
                 {dependencyAlerts.slice(0, 3).map((alert, idx) => (
                   <div key={idx} className="flex items-start gap-1.5 text-[11px]">
-                    <span className="text-[#F2661F] font-bold">•</span>
+                    <span className="text-riso-p5 font-bold">•</span>
                     <span>{alert.message}</span>
                   </div>
                 ))}
@@ -687,15 +687,15 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
             {/* Colonne 1 : Prédécesseurs (À terminer avant) */}
             <div className="space-y-3">
-              <div className="flex items-center justify-between border-b-2 border-[#22408F]/20 pb-2">
-                <h3 className="font-bold text-xs uppercase tracking-wider text-[#5A6A94] font-heading">
+              <div className="flex items-center justify-between border-b-2 border-riso-line pb-2">
+                <h3 className="font-bold text-xs uppercase tracking-wider text-riso-ink-secondary font-heading">
                   1. Prédécesseurs ({predecessors.length})
                 </h3>
-                <span className="text-[11px] text-[#5A6A94]">À faire avant</span>
+                <span className="text-[11px] text-riso-ink-secondary">À faire avant</span>
               </div>
 
               {predecessors.length === 0 ? (
-                <div className="p-4 rounded-xl border-2 border-dashed border-[#22408F]/30 bg-white text-center text-xs text-[#5A6A94]">
+                <div className="p-4 rounded-[16px] border-2 border-dashed border-riso-line bg-white text-center text-xs text-riso-ink-secondary">
                   Aucun prérequis. Cette tâche peut démarrer dès le début de sa phase.
                 </div>
               ) : (
@@ -704,10 +704,10 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                     <div
                       key={p.id}
                       onClick={() => setActiveGraphTaskId(p.id)}
-                      className="bg-white border-2 border-[#22408F] shadow-[0_4px_0_#22408F] rounded-xl p-3.5 space-y-2 hover:-translate-y-0.5 transition-transform cursor-pointer"
+                      className="bg-white border-2 border-riso-ink shadow-riso rounded-[16px] p-3.5 space-y-2 hover:-translate-y-0.5 transition-transform cursor-pointer"
                     >
                       <div className="flex items-center justify-between">
-                        <span className="font-mono font-bold text-xs text-[#22408F] bg-[#EBF1FF] px-2 py-0.5 rounded border border-[#22408F]">
+                        <span className="font-mono font-bold text-xs text-riso-ink bg-riso-p1-light px-2 py-0.5 rounded-[8px] border-2 border-riso-ink">
                           {p.code}
                         </span>
                         <button
@@ -716,16 +716,16 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                             e.stopPropagation();
                             if (currentGraphTask) removeDependency(currentGraphTask.id, p.id);
                           }}
-                          className="text-[#5A6A94] hover:text-[#F0505A] font-bold text-xs p-1"
+                          className="text-riso-ink-secondary hover:text-riso-p4 font-bold text-xs p-1"
                           title="Délier ce prérequis"
                         >
                           ✕
                         </button>
                       </div>
-                      <h4 className="font-bold text-xs text-[#22408F] leading-snug">
+                      <h4 className="font-bold text-xs text-riso-ink leading-snug">
                         {p.title}
                       </h4>
-                      <div className="flex items-center justify-between text-[11px] text-[#5A6A94] pt-1 border-t border-[#22408F]/10">
+                      <div className="flex items-center justify-between text-[11px] text-riso-ink-secondary pt-1 border-t border-riso-line">
                         {settings.mode === 'groupe' ? <span>{p.assignee}</span> : <span />}
                         <span className="font-mono">{formatFrenchDate(p.deadline, false)}</span>
                       </div>
@@ -740,7 +740,7 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                   <select
                     value={selectedPredToAdd}
                     onChange={(e) => setSelectedPredToAdd(e.target.value)}
-                    className="flex-1 bg-white border-2 border-[#22408F] rounded-lg px-2.5 py-1.5 text-xs font-medium text-[#22408F]"
+                    className="flex-1 bg-white border-2 border-riso-ink rounded-[8px] px-2.5 py-1.5 text-xs font-medium text-riso-ink"
                   >
                     <option value="">+ Lier un prérequis...</option>
                     {availablePreds.map((t) => (
@@ -763,26 +763,26 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
 
             {/* Colonne 2 : Tâche sélectionnée (Le pivot) */}
             <div className="space-y-3">
-              <div className="flex items-center justify-between border-b-2 border-[#22408F]/20 pb-2">
-                <h3 className="font-bold text-xs uppercase tracking-wider text-[#22408F] font-heading">
+              <div className="flex items-center justify-between border-b-2 border-riso-line pb-2">
+                <h3 className="font-bold text-xs uppercase tracking-wider text-riso-ink font-heading">
                   2. Tâche sélectionnée
                 </h3>
-                <span className="text-[11px] font-bold text-[#22408F] bg-[#EBF1FF] px-2 py-0.5 rounded-[999px] border border-[#22408F]">
+                <span className="text-[11px] font-bold text-riso-ink bg-riso-p1-light px-2 py-0.5 rounded-[999px] border-2 border-riso-ink">
                   Pivot
                 </span>
               </div>
 
               {currentGraphTask && (
-                <div className="bg-white border-2 border-[#22408F] shadow-[0_6px_0_#22408F] rounded-xl p-5 space-y-4">
+                <div className="bg-white border-2 border-riso-ink shadow-riso rounded-[16px] p-5 space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono font-bold text-sm text-[#22408F] bg-[#EBF1FF] px-2.5 py-1 rounded border-2 border-[#22408F]">
+                    <span className="font-mono font-bold text-sm text-riso-ink bg-riso-p1-light px-2.5 py-1 rounded-[8px] border-2 border-riso-ink">
                       {currentGraphTask.code}
                     </span>
                     <span
-                      className={`text-xs font-bold px-2.5 py-0.5 rounded-[999px] border border-[#22408F] ${
+                      className={`text-xs font-bold px-2.5 py-0.5 rounded-[999px] border-2 border-riso-ink ${
                         currentGraphTask.status === 'fait'
-                          ? 'bg-[#EAF6EE] text-[#2E8B4A]'
-                          : 'bg-[#FEFCE8] text-[#22408F]'
+                          ? 'bg-riso-p2-light text-riso-p2'
+                          : 'bg-riso-p3-light text-riso-ink'
                       }`}
                     >
                       {currentGraphTask.status === 'fait' ? 'Fait ✓' : 'À faire'}
@@ -790,25 +790,25 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                   </div>
 
                   <div>
-                    <h3 className="text-base font-bold text-[#22408F] leading-snug font-heading">
+                    <h3 className="text-base font-bold text-riso-ink leading-snug font-heading">
                       {currentGraphTask.title}
                     </h3>
                   </div>
 
-                  <div className="space-y-2 text-xs text-[#5A6A94] pt-2 border-t border-[#22408F]/20">
+                  <div className="space-y-2 text-xs text-riso-ink-secondary pt-2 border-t border-riso-line">
                     {settings.mode === 'groupe' && (
                       <div className="flex justify-between">
                         <span>Responsable :</span>
-                        <strong className="text-[#22408F]">{currentGraphTask.assignee}</strong>
+                        <strong className="text-riso-ink">{currentGraphTask.assignee}</strong>
                       </div>
                     )}
                     <div className="flex justify-between">
                       <span>Échéance cible :</span>
-                      <strong className="font-mono text-[#22408F]">{formatFrenchDate(currentGraphTask.deadline)}</strong>
+                      <strong className="font-mono text-riso-ink">{formatFrenchDate(currentGraphTask.deadline)}</strong>
                     </div>
                     <div className="flex justify-between">
                       <span>Durée estimée :</span>
-                      <strong className="font-mono text-[#22408F]">{currentGraphTask.durationMinutes} min</strong>
+                      <strong className="font-mono text-riso-ink">{currentGraphTask.durationMinutes} min</strong>
                     </div>
                   </div>
 
@@ -829,15 +829,15 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
 
             {/* Colonne 3 : Successeurs (Ce qui attend cette tâche) */}
             <div className="space-y-3">
-              <div className="flex items-center justify-between border-b-2 border-[#22408F]/20 pb-2">
-                <h3 className="font-bold text-xs uppercase tracking-wider text-[#5A6A94] font-heading">
+              <div className="flex items-center justify-between border-b-2 border-riso-line pb-2">
+                <h3 className="font-bold text-xs uppercase tracking-wider text-riso-ink-secondary font-heading">
                   3. Successeurs ({successors.length})
                 </h3>
-                <span className="text-[11px] text-[#5A6A94]">Débloqués ensuite</span>
+                <span className="text-[11px] text-riso-ink-secondary">Débloqués ensuite</span>
               </div>
 
               {successors.length === 0 ? (
-                <div className="p-4 rounded-xl border-2 border-dashed border-[#22408F]/30 bg-white text-center text-xs text-[#5A6A94]">
+                <div className="p-4 rounded-[16px] border-2 border-dashed border-riso-line bg-white text-center text-xs text-riso-ink-secondary">
                   Aucune tâche ne dépend de celle-ci pour le moment.
                 </div>
               ) : (
@@ -846,10 +846,10 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                     <div
                       key={s.id}
                       onClick={() => setActiveGraphTaskId(s.id)}
-                      className="bg-white border-2 border-[#22408F] shadow-[0_4px_0_#22408F] rounded-xl p-3.5 space-y-2 hover:-translate-y-0.5 transition-transform cursor-pointer"
+                      className="bg-white border-2 border-riso-ink shadow-riso rounded-[16px] p-3.5 space-y-2 hover:-translate-y-0.5 transition-transform cursor-pointer"
                     >
                       <div className="flex items-center justify-between">
-                        <span className="font-mono font-bold text-xs text-[#22408F] bg-[#EBF1FF] px-2 py-0.5 rounded border border-[#22408F]">
+                        <span className="font-mono font-bold text-xs text-riso-ink bg-riso-p1-light px-2 py-0.5 rounded-[8px] border-2 border-riso-ink">
                           {s.code}
                         </span>
                         <button
@@ -858,16 +858,16 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                             e.stopPropagation();
                             if (currentGraphTask) removeDependency(s.id, currentGraphTask.id);
                           }}
-                          className="text-[#5A6A94] hover:text-[#F0505A] font-bold text-xs p-1"
+                          className="text-riso-ink-secondary hover:text-riso-p4 font-bold text-xs p-1"
                           title="Délier ce successeur"
                         >
                           ✕
                         </button>
                       </div>
-                      <h4 className="font-bold text-xs text-[#22408F] leading-snug">
+                      <h4 className="font-bold text-xs text-riso-ink leading-snug">
                         {s.title}
                       </h4>
-                      <div className="flex items-center justify-between text-[11px] text-[#5A6A94] pt-1 border-t border-[#22408F]/10">
+                      <div className="flex items-center justify-between text-[11px] text-riso-ink-secondary pt-1 border-t border-riso-line">
                         {settings.mode === 'groupe' ? <span>{s.assignee}</span> : <span />}
                         <span className="font-mono">{formatFrenchDate(s.deadline, false)}</span>
                       </div>
@@ -882,7 +882,7 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                   <select
                     value={selectedSuccToAdd}
                     onChange={(e) => setSelectedSuccToAdd(e.target.value)}
-                    className="flex-1 bg-white border-2 border-[#22408F] rounded-lg px-2.5 py-1.5 text-xs font-medium text-[#22408F]"
+                    className="flex-1 bg-white border-2 border-riso-ink rounded-[8px] px-2.5 py-1.5 text-xs font-medium text-riso-ink"
                   >
                     <option value="">+ Lier un successeur...</option>
                     {availableSuccs.map((t) => (
@@ -912,7 +912,7 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
           {/* Top Action Bar */}
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-base font-bold text-[#22408F] font-heading">
+              <h2 className="text-base font-bold text-riso-ink font-heading">
                 Checklist
               </h2>
             </div>
@@ -925,17 +925,17 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
               }}
               className="btn-riso-secondary text-xs"
             >
-              <GitBranch className="w-3.5 h-3.5 text-[#22408F]" />
+              <GitBranch className="w-3.5 h-3.5 text-riso-ink" />
               <span>Graphe des dépendances</span>
             </button>
           </div>
 
           {/* Dependency Conflict Alert Banner */}
           {dependencyAlerts.length > 0 && (
-            <div className="p-4 bg-[#FEF0E9] border-2 border-[#22408F] rounded-xl space-y-2 text-xs">
+            <div className="p-4 bg-riso-p5-light border-2 border-riso-ink rounded-[16px] space-y-2 text-xs">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 font-bold text-[#22408F]">
-                  <ShieldAlert className="w-4 h-4 text-[#F2661F]" />
+                <div className="flex items-center gap-2 font-bold text-riso-ink">
+                  <ShieldAlert className="w-4 h-4 text-riso-p5" />
                   <span>{dependencyAlerts.length} alerte(s) de dépendance active(s)</span>
                 </div>
                 <button
@@ -952,10 +952,10 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                 </button>
               </div>
 
-              <div className="space-y-1 text-[#5A6A94]">
+              <div className="space-y-1 text-riso-ink-secondary">
                 {dependencyAlerts.slice(0, 3).map((alert, idx) => (
                   <div key={idx} className="flex items-start gap-1.5 text-[11px]">
-                    <span className="text-[#F2661F] font-bold">•</span>
+                    <span className="text-riso-p5 font-bold">•</span>
                     <span>{alert.message}</span>
                   </div>
                 ))}
@@ -964,17 +964,17 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
           )}
 
           {/* Search & Filter Toolbar */}
-          <div className="bg-white border-2 border-[#22408F] rounded-xl p-3.5 shadow-2xs flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div className="bg-white border-2 border-riso-ink rounded-[16px] p-3.5 shadow-2xs flex flex-wrap items-center justify-between gap-3 text-xs">
             <div className="flex flex-wrap items-center gap-2 flex-1 min-w-[280px]">
               {/* Search */}
               <div className="relative flex-1 min-w-[180px]">
-                <Search className="w-3.5 h-3.5 absolute left-2.5 top-2.5 text-[#5A6A94]" />
+                <Search className="w-3.5 h-3.5 absolute left-2.5 top-2.5 text-riso-ink-secondary" />
                 <input
                   type="text"
                   placeholder="Rechercher une action, code ou personne..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-8 pr-3 py-1.5 bg-[#FBFAF6] border-2 border-[#22408F]/30 focus:border-[#22408F] rounded-lg text-xs"
+                  className="w-full pl-8 pr-3 py-1.5 bg-riso-paper border-2 border-riso-line focus:border-riso-ink rounded-[8px] text-xs"
                 />
               </div>
 
@@ -982,7 +982,7 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
               <select
                 value={filterPhase}
                 onChange={(e) => setFilterPhase(e.target.value)}
-                className="px-2.5 py-1.5 bg-white border-2 border-[#22408F]/40 rounded-lg text-xs font-medium text-[#22408F]"
+                className="px-2.5 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs font-medium text-riso-ink"
               >
                 <option value="all">Toutes les phases</option>
                 {phases.map((p) => (
@@ -997,7 +997,7 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                 <select
                   value={filterAssignee}
                   onChange={(e) => setFilterAssignee(e.target.value)}
-                  className="px-2.5 py-1.5 bg-white border-2 border-[#22408F]/40 rounded-lg text-xs font-medium text-[#22408F]"
+                  className="px-2.5 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs font-medium text-riso-ink"
                 >
                   <option value="all">Tous les responsables</option>
                   {settings.team.map((m) => (
@@ -1013,7 +1013,7 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
-                className="px-2.5 py-1.5 bg-white border-2 border-[#22408F]/40 rounded-lg text-xs font-medium text-[#22408F]"
+                className="px-2.5 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs font-medium text-riso-ink"
               >
                 <option value="all">Tous les états</option>
                 <option value="overdue">🔴 En retard</option>
@@ -1023,16 +1023,16 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
               </select>
             </div>
 
-            <div className="text-[#5A6A94] text-[11px] font-mono shrink-0">
+            <div className="text-riso-ink-secondary text-[11px] font-mono shrink-0">
               {filteredTasks.length} action{filteredTasks.length > 1 ? 's' : ''}
             </div>
           </div>
 
           {/* Main Checklist Table (Pleine largeur, sans scroll horizontal indésirable) */}
-          <div className="bg-white border-2 border-[#22408F] rounded-xl overflow-hidden shadow-[0_4px_0_#22408F]">
+          <div className="bg-white border-2 border-riso-ink rounded-[16px] overflow-hidden shadow-riso">
             <table className="w-full text-left border-collapse text-xs table-auto">
               <thead>
-                <tr className="bg-[#FBFAF6] text-[#22408F] border-b-2 border-[#22408F]">
+                <tr className="bg-riso-paper text-riso-ink border-b-2 border-riso-ink">
                   <th className="py-2.5 px-3 font-bold w-12 text-center" title="Commande unique Fait">Fait</th>
                   <th className="py-2.5 px-3 font-bold w-14">Réf.</th>
                   <th className="py-2.5 px-3 font-bold">Action</th>
@@ -1046,10 +1046,10 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                   <th className="py-2.5 px-3 font-bold w-20 text-center">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#22408F]/15">
+              <tbody className="divide-y divide-riso-ink/15">
                 {filteredTasks.length === 0 ? (
                   <tr>
-                    <td colSpan={settings.mode === 'groupe' ? 9 : 8} className="py-8 text-center text-[#5A6A94]">
+                    <td colSpan={settings.mode === 'groupe' ? 9 : 8} className="py-8 text-center text-riso-ink-secondary">
                       Aucune action ne correspond aux filtres appliqués.
                     </td>
                   </tr>
@@ -1060,12 +1060,12 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                     const isEditing = editingTaskId === task.id;
 
                     const rowClass = isDone
-                      ? 'bg-[#EAF6EE]/60 text-[#5A6A94]'
+                      ? 'bg-riso-p2-light/60 text-riso-ink-secondary'
                       : highlight === 'overdue'
-                      ? 'bg-[#FDEEEF]/70 text-[#22408F]'
+                      ? 'bg-riso-p4-light/70 text-riso-ink'
                       : highlight === 'warning'
-                      ? 'bg-[#FEF0E9]/70 text-[#22408F]'
-                      : 'hover:bg-[#EBF1FF]/40 text-[#22408F]';
+                      ? 'bg-riso-p5-light/70 text-riso-ink'
+                      : 'hover:bg-riso-p1-light/40 text-riso-ink';
 
                     const predecessors = (task.dependsOn || []).map((pId) => {
                       const p = tasks.find((t) => t.id === pId);
@@ -1084,13 +1084,13 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                                 status: e.target.checked ? 'fait' : 'a_faire',
                               })
                             }
-                            className="w-4 h-4 rounded text-[#2E8B4A] focus:ring-[#2E8B4A] cursor-pointer accent-[#2E8B4A]"
+                            className="w-4 h-4 rounded-[8px] text-riso-p2 focus:ring-riso-p2 cursor-pointer accent-riso-p2"
                             title={isDone ? 'Marquer comme à faire' : 'Marquer comme fait'}
                           />
                         </td>
 
                         {/* Code */}
-                        <td className="py-2.5 px-3 font-mono font-bold text-[#22408F]">
+                        <td className="py-2.5 px-3 font-mono font-bold text-riso-ink">
                           {task.code || '•'}
                         </td>
 
@@ -1101,13 +1101,13 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                               type="text"
                               value={task.title}
                               onChange={(e) => updateTask(task.id, { title: e.target.value })}
-                              className="w-full bg-white border border-[#22408F] rounded px-2 py-1 text-xs font-bold text-[#22408F]"
+                              className="w-full bg-white border-2 border-riso-ink rounded-[8px] px-2 py-1 text-xs font-bold text-riso-ink"
                             />
                           ) : (
                             <span
                               onClick={() => setEditingTaskId(task.id)}
                               className={`font-semibold cursor-pointer hover:underline ${
-                                isDone ? 'line-through text-[#5A6A94]' : 'text-[#22408F]'
+                                isDone ? 'line-through text-riso-ink-secondary' : 'text-riso-ink'
                               }`}
                               title="Cliquer pour modifier"
                             >
@@ -1122,7 +1122,7 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                             <select
                               value={task.phaseId}
                               onChange={(e) => updateTask(task.id, { phaseId: e.target.value })}
-                              className="bg-white border border-[#22408F] rounded px-1.5 py-0.5 text-xs font-medium"
+                              className="bg-white border-2 border-riso-ink rounded-[8px] px-1.5 py-0.5 text-xs font-medium"
                             >
                               {phases.map((p) => (
                                 <option key={p.id} value={p.id}>
@@ -1131,7 +1131,7 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                               ))}
                             </select>
                           ) : (
-                            <span className="font-medium text-xs text-[#5A6A94]">
+                            <span className="font-medium text-xs text-riso-ink-secondary">
                               {phases.find((p) => p.id === task.phaseId)?.shortName || 'Phase'}
                             </span>
                           )}
@@ -1144,7 +1144,7 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                               <select
                                 value={task.assignee}
                                 onChange={(e) => updateTask(task.id, { assignee: e.target.value })}
-                                className="bg-white border border-[#22408F] rounded px-1.5 py-0.5 text-xs font-medium"
+                                className="bg-white border-2 border-riso-ink rounded-[8px] px-1.5 py-0.5 text-xs font-medium"
                               >
                                 {settings.team.map((m) => (
                                   <option key={m.id} value={m.name}>
@@ -1154,7 +1154,7 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                                 <option value="Tous">Tous</option>
                               </select>
                             ) : (
-                              <span className="font-bold text-xs text-[#22408F]">
+                              <span className="font-bold text-xs text-riso-ink">
                                 {task.assignee}
                               </span>
                             )}
@@ -1168,10 +1168,10 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                               type="date"
                               value={task.deadline}
                               onChange={(e) => updateTask(task.id, { deadline: e.target.value }, true)}
-                              className="bg-white border border-[#22408F] rounded px-1.5 py-0.5 text-xs font-mono"
+                              className="bg-white border-2 border-riso-ink rounded-[8px] px-1.5 py-0.5 text-xs font-mono"
                             />
                           ) : (
-                            <span className="text-[#5A6A94] font-medium">
+                            <span className="text-riso-ink-secondary font-medium">
                               {formatFrenchDate(task.deadline, false)}
                             </span>
                           )}
@@ -1208,20 +1208,20 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                                     updateTask(task.id, { durationMinutes: val });
                                   }
                                 }}
-                                className={`w-16 bg-white border rounded px-1 py-0.5 text-xs font-mono text-center font-bold ${
+                                className={`w-16 bg-white border rounded-[8px] px-1 py-0.5 text-xs font-mono text-center font-bold ${
                                   rowDurationErrors[task.id]
-                                    ? 'border-[#F0505A] text-[#C4111C]'
-                                    : 'border-[#22408F]'
+                                    ? 'border-riso-p4 text-riso-p4-text'
+                                    : 'border-riso-ink'
                                 }`}
                               />
                               {rowDurationErrors[task.id] && (
-                                <span className="text-[10px] text-[#C4111C] font-bold">
+                                <span className="text-[10px] text-riso-p4-text font-bold">
                                   {rowDurationErrors[task.id]}
                                 </span>
                               )}
                             </div>
                           ) : (
-                            <span className="text-[#5A6A94]">
+                            <span className="text-riso-ink-secondary">
                               {task.durationMinutes} min
                             </span>
                           )}
@@ -1235,14 +1235,14 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                                 <span
                                   key={p!.id}
                                   onClick={() => openGraphForTask(p!.id)}
-                                  className="inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-mono font-bold bg-[#EBF1FF] text-[#22408F] border border-[#22408F] cursor-pointer hover:bg-[#22408F] hover:text-white transition-colors"
+                                  className="inline-flex items-center px-1.5 py-0.5 rounded-[8px] text-[11px] font-mono font-bold bg-riso-p1-light text-riso-ink border-2 border-riso-ink cursor-pointer hover:bg-riso-ink hover:text-white transition-colors"
                                   title={`${p!.code} : ${p!.title}`}
                                 >
                                   {p!.code}
                                 </span>
                               ))
                             ) : (
-                              <span className="text-[#5A6A94] text-[11px]">—</span>
+                              <span className="text-riso-ink-secondary text-[11px]">—</span>
                             )}
                           </div>
                         </td>
@@ -1253,7 +1253,7 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                             <button
                               type="button"
                               onClick={() => openGraphForTask(task.id)}
-                              className="p-1 text-[#22408F] hover:bg-[#EBF1FF] rounded transition-colors cursor-pointer"
+                              className="p-1 text-riso-ink hover:bg-riso-p1-light rounded-[8px] transition-colors cursor-pointer"
                               title="Voir les dépendances de cette action"
                             >
                               <GitBranch className="w-3.5 h-3.5" />
@@ -1262,16 +1262,16 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                             <button
                               type="button"
                               onClick={() => setEditingTaskId(isEditing ? null : task.id)}
-                              className="p-1 text-[#22408F] hover:bg-[#EBF1FF] rounded transition-colors cursor-pointer"
+                              className="p-1 text-riso-ink hover:bg-riso-p1-light rounded-[8px] transition-colors cursor-pointer"
                               title={isEditing ? 'Terminer la modification' : 'Modifier cette ligne'}
                             >
-                              {isEditing ? <Check className="w-3.5 h-3.5 text-[#2E8B4A]" /> : <Edit2 className="w-3.5 h-3.5" />}
+                              {isEditing ? <Check className="w-3.5 h-3.5 text-riso-p2" /> : <Edit2 className="w-3.5 h-3.5" />}
                             </button>
 
                             <button
                               type="button"
                               onClick={() => deleteTask(task.id)}
-                              className="p-1 text-[#5A6A94] hover:text-[#F0505A] hover:bg-[#FDEEEF] rounded transition-colors cursor-pointer"
+                              className="p-1 text-riso-ink-secondary hover:text-riso-p4 hover:bg-riso-p4-light rounded-[8px] transition-colors cursor-pointer"
                               title="Supprimer cette action"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
@@ -1286,7 +1286,7 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
             </table>
 
             {/* Add Task Form (Fonds neutres épurés, sans jaune tableur) */}
-            <div className="border-t-2 border-[#22408F]">
+            <div className="border-t-2 border-riso-ink">
               {renderAddTaskForm()}
             </div>
           </div>

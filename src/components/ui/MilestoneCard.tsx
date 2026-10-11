@@ -19,7 +19,7 @@ export const MilestoneCard: React.FC<MilestoneCardProps> = ({
   return (
     <div
       onClick={onClick}
-      className={`bg-[var(--riso-p2-tint)] border-2 border-[var(--riso-ink)] shadow-[0_4px_0_var(--riso-ink)] rounded-[8px] p-3.5 flex items-center justify-between gap-3 text-[var(--riso-ink)] ${
+      className={`bg-[var(--riso-p2-tint)] border-2 border-[var(--riso-ink)] shadow-riso rounded-[8px] p-3.5 flex items-center justify-between gap-3 text-[var(--riso-ink)] ${
         onClick
           ? 'cursor-pointer hover:-translate-y-0.5 active:translate-y-[2px] transition-all duration-150 ease-out'
           : ''

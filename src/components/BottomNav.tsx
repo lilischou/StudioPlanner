@@ -19,7 +19,7 @@ export const BottomNav: React.FC = () => {
       aria-label="Navigation principale"
       className="fixed bottom-3 left-4 right-4 z-40 md:hidden flex justify-center pointer-events-none"
     >
-      <div className="pointer-events-auto bg-[#FFFFFF] border-2 border-[#22408F] shadow-[0_4px_0_#22408F] rounded-full px-3 py-1.5 flex items-center justify-between gap-1 w-full max-w-[380px]">
+      <div className="pointer-events-auto bg-riso-card border-2 border-riso-ink shadow-riso rounded-full px-3 py-1.5 flex items-center justify-between gap-1 w-full max-w-[380px]">
         {/* 1. aujourd'hui */}
         <button
           type="button"
@@ -27,14 +27,14 @@ export const BottomNav: React.FC = () => {
           aria-label="aujourd'hui"
           className={`flex-1 flex flex-col items-center justify-center py-0.5 px-1 rounded-full transition-all cursor-pointer ${
             activeTab === 'aujourdhui'
-              ? 'text-[#22408F] font-bold'
-              : 'text-[#5A6A94] hover:text-[#22408F] font-semibold'
+              ? 'text-riso-ink font-bold'
+              : 'text-riso-ink-secondary hover:text-riso-ink font-semibold'
           }`}
         >
           <div
             className={`p-1 rounded-full transition-transform ${
               activeTab === 'aujourdhui'
-                ? 'scale-110 text-[#22408F] bg-[#D1DFF0]'
+                ? 'scale-110 text-riso-ink bg-riso-p1-tint'
                 : ''
             }`}
           >
@@ -52,14 +52,14 @@ export const BottomNav: React.FC = () => {
           aria-label="parcours"
           className={`flex-1 flex flex-col items-center justify-center py-0.5 px-1 rounded-full transition-all cursor-pointer ${
             activeTab === 'parcours'
-              ? 'text-[#22408F] font-bold'
-              : 'text-[#5A6A94] hover:text-[#22408F] font-semibold'
+              ? 'text-riso-ink font-bold'
+              : 'text-riso-ink-secondary hover:text-riso-ink font-semibold'
           }`}
         >
           <div
             className={`p-1 rounded-full transition-transform ${
               activeTab === 'parcours'
-                ? 'scale-110 text-[#22408F] bg-[#D1DFF0]'
+                ? 'scale-110 text-riso-ink bg-riso-p1-tint'
                 : ''
             }`}
           >
@@ -76,7 +76,7 @@ export const BottomNav: React.FC = () => {
           onClick={handleOpenNew}
           title="Ajouter un élément (N)"
           aria-label="Ajouter un élément"
-          className="w-10 h-10 rounded-full bg-[#F0505A] text-white border-2 border-[#22408F] flex items-center justify-center shrink-0 cursor-pointer hover:scale-105 active:scale-95 transition-transform mx-1 shadow-[0_2px_0_#22408F]"
+          className="w-10 h-10 rounded-full bg-riso-p4 text-white border-2 border-riso-ink flex items-center justify-center shrink-0 cursor-pointer hover:scale-105 active:scale-95 transition-transform mx-1 shadow-riso-press"
         >
           <Plus className="w-5 h-5 stroke-[2.5]" />
         </button>
@@ -88,14 +88,14 @@ export const BottomNav: React.FC = () => {
           aria-label="sessions"
           className={`flex-1 flex flex-col items-center justify-center py-0.5 px-1 rounded-full transition-all cursor-pointer ${
             activeTab === 'sessions'
-              ? 'text-[#22408F] font-bold'
-              : 'text-[#5A6A94] hover:text-[#22408F] font-semibold'
+              ? 'text-riso-ink font-bold'
+              : 'text-riso-ink-secondary hover:text-riso-ink font-semibold'
           }`}
         >
           <div
             className={`p-1 rounded-full transition-transform ${
               activeTab === 'sessions'
-                ? 'scale-110 text-[#22408F] bg-[#D1DFF0]'
+                ? 'scale-110 text-riso-ink bg-riso-p1-tint'
                 : ''
             }`}
           >
@@ -113,14 +113,14 @@ export const BottomNav: React.FC = () => {
           aria-label="journal"
           className={`flex-1 flex flex-col items-center justify-center py-0.5 px-1 rounded-full transition-all cursor-pointer ${
             activeTab === 'journal'
-              ? 'text-[#22408F] font-bold'
-              : 'text-[#5A6A94] hover:text-[#22408F] font-semibold'
+              ? 'text-riso-ink font-bold'
+              : 'text-riso-ink-secondary hover:text-riso-ink font-semibold'
           }`}
         >
           <div
             className={`p-1 rounded-full transition-transform ${
               activeTab === 'journal'
-                ? 'scale-110 text-[#22408F] bg-[#D1DFF0]'
+                ? 'scale-110 text-riso-ink bg-riso-p1-tint'
                 : ''
             }`}
           >

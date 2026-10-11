@@ -95,7 +95,7 @@ const MainAppContent: React.FC = () => {
   }, [setActiveTab]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FBFAF6] text-[#22408F]">
+    <div className="min-h-screen flex flex-col bg-riso-paper text-riso-ink">
       {/* Desktop Fixed Sidebar (>= 768px) */}
       <DesktopSidebar
         onOpenDetailedView={() => handleOpenDetailedWithTab('tableau_de_bord')}
@@ -135,16 +135,16 @@ const MainAppContent: React.FC = () => {
       </main>
 
       {/* Subtle Footer (hidden on small screens, padded on desktop) */}
-      <footer className="hidden sm:block border-t-2 border-[#22408F] bg-white py-3 md:pl-[88px] xl:pl-[260px] text-[13px] text-[#5A6A94] transition-all">
+      <footer className="hidden sm:block border-t-2 border-riso-ink bg-white py-3 md:pl-[88px] xl:pl-[260px] text-[13px] text-riso-ink-secondary transition-all">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-[#22408F]">StudioPlanner</span>
+            <span className="font-bold text-riso-ink">StudioPlanner</span>
             <span>·</span>
             <span>Démarche de projet en design</span>
           </div>
 
           <div className="flex items-center gap-3 tabular-nums text-[13px]">
-            <span className={daysLeft < 0 ? 'text-[#F0505A] font-bold' : daysLeft <= 7 ? 'text-[#F2661F] font-bold' : 'text-[#22408F] font-bold'}>
+            <span className={daysLeft < 0 ? 'text-riso-p4 font-bold' : daysLeft <= 7 ? 'text-riso-p5 font-bold' : 'text-riso-ink font-bold'}>
               {daysLeft >= 0 ? `J-${daysLeft}` : `J+${Math.abs(daysLeft)}`}
             </span>
           </div>

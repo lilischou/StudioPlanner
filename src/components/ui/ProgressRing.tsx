@@ -14,8 +14,8 @@ export const ProgressRing: React.FC<ProgressRingProps> = ({
   outerFraction,
   innerFraction = 0,
   size = 130,
-  outerColor = '#2F6DBB',
-  innerColor = '#2E8B4A',
+  outerColor = 'var(--riso-p1)',
+  innerColor = 'var(--riso-p2)',
   label,
   className = '',
 }) => {

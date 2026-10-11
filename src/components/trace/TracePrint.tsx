@@ -12,12 +12,12 @@ import { TraceCover, useCoverSrc } from './TraceCover';
 /** Ligne imprimée d'un document : nom + URL imprimée (les fichiers n'ont pas d'URL). */
 const PrintDocLine: React.FC<{ doc: TraceDoc }> = ({ doc }) => (
   <li className="leading-snug break-words">
-    <span className="font-bold text-[#22408F]">{doc.name || DOC_TYPE_LABELS[doc.docType]}</span>
-    <span className="text-[#5A6A94]"> ({DOC_TYPE_LABELS[doc.docType]})</span>
+    <span className="font-bold text-riso-ink">{doc.name || DOC_TYPE_LABELS[doc.docType]}</span>
+    <span className="text-riso-ink-secondary"> ({DOC_TYPE_LABELS[doc.docType]})</span>
     {doc.kind === 'link' && doc.url ? (
-      <span className="block font-mono text-[10px] text-[#22408F] break-all">{doc.url}</span>
+      <span className="block font-mono text-[10px] text-riso-ink break-all">{doc.url}</span>
     ) : (
-      <span className="block text-[10px] text-[#5A6A94] italic">Fichier joint dans l’application</span>
+      <span className="block text-[10px] text-riso-ink-secondary italic">Fichier joint dans l’application</span>
     )}
   </li>
 );
@@ -28,7 +28,7 @@ export const PrintCover: React.FC<{ entry: LogbookEntry; alt: string }> = ({ ent
   if (!src) return null;
   const colors = PHASE_COLORS[entry.phaseId] || PHASE_COLORS.p1;
   return (
-    <div className="rounded-xl overflow-hidden border-2 border-[#22408F] max-h-[380px]">
+    <div className="rounded-[16px] overflow-hidden border-2 border-riso-ink max-h-[380px]">
       <TraceCover entry={entry} phaseHex={colors.hex} className="w-full aspect-[4/3] max-h-[380px]" alt={alt} />
     </div>
   );
@@ -44,8 +44,8 @@ export const TracePrintExtras: React.FC<{ entry: LogbookEntry }> = ({ entry }) =
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
       {work.length > 0 && (
-        <div className="p-4 rounded-xl bg-[#FBFAF6] border-2 border-[#22408F]/30 space-y-2">
-          <span className="font-bold text-[#22408F] uppercase tracking-wider text-[11px] block">
+        <div className="p-4 rounded-[16px] bg-riso-paper border-2 border-riso-line space-y-2">
+          <span className="font-bold text-riso-ink uppercase tracking-wider text-[11px] block">
             Documents de travail
           </span>
           <ul className="space-y-1.5 list-none p-0 m-0">
@@ -56,11 +56,11 @@ export const TracePrintExtras: React.FC<{ entry: LogbookEntry }> = ({ entry }) =
         </div>
       )}
       {(text || resultDocs.length > 0) && (
-        <div className="p-4 rounded-xl bg-[#FBFAF6] border-2 border-[#22408F]/30 space-y-2">
-          <span className="font-bold text-[#22408F] uppercase tracking-wider text-[11px] block">
+        <div className="p-4 rounded-[16px] bg-riso-paper border-2 border-riso-line space-y-2">
+          <span className="font-bold text-riso-ink uppercase tracking-wider text-[11px] block">
             Ce que j’ai produit
           </span>
-          {text && <p className="text-neutral-800 leading-relaxed font-medium whitespace-pre-wrap">{text}</p>}
+          {text && <p className="text-riso-ink leading-relaxed font-medium whitespace-pre-wrap">{text}</p>}
           {resultDocs.length > 0 && (
             <ul className="space-y-1.5 list-none p-0 m-0">
               {resultDocs.map((d) => (

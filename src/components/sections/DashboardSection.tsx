@@ -261,10 +261,10 @@ export const DashboardSection: React.FC = () => {
       {/* En-tête Synthèse & Action IA Bilan de la semaine */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold font-heading text-[#22408F] lowercase">
+          <h1 className="text-xl sm:text-2xl font-bold font-heading text-riso-ink lowercase">
             synthèse
           </h1>
-          <p className="text-xs sm:text-sm text-[#5A6A94] font-medium">
+          <p className="text-xs sm:text-sm text-riso-ink-secondary font-medium">
             Vue d’ensemble de la démarche et indicateurs clés
           </p>
         </div>
@@ -282,12 +282,12 @@ export const DashboardSection: React.FC = () => {
       </div>
 
       {aiError && (
-        <div className="p-3 bg-[#FFF0F0] border-2 border-[#F0505A] rounded-[8px] text-xs font-bold text-[#F0505A] flex items-center justify-between">
+        <div className="p-3 bg-riso-p4-light border-2 border-riso-p4 rounded-[8px] text-xs font-bold text-riso-p4 flex items-center justify-between">
           <span>{aiError}</span>
           <button
             type="button"
             onClick={() => setAiError(null)}
-            className="text-[#F0505A] hover:underline cursor-pointer ml-3 text-xs"
+            className="text-riso-p4 hover:underline cursor-pointer ml-3 text-xs"
           >
             Fermer
           </button>
@@ -301,11 +301,11 @@ export const DashboardSection: React.FC = () => {
           {/* Gauche : J-68 en Space Grotesk 96px */}
           <div className="lg:col-span-6 flex flex-col justify-center">
             <div className="flex items-baseline gap-2">
-              <span className="font-heading font-extrabold text-[72px] sm:text-[96px] leading-none tracking-tight text-[#22408F] select-none tabular-nums">
+              <span className="font-heading font-extrabold text-[72px] sm:text-[96px] leading-none tracking-tight text-riso-ink select-none tabular-nums">
                 {jText}
               </span>
             </div>
-            <p className="text-sm sm:text-base font-bold text-[#5A6A94] mt-2">
+            <p className="text-sm sm:text-base font-bold text-riso-ink-secondary mt-2">
               avant le rendu final · {formatFrenchDate(deadlineDate, false)}
             </p>
           </div>
@@ -314,18 +314,18 @@ export const DashboardSection: React.FC = () => {
           <div className="lg:col-span-6 flex flex-col justify-center">
             {currentPhase && currentPhaseColor ? (
               <div
-                className="p-5 rounded-xl border-2 border-[#22408F] shadow-[0_4px_0_#22408F] space-y-2.5 transition-all"
+                className="p-5 rounded-[16px] border-2 border-riso-ink shadow-riso space-y-2.5 transition-all"
                 style={{ backgroundColor: currentPhaseColor.bgLight }}
               >
                 <div className="flex items-center justify-between">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white border border-[#22408F] text-[11px] font-bold text-[#22408F] shadow-xs">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white border-2 border-riso-ink text-[11px] font-bold text-riso-ink shadow-xs">
                     <span
                       className="w-2 h-2 rounded-full shrink-0"
                       style={{ backgroundColor: currentPhaseColor.hex }}
                     />
                     Phase en cours
                   </span>
-                  <span className="font-mono text-xs font-bold text-[#22408F]">
+                  <span className="font-mono text-xs font-bold text-riso-ink">
                     {daysRemainingInPhase > 0
                       ? `${daysRemainingInPhase} j restants`
                       : daysRemainingInPhase === 0
@@ -335,17 +335,17 @@ export const DashboardSection: React.FC = () => {
                 </div>
 
                 <div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-[#22408F] font-heading leading-tight">
+                  <h3 className="text-xl sm:text-2xl font-bold text-riso-ink font-heading leading-tight">
                     {currentPhase.nom || currentPhase.name}
                   </h3>
-                  <p className="text-xs text-[#5A6A94] font-medium mt-0.5">
+                  <p className="text-xs text-riso-ink-secondary font-medium mt-0.5">
                     Du {formatFrenchDate(currentPhase.debut || currentPhase.calculatedStartDate || '')} au{' '}
                     {formatFrenchDate(currentPhase.fin || currentPhase.calculatedEndDate || '')}
                   </p>
                 </div>
 
                 <div className="pt-1">
-                  <p className="text-xs text-[#22408F] font-medium bg-white/80 p-2.5 rounded-lg border border-[#22408F]/20 leading-relaxed">
+                  <p className="text-xs text-riso-ink font-medium bg-white/80 p-2.5 rounded-[8px] border border-riso-line leading-relaxed">
                     {currentPhase.objectif ||
                       currentPhase.objective ||
                       currentPhase.deliverableSummary ||
@@ -354,7 +354,7 @@ export const DashboardSection: React.FC = () => {
                 </div>
               </div>
             ) : (
-              <div className="p-5 rounded-xl border-2 border-[#22408F] bg-[#FBFAF6] text-center text-xs text-[#5A6A94]">
+              <div className="p-5 rounded-[16px] border-2 border-riso-ink bg-riso-paper text-center text-xs text-riso-ink-secondary">
                 Aucune phase définie.
               </div>
             )}
@@ -362,12 +362,12 @@ export const DashboardSection: React.FC = () => {
         </div>
 
         {/* Dessous : Frise des phases (couleurs), curseur « aujourd'hui », losanges pour chaque livrable */}
-        <div className="pt-4 border-t-2 border-[#22408F]/15 space-y-7">
-          <div className="flex items-center justify-between text-xs font-bold text-[#22408F]">
+        <div className="pt-4 border-t-2 border-riso-line space-y-7">
+          <div className="flex items-center justify-between text-xs font-bold text-riso-ink">
             <span className="font-heading uppercase tracking-wider text-[11px]">
               Frise chronologique du projet
             </span>
-            <span className="text-[#5A6A94] font-mono text-[11px]">
+            <span className="text-riso-ink-secondary font-mono text-[11px]">
               {formatFrenchDate(startDate, false)} → {formatFrenchDate(deadlineDate, false)}
             </span>
           </div>
@@ -375,16 +375,16 @@ export const DashboardSection: React.FC = () => {
           <div className="relative pt-6 pb-6">
             {/* Curseur Aujourd'hui (étiquette au-dessus + ligne) */}
             <div
-              className="absolute top-0 bottom-3 w-[2.5px] bg-[#22408F] z-20 pointer-events-none"
+              className="absolute top-0 bottom-3 w-[2.5px] bg-riso-ink z-20 pointer-events-none"
               style={{ left: `${todayPercent}%` }}
             >
-              <div className="absolute -top-5 -translate-x-1/2 bg-[#22408F] text-white text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap shadow-xs">
+              <div className="absolute -top-5 -translate-x-1/2 bg-riso-ink text-white text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap shadow-xs">
                 Aujourd'hui
               </div>
             </div>
 
             {/* Barre de frise des phases */}
-            <div className="h-9 w-full bg-[#FBFAF6] border-2 border-[#22408F] rounded-xl overflow-hidden flex shadow-[0_2px_0_#22408F] relative">
+            <div className="h-9 w-full bg-riso-paper border-2 border-riso-ink rounded-[16px] overflow-hidden flex shadow-riso-press relative">
               {phases.map((phase) => {
                 const phaseColor = getPhaseColor(phase, phases);
                 const pStart = phase.debut || phase.calculatedStartDate || startDate;
@@ -399,7 +399,7 @@ export const DashboardSection: React.FC = () => {
                       width: `${pPct}%`,
                       backgroundColor: phaseColor.hex,
                     }}
-                    className="h-full border-r-2 border-[#22408F] last:border-r-0 flex items-center justify-center px-2 relative group overflow-hidden mix-blend-multiply"
+                    className="h-full border-r-2 border-riso-ink last:border-r-0 flex items-center justify-center px-2 relative group overflow-hidden mix-blend-multiply"
                     title={`${phase.nom || phase.name} (${Math.round(pPct)} %)`}
                   >
                     <span className="text-white text-xs font-bold font-heading truncate drop-shadow-xs">
@@ -429,15 +429,15 @@ export const DashboardSection: React.FC = () => {
                   className="absolute bottom-1 -translate-x-1/2 flex flex-col items-center group cursor-pointer z-30"
                 >
                   <div
-                    className={`w-3.5 h-3.5 rotate-45 border-2 border-[#22408F] shadow-xs transition-transform group-hover:scale-125 ${
+                    className={`w-3.5 h-3.5 rotate-45 border-2 border-riso-ink shadow-xs transition-transform group-hover:scale-125 ${
                       isDone
-                        ? 'bg-[#2E8B4A]'
+                        ? 'bg-riso-p2'
                         : isOverdue
-                        ? 'bg-[#F0505A]'
-                        : 'bg-[#F2D21B]'
+                        ? 'bg-riso-p4'
+                        : 'bg-riso-p3'
                     }`}
                   />
-                  <div className="absolute top-5 bg-white border-2 border-[#22408F] px-2 py-0.5 rounded shadow-sm text-[10px] font-bold text-[#22408F] whitespace-nowrap hidden group-hover:block z-40">
+                  <div className="absolute top-5 bg-white border-2 border-riso-ink px-2 py-0.5 rounded-[8px] shadow-sm text-[10px] font-bold text-riso-ink whitespace-nowrap hidden group-hover:block z-40">
                     ◆ {del.title} ({formatFrenchDate(delDate, false)})
                   </div>
                 </div>
@@ -446,14 +446,14 @@ export const DashboardSection: React.FC = () => {
           </div>
 
           {/* Légende de la frise */}
-          <div className="flex flex-wrap items-center justify-between gap-3 text-[11px] text-[#5A6A94] pt-1">
+          <div className="flex flex-wrap items-center justify-between gap-3 text-[11px] text-riso-ink-secondary pt-1">
             <div className="flex flex-wrap items-center gap-3">
               {phases.map((ph) => {
                 const color = getPhaseColor(ph, phases);
                 return (
-                  <div key={ph.id} className="flex items-center gap-1.5 font-medium text-[#22408F]">
+                  <div key={ph.id} className="flex items-center gap-1.5 font-medium text-riso-ink">
                     <span
-                      className="w-2.5 h-2.5 rounded-full border border-[#22408F]/40"
+                      className="w-2.5 h-2.5 rounded-full border border-riso-line"
                       style={{ backgroundColor: color.hex }}
                     />
                     <span>{ph.nom || ph.name}</span>
@@ -463,15 +463,15 @@ export const DashboardSection: React.FC = () => {
             </div>
             <div className="flex items-center gap-3">
               <span className="flex items-center gap-1">
-                <span className="w-2.5 h-2.5 rotate-45 bg-[#2E8B4A] border border-[#22408F]" />
+                <span className="w-2.5 h-2.5 rotate-45 bg-riso-p2 border-2 border-riso-ink" />
                 <span>Validé</span>
               </span>
               <span className="flex items-center gap-1">
-                <span className="w-2.5 h-2.5 rotate-45 bg-[#F0505A] border border-[#22408F]" />
+                <span className="w-2.5 h-2.5 rotate-45 bg-riso-p4 border-2 border-riso-ink" />
                 <span>En retard</span>
               </span>
               <span className="flex items-center gap-1">
-                <span className="w-2.5 h-2.5 rotate-45 bg-[#F2D21B] border border-[#22408F]" />
+                <span className="w-2.5 h-2.5 rotate-45 bg-riso-p3 border-2 border-riso-ink" />
                 <span>À venir</span>
               </span>
             </div>
@@ -483,10 +483,10 @@ export const DashboardSection: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
         {/* CARTE 1 : Heures (large) - lg:col-span-6 */}
         <div className="lg:col-span-6 riso-card p-6 flex flex-col justify-between space-y-4 bg-white">
-          <div className="flex items-center justify-between border-b-2 border-[#22408F]/15 pb-3">
+          <div className="flex items-center justify-between border-b-2 border-riso-line pb-3">
             <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4 text-[#22408F]" />
-              <h3 className="font-bold text-sm text-[#22408F] uppercase tracking-wider font-heading">
+              <Clock className="w-4 h-4 text-riso-ink" />
+              <h3 className="font-bold text-sm text-riso-ink uppercase tracking-wider font-heading">
                 Heures de travail
               </h3>
             </div>
@@ -500,8 +500,8 @@ export const DashboardSection: React.FC = () => {
           </div>
 
           {sessions.length === 0 ? (
-            <div className="p-8 text-center rounded-xl border-2 border-dashed border-[#22408F]/30 riso-dots-light space-y-2">
-              <p className="font-bold text-xs text-[#22408F]">Aucune session enregistrée</p>
+            <div className="p-8 text-center rounded-[16px] border-2 border-dashed border-riso-line riso-dots-light space-y-2">
+              <p className="font-bold text-xs text-riso-ink">Aucune session enregistrée</p>
               <button
                 type="button"
                 onClick={() => setActiveTab('sessions')}
@@ -516,21 +516,21 @@ export const DashboardSection: React.FC = () => {
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between text-xs">
                   <div className="flex items-center gap-1.5">
-                    <User className="w-3.5 h-3.5 text-[#2F6DBB]" />
-                    <span className="font-bold text-[#22408F]">Solo</span>
+                    <User className="w-3.5 h-3.5 text-riso-p1" />
+                    <span className="font-bold text-riso-ink">Solo</span>
                   </div>
-                  <span className="font-mono text-xs font-bold text-[#22408F]">
+                  <span className="font-mono text-xs font-bold text-riso-ink">
                     {hoursStats.solo.done} h faites · {hoursStats.solo.planned} h prévues
                   </span>
                 </div>
-                <div className="h-6 w-full bg-[#FBFAF6] border-2 border-[#22408F] rounded-lg overflow-hidden flex shadow-xs">
+                <div className="h-6 w-full bg-riso-paper border-2 border-riso-ink rounded-[8px] overflow-hidden flex shadow-xs">
                   {hoursStats.solo.total > 0 ? (
                     <>
                       <div
                         style={{
                           width: `${(hoursStats.solo.done / hoursStats.solo.total) * 100}%`,
                         }}
-                        className="h-full bg-[#2F6DBB] border-r-2 border-[#22408F] mix-blend-multiply transition-all"
+                        className="h-full bg-riso-p1 border-r-2 border-riso-ink mix-blend-multiply transition-all"
                         title={`${hoursStats.solo.done} h faites (plein)`}
                       />
                       <div
@@ -551,21 +551,21 @@ export const DashboardSection: React.FC = () => {
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between text-xs">
                   <div className="flex items-center gap-1.5">
-                    <Users className="w-3.5 h-3.5 text-[#2E8B4A]" />
-                    <span className="font-bold text-[#22408F]">Groupe</span>
+                    <Users className="w-3.5 h-3.5 text-riso-p2" />
+                    <span className="font-bold text-riso-ink">Groupe</span>
                   </div>
-                  <span className="font-mono text-xs font-bold text-[#22408F]">
+                  <span className="font-mono text-xs font-bold text-riso-ink">
                     {hoursStats.groupe.done} h faites · {hoursStats.groupe.planned} h prévues
                   </span>
                 </div>
-                <div className="h-6 w-full bg-[#FBFAF6] border-2 border-[#22408F] rounded-lg overflow-hidden flex shadow-xs">
+                <div className="h-6 w-full bg-riso-paper border-2 border-riso-ink rounded-[8px] overflow-hidden flex shadow-xs">
                   {hoursStats.groupe.total > 0 ? (
                     <>
                       <div
                         style={{
                           width: `${(hoursStats.groupe.done / hoursStats.groupe.total) * 100}%`,
                         }}
-                        className="h-full bg-[#2E8B4A] border-r-2 border-[#22408F] mix-blend-multiply transition-all"
+                        className="h-full bg-riso-p2 border-r-2 border-riso-ink mix-blend-multiply transition-all"
                         title={`${hoursStats.groupe.done} h faites (plein)`}
                       />
                       <div
@@ -586,21 +586,21 @@ export const DashboardSection: React.FC = () => {
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between text-xs">
                   <div className="flex items-center gap-1.5">
-                    <GraduationCap className="w-3.5 h-3.5 text-[#7A4A9E]" />
-                    <span className="font-bold text-[#22408F]">Tuteur</span>
+                    <GraduationCap className="w-3.5 h-3.5 text-riso-p6" />
+                    <span className="font-bold text-riso-ink">Tuteur</span>
                   </div>
-                  <span className="font-mono text-xs font-bold text-[#22408F]">
+                  <span className="font-mono text-xs font-bold text-riso-ink">
                     {hoursStats.tuteur.done} h faites · {hoursStats.tuteur.planned} h prévues
                   </span>
                 </div>
-                <div className="h-6 w-full bg-[#FBFAF6] border-2 border-[#22408F] rounded-lg overflow-hidden flex shadow-xs">
+                <div className="h-6 w-full bg-riso-paper border-2 border-riso-ink rounded-[8px] overflow-hidden flex shadow-xs">
                   {hoursStats.tuteur.total > 0 ? (
                     <>
                       <div
                         style={{
                           width: `${(hoursStats.tuteur.done / hoursStats.tuteur.total) * 100}%`,
                         }}
-                        className="h-full bg-[#7A4A9E] border-r-2 border-[#22408F] mix-blend-multiply transition-all"
+                        className="h-full bg-riso-p6 border-r-2 border-riso-ink mix-blend-multiply transition-all"
                         title={`${hoursStats.tuteur.done} h faites (plein)`}
                       />
                       <div
@@ -618,18 +618,18 @@ export const DashboardSection: React.FC = () => {
               </div>
 
               {/* Légende Fait (plein) / Prévu (trame) */}
-              <div className="flex items-center justify-between text-[11px] text-[#5A6A94] pt-2 border-t border-[#22408F]/15">
+              <div className="flex items-center justify-between text-[11px] text-riso-ink-secondary pt-2 border-t border-riso-line">
                 <div className="flex items-center gap-4">
                   <span className="flex items-center gap-1.5">
-                    <span className="w-3 h-3 bg-[#22408F] border border-[#22408F] rounded-xs" />
+                    <span className="w-3 h-3 bg-riso-ink border-2 border-riso-ink rounded-[8px]" />
                     <span>Fait (plein)</span>
                   </span>
                   <span className="flex items-center gap-1.5">
-                    <span className="w-3 h-3 bg-white riso-dots border border-[#22408F] rounded-xs" />
+                    <span className="w-3 h-3 bg-white riso-dots border-2 border-riso-ink rounded-[8px]" />
                     <span>Prévu (trame)</span>
                   </span>
                 </div>
-                <span className="font-bold font-mono text-[#22408F]">
+                <span className="font-bold font-mono text-riso-ink">
                   Total : {hoursStats.totalDone} h / {hoursStats.total} h
                 </span>
               </div>
@@ -639,8 +639,8 @@ export const DashboardSection: React.FC = () => {
 
         {/* CARTE 2 : Tâches (anneau segmenté) - lg:col-span-3 */}
         <div className="lg:col-span-3 riso-card p-6 flex flex-col justify-between space-y-4 bg-white">
-          <div className="flex items-center justify-between border-b-2 border-[#22408F]/15 pb-3">
-            <h3 className="font-bold text-sm text-[#22408F] uppercase tracking-wider font-heading">
+          <div className="flex items-center justify-between border-b-2 border-riso-line pb-3">
+            <h3 className="font-bold text-sm text-riso-ink uppercase tracking-wider font-heading">
               Tâches
             </h3>
             <button
@@ -653,8 +653,8 @@ export const DashboardSection: React.FC = () => {
           </div>
 
           {taskStats.total === 0 ? (
-            <div className="p-8 text-center rounded-xl border-2 border-dashed border-[#22408F]/30 riso-dots-light space-y-2">
-              <p className="font-bold text-xs text-[#22408F]">Aucune tâche</p>
+            <div className="p-8 text-center rounded-[16px] border-2 border-dashed border-riso-line riso-dots-light space-y-2">
+              <p className="font-bold text-xs text-riso-ink">Aucune tâche</p>
               <button
                 type="button"
                 onClick={() => setActiveTab('checklist')}
@@ -674,7 +674,7 @@ export const DashboardSection: React.FC = () => {
                     cy="60"
                     r="44"
                     fill="none"
-                    stroke="#EBF1FF"
+                    stroke="var(--riso-p1-light)"
                     strokeWidth="12"
                   />
                   {/* Segments dynamiques */}
@@ -694,7 +694,7 @@ export const DashboardSection: React.FC = () => {
                           key="done"
                           d={describeArc(60, 60, 44, currentAngle, end)}
                           fill="none"
-                          stroke="#2E8B4A"
+                          stroke="var(--riso-p2)"
                           strokeWidth="12"
                         />
                       );
@@ -708,7 +708,7 @@ export const DashboardSection: React.FC = () => {
                           key="overdue"
                           d={describeArc(60, 60, 44, currentAngle, end)}
                           fill="none"
-                          stroke="#F0505A"
+                          stroke="var(--riso-p4)"
                           strokeWidth="12"
                           strokeDasharray="4 3"
                         />
@@ -723,7 +723,7 @@ export const DashboardSection: React.FC = () => {
                           key="upcoming"
                           d={describeArc(60, 60, 44, currentAngle, end)}
                           fill="none"
-                          stroke="#22408F"
+                          stroke="var(--riso-ink)"
                           strokeWidth="12"
                           strokeDasharray="2 2"
                         />
@@ -736,10 +736,10 @@ export const DashboardSection: React.FC = () => {
 
                 {/* Nombre au centre */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none select-none">
-                  <span className="font-heading font-extrabold text-2xl text-[#22408F] leading-none tabular-nums">
+                  <span className="font-heading font-extrabold text-2xl text-riso-ink leading-none tabular-nums">
                     {taskStats.done}/{taskStats.total}
                   </span>
-                  <span className="text-[10px] font-bold text-[#5A6A94] uppercase tracking-wider mt-0.5">
+                  <span className="text-[10px] font-bold text-riso-ink-secondary uppercase tracking-wider mt-0.5">
                     faites
                   </span>
                 </div>
@@ -747,23 +747,23 @@ export const DashboardSection: React.FC = () => {
 
               {/* Légende de l'anneau */}
               <div className="w-full space-y-1 text-xs pt-1">
-                <div className="flex items-center justify-between text-[#2E8B4A] font-bold">
+                <div className="flex items-center justify-between text-riso-p2 font-bold">
                   <span className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#2E8B4A]" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-riso-p2" />
                     <span>Fait (plein)</span>
                   </span>
                   <span className="font-mono">{taskStats.done}</span>
                 </div>
-                <div className="flex items-center justify-between text-[#F0505A] font-bold">
+                <div className="flex items-center justify-between text-riso-p4 font-bold">
                   <span className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full border border-dashed border-[#F0505A] bg-[#FDEEEF]" />
+                    <span className="w-2.5 h-2.5 rounded-full border border-dashed border-riso-p4 bg-riso-p4-light" />
                     <span>En retard (pointillé)</span>
                   </span>
                   <span className="font-mono">{taskStats.overdue}</span>
                 </div>
-                <div className="flex items-center justify-between text-[#22408F] font-bold">
+                <div className="flex items-center justify-between text-riso-ink font-bold">
                   <span className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full border border-dotted border-[#22408F] bg-[#EBF1FF]" />
+                    <span className="w-2.5 h-2.5 rounded-full border border-dotted border-riso-ink bg-riso-p1-light" />
                     <span>À venir (trame)</span>
                   </span>
                   <span className="font-mono">{taskStats.upcoming}</span>
@@ -775,10 +775,10 @@ export const DashboardSection: React.FC = () => {
 
         {/* CARTE 3 : Livrables (pile d'étiquettes) - lg:col-span-3 */}
         <div className="lg:col-span-3 riso-card p-6 flex flex-col justify-between space-y-4 bg-white">
-          <div className="flex items-center justify-between border-b-2 border-[#22408F]/15 pb-3">
+          <div className="flex items-center justify-between border-b-2 border-riso-line pb-3">
             <div className="flex items-center gap-2">
-              <FileCheck className="w-4 h-4 text-[#22408F]" />
-              <h3 className="font-bold text-sm text-[#22408F] uppercase tracking-wider font-heading">
+              <FileCheck className="w-4 h-4 text-riso-ink" />
+              <h3 className="font-bold text-sm text-riso-ink uppercase tracking-wider font-heading">
                 Livrables
               </h3>
             </div>
@@ -792,8 +792,8 @@ export const DashboardSection: React.FC = () => {
           </div>
 
           {deliverablesList.length === 0 ? (
-            <div className="p-8 text-center rounded-xl border-2 border-dashed border-[#22408F]/30 riso-dots-light space-y-2">
-              <p className="font-bold text-xs text-[#22408F]">Aucun livrable</p>
+            <div className="p-8 text-center rounded-[16px] border-2 border-dashed border-riso-line riso-dots-light space-y-2">
+              <p className="font-bold text-xs text-riso-ink">Aucun livrable</p>
               <button
                 type="button"
                 onClick={() => setActiveTab('livrables')}
@@ -814,20 +814,20 @@ export const DashboardSection: React.FC = () => {
                   <div
                     key={del.id}
                     onClick={() => setActiveTab('livrables')}
-                    className="p-3 rounded-lg border-2 border-[#22408F] shadow-[0_2px_0_#22408F] transition-all hover:-translate-y-0.5 cursor-pointer flex items-center justify-between gap-2"
+                    className="p-3 rounded-[8px] border-2 border-riso-ink shadow-riso-press transition-all hover:-translate-y-0.5 cursor-pointer flex items-center justify-between gap-2"
                     style={{ backgroundColor: phaseColor.bgLight }}
                   >
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-1.5">
                         <span
-                          className="w-2 h-2 rounded-full border border-[#22408F]/40 shrink-0"
+                          className="w-2 h-2 rounded-full border border-riso-line shrink-0"
                           style={{ backgroundColor: phaseColor.hex }}
                         />
-                        <span className="text-xs font-bold text-[#22408F] truncate">
+                        <span className="text-xs font-bold text-riso-ink truncate">
                           {del.title}
                         </span>
                       </div>
-                      <div className="text-[11px] text-[#5A6A94] font-mono mt-0.5">
+                      <div className="text-[11px] text-riso-ink-secondary font-mono mt-0.5">
                         Dépôt : {formatFrenchDate(del.deadline, false)}
                       </div>
                     </div>
@@ -835,16 +835,16 @@ export const DashboardSection: React.FC = () => {
                     {/* Statut par forme : ✓ validé (plein), pointillé en retard, trame à venir */}
                     <div className="shrink-0">
                       {isDone ? (
-                        <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-[999px] bg-[#2E8B4A] text-white border-2 border-[#22408F] font-bold text-[10px]">
+                        <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-[999px] bg-riso-p2 text-white border-2 border-riso-ink font-bold text-[10px]">
                           <Check className="w-3 h-3" />
                           <span>Validé</span>
                         </span>
                       ) : isOverdue ? (
-                        <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-[999px] bg-[#FDEEEF] text-[#F0505A] border-2 border-dashed border-[#F0505A] font-bold text-[10px]">
+                        <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-[999px] bg-riso-p4-light text-riso-p4 border-2 border-dashed border-riso-p4 font-bold text-[10px]">
                           <span>En retard</span>
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-[999px] bg-white riso-dots text-[#22408F] border-2 border-[#22408F] font-bold text-[10px]">
+                        <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-[999px] bg-white riso-dots text-riso-ink border-2 border-riso-ink font-bold text-[10px]">
                           <span>À venir</span>
                         </span>
                       )}
@@ -859,14 +859,14 @@ export const DashboardSection: React.FC = () => {
 
       {/* 3. CETTE SEMAINE : Ruban 7 jours avec blocs de sessions + « 3 prochaines actions » */}
       <div className="riso-card p-6 sm:p-7 space-y-6 bg-white">
-        <div className="flex items-center justify-between border-b-2 border-[#22408F]/15 pb-3">
+        <div className="flex items-center justify-between border-b-2 border-riso-line pb-3">
           <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4 text-[#22408F]" />
-            <h3 className="font-bold text-sm text-[#22408F] uppercase tracking-wider font-heading">
+            <Calendar className="w-4 h-4 text-riso-ink" />
+            <h3 className="font-bold text-sm text-riso-ink uppercase tracking-wider font-heading">
               Cette semaine
             </h3>
           </div>
-          <span className="text-xs text-[#5A6A94] font-medium">
+          <span className="text-xs text-riso-ink-secondary font-medium">
             Du {formatFrenchDate(weekDays[0].dateISO, false)} au {formatFrenchDate(weekDays[6].dateISO, false)}
           </span>
         </div>
@@ -877,20 +877,20 @@ export const DashboardSection: React.FC = () => {
             {weekDays.map((day) => (
               <div
                 key={day.dateISO}
-                className={`p-2.5 rounded-xl border-2 transition-all min-h-[110px] flex flex-col justify-between ${
+                className={`p-2.5 rounded-[16px] border-2 transition-all min-h-[110px] flex flex-col justify-between ${
                   day.isToday
-                    ? 'border-[#22408F] bg-[#EBF1FF] shadow-[0_3px_0_#22408F]'
-                    : 'border-[#22408F]/30 bg-[#FBFAF6] hover:border-[#22408F]'
+                    ? 'border-riso-ink bg-riso-p1-light shadow-riso'
+                    : 'border-riso-line bg-riso-paper hover:border-riso-ink'
                 }`}
               >
-                <div className="flex items-center justify-between border-b border-[#22408F]/15 pb-1">
-                  <span className="font-bold text-xs text-[#22408F]">{day.dayName}</span>
+                <div className="flex items-center justify-between border-b border-riso-line pb-1">
+                  <span className="font-bold text-xs text-riso-ink">{day.dayName}</span>
                   <div className="flex items-center gap-1">
-                    <span className="font-mono text-xs font-bold text-[#22408F]">
+                    <span className="font-mono text-xs font-bold text-riso-ink">
                       {day.dayNumber}
                     </span>
                     {day.isToday && (
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#2F6DBB]" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-riso-p1" />
                     )}
                   </div>
                 </div>
@@ -906,29 +906,29 @@ export const DashboardSection: React.FC = () => {
                         <div
                           key={sess.id}
                           onClick={() => setActiveTab('sessions')}
-                          className="p-1.5 rounded border border-[#22408F] bg-white shadow-2xs text-[10px] space-y-0.5 cursor-pointer hover:bg-[#FEFCE8] transition-colors"
+                          className="p-1.5 rounded-[8px] border-2 border-riso-ink bg-white shadow-2xs text-[10px] space-y-0.5 cursor-pointer hover:bg-riso-p3-light transition-colors"
                         >
-                          <div className="flex items-center gap-1 font-bold text-[#22408F] truncate">
+                          <div className="flex items-center gap-1 font-bold text-riso-ink truncate">
                             <span
                               className="w-1.5 h-1.5 rounded-full shrink-0"
                               style={{ backgroundColor: sessColor.hex }}
                             />
                             <span className="truncate">{getSessionTypeLabel(sess.type)}</span>
                           </div>
-                          <div className="text-[9px] text-[#5A6A94] truncate">
+                          <div className="text-[9px] text-riso-ink-secondary truncate">
                             {sess.plannedDurationHours || 2} h · {sess.objective}
                           </div>
                         </div>
                       );
                     })
                   ) : (
-                    <div className="h-full flex items-center justify-center text-[10px] text-[#5A6A94]/60 italic">
+                    <div className="h-full flex items-center justify-center text-[10px] text-riso-ink-secondary/60 italic">
                       —
                     </div>
                   )}
                 </div>
 
-                <div className="text-[10px] text-[#5A6A94] font-medium text-right">
+                <div className="text-[10px] text-riso-ink-secondary font-medium text-right">
                   {day.sessions.length > 0
                     ? `${day.sessions.length} session${day.sessions.length > 1 ? 's' : ''}`
                     : ''}
@@ -939,9 +939,9 @@ export const DashboardSection: React.FC = () => {
         </div>
 
         {/* 3 prochaines actions */}
-        <div className="pt-4 border-t-2 border-[#22408F]/15 space-y-3">
+        <div className="pt-4 border-t-2 border-riso-line space-y-3">
           <div className="flex items-center justify-between">
-            <h4 className="font-bold text-xs text-[#22408F] uppercase tracking-wider font-heading">
+            <h4 className="font-bold text-xs text-riso-ink uppercase tracking-wider font-heading">
               3 prochaines actions
             </h4>
             <button
@@ -954,8 +954,8 @@ export const DashboardSection: React.FC = () => {
           </div>
 
           {next3Actions.length === 0 ? (
-            <div className="p-6 text-center rounded-xl border-2 border-dashed border-[#22408F]/30 riso-dots-light space-y-2">
-              <p className="font-bold text-xs text-[#22408F]">Aucune tâche en attente</p>
+            <div className="p-6 text-center rounded-[16px] border-2 border-dashed border-riso-line riso-dots-light space-y-2">
+              <p className="font-bold text-xs text-riso-ink">Aucune tâche en attente</p>
               <button
                 type="button"
                 onClick={() => setActiveTab('checklist')}
@@ -975,15 +975,15 @@ export const DashboardSection: React.FC = () => {
                   <div
                     key={task.id}
                     onClick={() => setActiveTab('checklist')}
-                    className="p-3.5 rounded-xl border-2 border-[#22408F] bg-[#FBFAF6] hover:bg-white shadow-[0_2px_0_#22408F] transition-all cursor-pointer flex flex-col justify-between space-y-2"
+                    className="p-3.5 rounded-[16px] border-2 border-riso-ink bg-riso-paper hover:bg-white shadow-riso-press transition-all cursor-pointer flex flex-col justify-between space-y-2"
                   >
                     <div className="space-y-1">
                       <div className="flex items-center justify-between text-[11px]">
                         <span
-                          className="px-2 py-0.5 rounded-full font-bold text-[10px] border border-[#22408F]/30"
+                          className="px-2 py-0.5 rounded-full font-bold text-[10px] border border-riso-line"
                           style={{
                             backgroundColor: phaseColor.bgLight,
-                            color: '#22408F',
+                            color: 'var(--riso-ink)',
                           }}
                         >
                           {taskPhase.nom || taskPhase.name}
@@ -991,19 +991,19 @@ export const DashboardSection: React.FC = () => {
                         {task.deadline && (
                           <span
                             className={`font-mono font-bold text-[10px] ${
-                              isOverdue ? 'text-[#F0505A]' : 'text-[#5A6A94]'
+                              isOverdue ? 'text-riso-p4' : 'text-riso-ink-secondary'
                             }`}
                           >
                             {formatFrenchDate(task.deadline, false)}
                           </span>
                         )}
                       </div>
-                      <p className="text-xs font-bold text-[#22408F] line-clamp-2">
+                      <p className="text-xs font-bold text-riso-ink line-clamp-2">
                         {task.title}
                       </p>
                     </div>
 
-                    <div className="flex items-center justify-between text-[10px] text-[#5A6A94] pt-1 border-t border-[#22408F]/10">
+                    <div className="flex items-center justify-between text-[10px] text-riso-ink-secondary pt-1 border-t border-riso-line">
                       <span>{task.durationMinutes ? `${task.durationMinutes} min` : 'Action'}</span>
                       {settings.mode === 'groupe' && task.assignee && (
                         <span className="font-semibold truncate max-w-[100px]">

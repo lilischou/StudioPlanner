@@ -70,7 +70,7 @@ export const TraceCover: React.FC<TraceCoverProps> = ({
 }) => {
   const src = useCoverSrc(entry);
   return (
-    <div className={`relative overflow-hidden bg-[#EBF1FF] ${className}`}>
+    <div className={`relative overflow-hidden bg-riso-p1-light ${className}`}>
       {src ? (
         <CoverImage src={src} crop={entry.cover?.crop} alt={alt} />
       ) : (

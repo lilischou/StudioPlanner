@@ -199,25 +199,25 @@ export const TracePanel: React.FC<Props> = ({
   return (
     <div className="fixed inset-0 z-50">
       <div
-        className="absolute inset-0 bg-[#22408F]/25 cursor-pointer"
+        className="absolute inset-0 bg-riso-ink/25 cursor-pointer"
         onClick={onClose}
         aria-hidden="true"
       />
 
       <aside
-        className="absolute top-0 right-0 bottom-0 w-full sm:w-[440px] bg-[#FBFAF6] border-l-2 border-[#22408F] flex flex-col animate-in slide-in-from-right duration-200"
+        className="absolute top-0 right-0 bottom-0 w-full sm:w-[440px] bg-riso-paper border-l-2 border-riso-ink flex flex-col animate-in slide-in-from-right duration-200"
         role="dialog"
         aria-label="Fiche de la trace"
       >
         {/* A. En-tête */}
-        <header className="px-5 pt-4 pb-3 border-b border-[#DCE2EF] bg-white shrink-0 space-y-2.5">
+        <header className="px-5 pt-4 pb-3 border-b border-riso-line bg-white shrink-0 space-y-2.5">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2 min-w-0 flex-wrap">
               {editing ? (
                 <select
                   value={entry.phaseId}
                   onChange={(e) => onUpdate({ phaseId: e.target.value })}
-                  className="text-xs font-bold text-[#22408F] bg-white border-2 border-[#22408F] rounded-full px-2.5 py-0.5"
+                  className="text-xs font-bold text-riso-ink bg-white border-2 border-riso-ink rounded-full px-2.5 py-0.5"
                   aria-label="Phase"
                 >
                   {phases.map((p) => (
@@ -228,7 +228,7 @@ export const TracePanel: React.FC<Props> = ({
                 </select>
               ) : (
                 <span
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-[#22408F] border-2 border-[#22408F] rounded-full px-2.5 py-0.5"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-riso-ink border-2 border-riso-ink rounded-full px-2.5 py-0.5"
                   style={{ backgroundColor: colors.bgLight }}
                 >
                   <span className="w-2 h-2 rounded-full" style={{ backgroundColor: colors.hex }} />
@@ -240,11 +240,11 @@ export const TracePanel: React.FC<Props> = ({
                   type="date"
                   value={entry.date}
                   onChange={(e) => e.target.value && onUpdate({ date: e.target.value })}
-                  className="text-xs font-mono text-[#22408F] bg-white border-2 border-[#22408F] rounded-lg px-2 py-0.5"
+                  className="text-xs font-mono text-riso-ink bg-white border-2 border-riso-ink rounded-[8px] px-2 py-0.5"
                   aria-label="Date"
                 />
               ) : (
-                <span className="text-xs text-[#5A6A94] font-mono">
+                <span className="text-xs text-riso-ink-secondary font-mono">
                   {formatFrenchDate(entry.date)}
                   {entry.time ? ` · ${entry.time}` : ''}
                 </span>
@@ -274,12 +274,12 @@ export const TracePanel: React.FC<Props> = ({
               aria-label="Titre de la trace"
             />
           ) : (
-            <h2 className="font-heading font-bold text-lg text-[#22408F] leading-tight">
+            <h2 className="font-heading font-bold text-lg text-riso-ink leading-tight">
               {getTraceTitle(entry)}
             </h2>
           )}
           {editing && (
-            <p className="text-[11px] text-[#5A6A94]">
+            <p className="text-[11px] text-riso-ink-secondary">
               {saved ? 'Enregistré ✓' : 'Tes modifications s’enregistrent automatiquement.'}
             </p>
           )}
@@ -289,7 +289,7 @@ export const TracePanel: React.FC<Props> = ({
         <div className="flex-1 overflow-y-auto px-5 py-4 space-y-6">
           {/* B. Couverture */}
           <section className="space-y-2" aria-label="Couverture">
-            <div className="rounded-lg border-2 border-[#22408F] overflow-hidden">
+            <div className="rounded-[8px] border-2 border-riso-ink overflow-hidden">
               <TraceCover
                 entry={entry}
                 phaseHex={colors.hex}
@@ -320,7 +320,7 @@ export const TracePanel: React.FC<Props> = ({
               aria-label="Choisir une photo"
             />
             {coverSrc && (
-              <div className="flex items-center gap-2 text-[#5A6A94]" role="group" aria-label="Menu de la couverture">
+              <div className="flex items-center gap-2 text-riso-ink-secondary" role="group" aria-label="Menu de la couverture">
                 <button type="button" className={TEXT_LINK_CLS} onClick={() => photoInput.current?.click()} disabled={photoBusy}>
                   Remplacer
                 </button>
@@ -339,7 +339,7 @@ export const TracePanel: React.FC<Props> = ({
           {/* C. Ma démarche */}
           <section className="space-y-3" aria-label="Ma démarche">
             <div className="flex items-center justify-between gap-2">
-              <h3 className="font-heading font-bold text-sm text-[#22408F]">Ma démarche</h3>
+              <h3 className="font-heading font-bold text-sm text-riso-ink">Ma démarche</h3>
               {editing && isAiEnabled() && (
                 <button
                   type="button"
@@ -353,7 +353,7 @@ export const TracePanel: React.FC<Props> = ({
             </div>
 
             {aiError && (
-              <div className="p-2 bg-[#FFF0F0] border-2 border-[#F0505A] rounded-[8px] text-[11px] font-bold text-[#F0505A]">
+              <div className="p-2 bg-riso-p4-light border-2 border-riso-p4 rounded-[8px] text-[11px] font-bold text-riso-p4">
                 {aiError}
               </div>
             )}
@@ -390,9 +390,9 @@ export const TracePanel: React.FC<Props> = ({
                       aria-label={b.label}
                     />
                   ) : value.trim() ? (
-                    <p className="text-xs text-[#22408F] leading-relaxed whitespace-pre-wrap">{value}</p>
+                    <p className="text-xs text-riso-ink leading-relaxed whitespace-pre-wrap">{value}</p>
                   ) : (
-                    <p className="text-xs text-[#8C9BBD] italic">Pas encore renseigné.</p>
+                    <p className="text-xs text-riso-ink-subtle italic">Pas encore renseigné.</p>
                   )}
                 </div>
               );
@@ -401,7 +401,7 @@ export const TracePanel: React.FC<Props> = ({
 
           {/* D. Documents de travail */}
           <section className="space-y-2.5" aria-label="Documents de travail">
-            <h3 className="font-heading font-bold text-sm text-[#22408F]">Documents de travail</h3>
+            <h3 className="font-heading font-bold text-sm text-riso-ink">Documents de travail</h3>
             <DocList
               docs={workDocs}
               editable={editing}
@@ -414,7 +414,7 @@ export const TracePanel: React.FC<Props> = ({
 
           {/* E. Ce que j'ai produit */}
           <section className="space-y-2.5" aria-label="Ce que j'ai produit">
-            <h3 className="font-heading font-bold text-sm text-[#22408F]">Ce que j’ai produit</h3>
+            <h3 className="font-heading font-bold text-sm text-riso-ink">Ce que j’ai produit</h3>
             {editing ? (
               <textarea
                 value={draft.resultText}
@@ -425,7 +425,7 @@ export const TracePanel: React.FC<Props> = ({
                 aria-label="Ce que j’ai produit"
               />
             ) : draft.resultText.trim() ? (
-              <p className="text-xs text-[#22408F] leading-relaxed whitespace-pre-wrap">{draft.resultText}</p>
+              <p className="text-xs text-riso-ink leading-relaxed whitespace-pre-wrap">{draft.resultText}</p>
             ) : null}
             <DocList
               docs={resultDocs}
@@ -441,7 +441,7 @@ export const TracePanel: React.FC<Props> = ({
           {entry.tags && entry.tags.length > 0 && (
             <div className="flex flex-wrap gap-x-2 gap-y-1">
               {entry.tags.map((t) => (
-                <span key={t} className="text-xs text-[#5A6A94] font-medium">
+                <span key={t} className="text-xs text-riso-ink-secondary font-medium">
                   #{t}
                 </span>
               ))}
@@ -449,7 +449,7 @@ export const TracePanel: React.FC<Props> = ({
           )}
           {(entry.sessionId || entry.taskId) && onOpenLinked && (
             <div className="riso-info-box bg-white p-3 flex items-center justify-between text-xs">
-              <span className="text-[#5A6A94]">
+              <span className="text-riso-ink-secondary">
                 {entry.sessionId ? 'Liée à une session de travail' : 'Liée à une tâche'}
               </span>
               <button type="button" onClick={onOpenLinked} className="riso-text-link">
@@ -460,13 +460,13 @@ export const TracePanel: React.FC<Props> = ({
         </div>
 
         {/* F. Pied */}
-        <footer className="px-5 py-3.5 bg-white border-t border-[#DCE2EF] flex items-center justify-between shrink-0">
+        <footer className="px-5 py-3.5 bg-white border-t border-riso-line flex items-center justify-between shrink-0">
           <button
             type="button"
             onClick={() => {
               if (window.confirm('Supprimer cette trace du carnet de bord ?')) onDelete();
             }}
-            className="text-xs text-[#5A6A94] underline underline-offset-2 hover:text-[#F0505A] bg-transparent border-none p-1"
+            className="text-xs text-riso-ink-secondary underline underline-offset-2 hover:text-riso-p4 bg-transparent border-none p-1"
           >
             Supprimer
           </button>

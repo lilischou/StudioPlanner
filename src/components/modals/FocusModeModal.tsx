@@ -113,9 +113,9 @@ const FocusModeContent: React.FC<ContentProps> = ({
 
   // Color of phase
   const phaseColor = PHASE_COLORS[target.phaseId] || {
-    bg: 'bg-amber-500',
-    hex: '#f59e0b',
-    text: 'text-amber-800',
+    bg: 'bg-riso-p5',
+    hex: 'var(--riso-p5)',
+    text: 'text-riso-ink',
   };
 
   // SVG circular disk parameters
@@ -165,16 +165,16 @@ const FocusModeContent: React.FC<ContentProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-neutral-950 flex flex-col justify-between text-white p-6 sm:p-10 select-none animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 bg-riso-ink flex flex-col justify-between text-white p-6 sm:p-10 select-none animate-in fade-in duration-200">
       {/* 3. Croix discrète pour quitter */}
       <div className="flex items-center justify-between max-w-lg w-full mx-auto">
-        <span className="text-xs font-semibold uppercase tracking-wider text-neutral-400">
+        <span className="text-xs font-semibold uppercase tracking-wider text-riso-ink-subtle">
           Mode Focus
         </span>
         <button
           type="button"
           onClick={onClose}
-          className="p-2 text-neutral-400 hover:text-white rounded-full hover:bg-neutral-800 transition-colors cursor-pointer"
+          className="p-2 text-riso-ink-subtle hover:text-white rounded-full hover:bg-riso-p1 transition-colors cursor-pointer"
           aria-label="Quitter le mode focus"
         >
           <X className="w-5 h-5" />
@@ -189,7 +189,7 @@ const FocusModeContent: React.FC<ContentProps> = ({
             <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white leading-snug">
               {target.title}
             </h2>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-900 border border-neutral-800 text-xs text-neutral-300">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-riso-ink border border-riso-ink text-xs text-riso-ink-subtle">
               <span
                 className="w-2 h-2 rounded-full shrink-0"
                 style={{ backgroundColor: phaseColor.hex }}
@@ -211,7 +211,7 @@ const FocusModeContent: React.FC<ContentProps> = ({
                 cx={size / 2}
                 cy={size / 2}
                 r={radius}
-                stroke="#262626"
+                stroke="var(--riso-ink)"
                 strokeWidth={strokeWidth}
                 fill="transparent"
               />
@@ -239,7 +239,7 @@ const FocusModeContent: React.FC<ContentProps> = ({
                   : formatTime(remainingSeconds)}
               </span>
 
-              <span className="text-xs text-neutral-400 mt-2 font-medium">
+              <span className="text-xs text-riso-ink-subtle mt-2 font-medium">
                 {isPaused
                   ? 'En pause'
                   : isTimeOver
@@ -251,7 +251,7 @@ const FocusModeContent: React.FC<ContentProps> = ({
 
             {/* Notification douce si le temps est dépassé, sans culpabiliser */}
             {isTimeOver && (
-              <div className="px-4 py-2 bg-neutral-900/90 border border-neutral-800 rounded-xl text-center text-xs text-neutral-300 animate-in fade-in">
+              <div className="px-4 py-2 bg-riso-ink/90 border border-riso-ink rounded-[16px] text-center text-xs text-riso-ink-subtle animate-in fade-in">
                 <span>Le temps prévu est écoulé. Prenez le temps nécessaire pour conclure votre geste.</span>
               </div>
             )}
@@ -261,7 +261,7 @@ const FocusModeContent: React.FC<ContentProps> = ({
             <button
               type="button"
               onClick={togglePause}
-              className="py-3 px-5 rounded-2xl bg-neutral-850 hover:bg-neutral-800 active:scale-95 border border-neutral-700 text-neutral-200 text-sm font-semibold flex items-center gap-2 transition-all cursor-pointer"
+              className="py-3 px-5 rounded-[16px] bg-riso-ink hover:bg-riso-p1 active:scale-95 border border-riso-ink text-riso-line text-sm font-semibold flex items-center gap-2 transition-all cursor-pointer"
             >
               {isPaused ? (
                 <>
@@ -279,7 +279,7 @@ const FocusModeContent: React.FC<ContentProps> = ({
             <button
               type="button"
               onClick={handleFinish}
-              className="py-3.5 px-8 rounded-2xl bg-white hover:bg-neutral-100 active:scale-95 text-neutral-950 font-bold text-sm shadow-lg flex items-center gap-2 transition-all cursor-pointer"
+              className="py-3.5 px-8 rounded-[16px] bg-white hover:bg-riso-p1-light active:scale-95 text-riso-ink font-bold text-sm shadow-lg flex items-center gap-2 transition-all cursor-pointer"
             >
               <Check className="w-4 h-4 stroke-[3]" />
               <span>J'ai fini</span>
@@ -290,7 +290,7 @@ const FocusModeContent: React.FC<ContentProps> = ({
         /* 4. Écran de fin avec la mascotte et « C'est fait. » */
         <div className="flex-1 flex flex-col items-center justify-center max-w-sm w-full mx-auto space-y-6 text-center my-auto animate-in zoom-in-95 duration-200">
           {/* Mascotte de StudioPlanner dans un carré blanc arrondi (mode sombre) */}
-          <div className="w-24 h-24 rounded-3xl bg-white border border-neutral-700 p-2 flex items-center justify-center shadow-2xl relative">
+          <div className="w-24 h-24 rounded-[24px] bg-white border border-riso-ink p-2 flex items-center justify-center shadow-2xl relative">
             <img
               src="/logo.png"
               alt=""
@@ -315,7 +315,7 @@ const FocusModeContent: React.FC<ContentProps> = ({
             <h2 className="text-3xl font-extrabold tracking-tight text-white">
               C'est fait.
             </h2>
-            <p className="text-xs text-neutral-400 max-w-xs leading-relaxed">
+            <p className="text-xs text-riso-ink-subtle max-w-xs leading-relaxed">
               Session enregistrée avec succès. Votre avancement et vos anneaux sont à jour.
             </p>
           </div>
@@ -337,7 +337,7 @@ const FocusModeContent: React.FC<ContentProps> = ({
                   tags: target.type === 'task' ? ['répéter'] : ['détourner'],
                 });
               }}
-              className="w-full py-3.5 px-6 rounded-2xl bg-white hover:bg-neutral-100 text-neutral-950 font-bold text-xs shadow-md transition-colors flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full py-3.5 px-6 rounded-[16px] bg-white hover:bg-riso-p1-light text-riso-ink font-bold text-xs shadow-md transition-colors flex items-center justify-center gap-2 cursor-pointer"
             >
               <BookOpen className="w-4 h-4" />
               <span>Ajouter une trace au journal</span>
@@ -346,7 +346,7 @@ const FocusModeContent: React.FC<ContentProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="w-full py-3 px-6 rounded-2xl bg-neutral-900 hover:bg-neutral-800 text-neutral-300 font-semibold text-xs transition-colors cursor-pointer"
+              className="w-full py-3 px-6 rounded-[16px] bg-riso-ink hover:bg-riso-p1 text-riso-ink-subtle font-semibold text-xs transition-colors cursor-pointer"
             >
               Retour
             </button>

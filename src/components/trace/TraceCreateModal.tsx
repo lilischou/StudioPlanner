@@ -31,18 +31,18 @@ const Fold: React.FC<{
   onToggle: () => void;
   children: React.ReactNode;
 }> = ({ title, count, open, onToggle, children }) => (
-  <div className="border-2 border-[#22408F]/30 rounded-lg bg-white">
+  <div className="border-2 border-riso-line rounded-[8px] bg-white">
     <button
       type="button"
       onClick={onToggle}
       aria-expanded={open}
       className="w-full flex items-center justify-between gap-2 px-3 py-2.5 text-left"
     >
-      <span className="flex items-center gap-2 text-sm font-bold text-[#22408F]">
+      <span className="flex items-center gap-2 text-sm font-bold text-riso-ink">
         {open ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
         {title}
         {!!count && (
-          <span className="text-[11px] font-mono text-[#5A6A94] bg-[#EBF1FF] rounded-full px-1.5">{count}</span>
+          <span className="text-[11px] font-mono text-riso-ink-secondary bg-riso-p1-light rounded-full px-1.5">{count}</span>
         )}
       </span>
     </button>
@@ -190,18 +190,18 @@ export const TraceCreateModal: React.FC<Props> = ({
   const phaseHex = getPhaseColor(phaseId, phases).hex;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#22408F]/30 flex items-start sm:items-center justify-center p-3 sm:p-4">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-riso-ink/30 flex items-start sm:items-center justify-center p-3 sm:p-4">
       <div
         className="riso-card w-full max-w-lg my-4 flex flex-col max-h-[90vh] overflow-hidden animate-in fade-in zoom-in-95 duration-150"
         role="dialog"
         aria-label="Nouvelle trace"
       >
-        <div className="px-5 pt-4 pb-3 flex items-center justify-between border-b border-[#DCE2EF] shrink-0">
-          <h2 className="font-heading font-bold text-base text-[#22408F]">Nouvelle trace</h2>
+        <div className="px-5 pt-4 pb-3 flex items-center justify-between border-b border-riso-line shrink-0">
+          <h2 className="font-heading font-bold text-base text-riso-ink">Nouvelle trace</h2>
           <button
             type="button"
             onClick={onCancel}
-            className="w-8 h-8 rounded-full flex items-center justify-center text-[#5A6A94] hover:text-[#22408F] hover:bg-[#EBF1FF]"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-riso-ink-secondary hover:text-riso-ink hover:bg-riso-p1-light"
             aria-label="Fermer"
           >
             <X className="w-4 h-4" />
@@ -215,7 +215,7 @@ export const TraceCreateModal: React.FC<Props> = ({
               type="button"
               onClick={() => photoInput.current?.click()}
               disabled={photoBusy}
-              className="relative w-full aspect-[4/3] rounded-lg border-2 border-dashed border-[#22408F] overflow-hidden flex items-center justify-center text-[#22408F] bg-[#EBF1FF]"
+              className="relative w-full aspect-[4/3] rounded-[8px] border-2 border-dashed border-riso-ink overflow-hidden flex items-center justify-center text-riso-ink bg-riso-p1-light"
               style={
                 photo
                   ? undefined
@@ -240,7 +240,7 @@ export const TraceCreateModal: React.FC<Props> = ({
               <button
                 type="button"
                 onClick={() => setPhoto('')}
-                className="mt-1.5 text-xs font-semibold text-[#22408F] underline underline-offset-2"
+                className="mt-1.5 text-xs font-semibold text-riso-ink underline underline-offset-2"
               >
                 Retirer la photo
               </button>
@@ -262,7 +262,7 @@ export const TraceCreateModal: React.FC<Props> = ({
           <div className="space-y-1.5">
             <div className="flex items-center justify-between gap-2">
               <label htmlFor="trace-create-observed" className={LABEL_CLS}>
-                Ce que je constate <span className="text-[#F0505A]" aria-hidden="true">*</span>
+                Ce que je constate <span className="text-riso-p4" aria-hidden="true">*</span>
               </label>
               {isAiEnabled() && (
                 <button
@@ -277,7 +277,7 @@ export const TraceCreateModal: React.FC<Props> = ({
             </div>
 
             {aiError && (
-              <div className="p-2 bg-[#FFF0F0] border-2 border-[#F0505A] rounded-[8px] text-[11px] font-bold text-[#F0505A]">
+              <div className="p-2 bg-riso-p4-light border-2 border-riso-p4 rounded-[8px] text-[11px] font-bold text-riso-p4">
                 {aiError}
               </div>
             )}
@@ -367,8 +367,8 @@ export const TraceCreateModal: React.FC<Props> = ({
                           onClick={() => setTags((p) => (on ? p.filter((x) => x !== t) : [...p, t]))}
                           className={`px-2.5 py-0.5 rounded-full text-xs font-bold border-2 ${
                             on
-                              ? 'bg-[#EBF1FF] text-[#22408F] border-[#22408F]'
-                              : 'bg-white text-[#5A6A94] border-[#22408F]/30 hover:border-[#22408F]'
+                              ? 'bg-riso-p1-light text-riso-ink border-riso-ink'
+                              : 'bg-white text-riso-ink-secondary border-riso-line hover:border-riso-ink'
                           }`}
                         >
                           {on ? '✓ ' : ''}#{t}
@@ -430,7 +430,7 @@ export const TraceCreateModal: React.FC<Props> = ({
           </div>
         </div>
 
-        <div className="px-5 py-3.5 border-t border-[#DCE2EF] flex items-center justify-between gap-3 shrink-0">
+        <div className="px-5 py-3.5 border-t border-riso-line flex items-center justify-between gap-3 shrink-0">
           <button type="button" onClick={onCancel} className="riso-text-link">
             Annuler
           </button>

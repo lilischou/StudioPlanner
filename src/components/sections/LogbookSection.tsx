@@ -237,16 +237,16 @@ export const LogbookSection: React.FC = () => {
       <div className="block md:hidden max-w-md mx-auto py-2 sm:py-4 px-2 space-y-6 animate-in fade-in duration-200 relative pb-20">
       
       {/* 1. En-tête : Sélecteur 2 vues + Exporter + Nouvelle trace */}
-      <div className="flex items-center justify-between gap-2 bg-white p-3 rounded-2xl border-2 border-[#22408F] shadow-[0_4px_0_#22408F]">
+      <div className="flex items-center justify-between gap-2 bg-white p-3 rounded-[16px] border-2 border-riso-ink shadow-riso">
         {/* Switcher Liste / Mur (contrôle segmenté contour bleu) */}
-        <div className="flex items-center bg-white p-0.5 rounded-xl border-2 border-[#22408F]">
+        <div className="flex items-center bg-white p-0.5 rounded-[16px] border-2 border-riso-ink">
           <button
             type="button"
             onClick={() => setViewMode('list')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-[8px] text-xs font-bold transition-all cursor-pointer ${
               viewMode === 'list'
-                ? 'bg-[#22408F] text-white shadow-2xs'
-                : 'text-[#5A6A94] hover:text-[#22408F]'
+                ? 'bg-riso-ink text-white shadow-2xs'
+                : 'text-riso-ink-secondary hover:text-riso-ink'
             }`}
             title="Vue Liste chronologique"
           >
@@ -257,10 +257,10 @@ export const LogbookSection: React.FC = () => {
           <button
             type="button"
             onClick={() => setViewMode('wall')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-[8px] text-xs font-bold transition-all cursor-pointer ${
               viewMode === 'wall'
-                ? 'bg-[#22408F] text-white shadow-2xs'
-                : 'text-[#5A6A94] hover:text-[#22408F]'
+                ? 'bg-riso-ink text-white shadow-2xs'
+                : 'text-riso-ink-secondary hover:text-riso-ink'
             }`}
             title="Vue Mur de photos (Planche contact)"
           >
@@ -288,19 +288,19 @@ export const LogbookSection: React.FC = () => {
       <div className="space-y-3">
         {/* Recherche texte */}
         <div className="relative">
-          <Search className="w-4 h-4 text-neutral-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-riso-ink-subtle absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Rechercher une trace, un constat, une étiquette..."
-            className="w-full pl-10 pr-9 py-2.5 bg-white border border-neutral-200 rounded-xl text-xs text-neutral-800 placeholder-neutral-400 focus:outline-hidden focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-all shadow-2xs"
+            className="w-full pl-10 pr-9 py-2.5 bg-white border border-riso-line rounded-[16px] text-xs text-riso-ink placeholder-riso-ink-subtle focus:outline-hidden focus:border-riso-p3 focus:ring-1 focus:ring-riso-p3 transition-all shadow-2xs"
           />
           {searchQuery && (
             <button
               type="button"
               onClick={() => setSearchQuery('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-riso-ink-subtle hover:text-riso-ink-secondary"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -311,7 +311,7 @@ export const LogbookSection: React.FC = () => {
         <div className="flex flex-col gap-2">
           {/* Ligne 1 : Phases */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar text-xs">
-            <span className="text-[11px] font-semibold text-neutral-400 uppercase tracking-wider shrink-0 mr-1">
+            <span className="text-[11px] font-semibold text-riso-ink-subtle uppercase tracking-wider shrink-0 mr-1">
               Phase :
             </span>
             <button
@@ -319,8 +319,8 @@ export const LogbookSection: React.FC = () => {
               onClick={() => setSelectedPhaseFilter('all')}
               className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all shrink-0 ${
                 selectedPhaseFilter === 'all'
-                  ? 'bg-neutral-900 text-white'
-                  : 'bg-white border border-neutral-200 text-neutral-600 hover:bg-neutral-50'
+                  ? 'bg-riso-ink text-white'
+                  : 'bg-white border border-riso-line text-riso-ink-secondary hover:bg-riso-paper'
               }`}
             >
               Toutes
@@ -335,8 +335,8 @@ export const LogbookSection: React.FC = () => {
                   onClick={() => setSelectedPhaseFilter(isSelected ? 'all' : p.id)}
                   className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all shrink-0 flex items-center gap-1.5 ${
                     isSelected
-                      ? 'bg-neutral-900 text-white shadow-2xs'
-                      : 'bg-white border border-neutral-200 text-neutral-700 hover:bg-neutral-50'
+                      ? 'bg-riso-ink text-white shadow-2xs'
+                      : 'bg-white border border-riso-line text-riso-ink-secondary hover:bg-riso-paper'
                   }`}
                 >
                   <span
@@ -351,7 +351,7 @@ export const LogbookSection: React.FC = () => {
 
           {/* Ligne 2 : Étiquettes d'opération */}
           <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar text-xs">
-            <span className="text-[11px] font-semibold text-neutral-400 uppercase tracking-wider shrink-0 mr-1">
+            <span className="text-[11px] font-semibold text-riso-ink-subtle uppercase tracking-wider shrink-0 mr-1">
               Opération :
             </span>
             <button
@@ -359,8 +359,8 @@ export const LogbookSection: React.FC = () => {
               onClick={() => setSelectedTagFilter('all')}
               className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all shrink-0 ${
                 selectedTagFilter === 'all'
-                  ? 'bg-purple-900 text-white'
-                  : 'bg-white border border-neutral-200 text-neutral-600 hover:bg-neutral-50'
+                  ? 'bg-riso-p6 text-white'
+                  : 'bg-white border border-riso-line text-riso-ink-secondary hover:bg-riso-paper'
               }`}
             >
               Toutes
@@ -374,8 +374,8 @@ export const LogbookSection: React.FC = () => {
                   onClick={() => setSelectedTagFilter(isSelected ? 'all' : tag)}
                   className={`px-2.5 py-1 rounded-[999px] text-xs font-bold transition-all shrink-0 cursor-pointer ${
                     isSelected
-                      ? 'bg-[#EBF1FF] text-[#22408F] border-2 border-[#22408F] shadow-[0_2px_0_#22408F]'
-                      : 'bg-white border-2 border-[#22408F]/30 text-[#5A6A94] hover:border-[#22408F] hover:text-[#22408F]'
+                      ? 'bg-riso-p1-light text-riso-ink border-2 border-riso-ink shadow-riso-press'
+                      : 'bg-white border-2 border-riso-line text-riso-ink-secondary hover:border-riso-ink hover:text-riso-ink'
                   }`}
                 >
                   {isSelected ? '✓ ' : ''}#{tag}
@@ -389,8 +389,8 @@ export const LogbookSection: React.FC = () => {
       {/* 3. Contenu principal : État vide OU Liste groupée par mois OU Mur */}
       {filteredEntries.length === 0 ? (
         /* État vide demandé : Mascotte en 96 px + texte exact */
-        <div className="bg-white border border-neutral-200/90 rounded-3xl p-10 text-center flex flex-col items-center justify-center space-y-4 shadow-2xs my-4">
-          <div className="w-24 h-24 rounded-2xl bg-white border border-neutral-200/80 p-2 shadow-2xs flex items-center justify-center">
+        <div className="bg-white border border-riso-line rounded-[24px] p-10 text-center flex flex-col items-center justify-center space-y-4 shadow-2xs my-4">
+          <div className="w-24 h-24 rounded-[16px] bg-white border border-riso-line p-2 shadow-2xs flex items-center justify-center">
             <img
               src="/logo.png"
               alt=""
@@ -405,10 +405,10 @@ export const LogbookSection: React.FC = () => {
             />
           </div>
           <div className="space-y-1.5 max-w-sm">
-            <h3 className="text-base font-bold text-neutral-900">
+            <h3 className="text-base font-bold text-riso-ink">
               Ton carnet est vide.
             </h3>
-            <p className="text-xs text-neutral-500 leading-relaxed">
+            <p className="text-xs text-riso-ink-subtle leading-relaxed">
               Ajoute ta première trace après ta prochaine session en cliquant sur le bouton « + » ci-dessous.
             </p>
           </div>
@@ -419,11 +419,11 @@ export const LogbookSection: React.FC = () => {
           {Object.entries(groupedByMonth).map(([monthTitle, entries]) => (
             <div key={monthTitle} className="space-y-3">
               {/* Titre du mois */}
-              <div className="sticky top-16 z-10 bg-neutral-50/90 backdrop-blur-xs py-1.5 px-1 border-b border-neutral-200/60 flex items-center justify-between">
-                <h2 className="text-xs font-bold uppercase tracking-wider text-neutral-700">
+              <div className="sticky top-16 z-10 bg-riso-paper/90 backdrop-blur-xs py-1.5 px-1 border-b border-riso-line flex items-center justify-between">
+                <h2 className="text-xs font-bold uppercase tracking-wider text-riso-ink-secondary">
                   {monthTitle}
                 </h2>
-                <span className="text-[11px] text-neutral-400 font-mono">
+                <span className="text-[11px] text-riso-ink-subtle font-mono">
                   {entries.length} trace{entries.length > 1 ? 's' : ''}
                 </span>
               </div>
@@ -461,7 +461,7 @@ export const LogbookSection: React.FC = () => {
                       setSelectedEntry(entry);
                     }
                   }}
-                  className="relative rounded-lg overflow-hidden border-2 border-[#22408F] shadow-[0_3px_0_#22408F] cursor-pointer group"
+                  className="relative rounded-[8px] overflow-hidden border-2 border-riso-ink shadow-riso cursor-pointer group"
                 >
                   <TraceCover
                     entry={entry}
@@ -470,13 +470,13 @@ export const LogbookSection: React.FC = () => {
                     dotSize={8}
                     alt={getTraceTitle(entry)}
                     placeholder={
-                      <p className="absolute inset-0 p-2.5 text-xs font-bold text-[#22408F] line-clamp-4 leading-snug">
+                      <p className="absolute inset-0 p-2.5 text-xs font-bold text-riso-ink line-clamp-4 leading-snug">
                         {getTraceTitle(entry)}
                       </p>
                     }
                   />
                   {/* Titre et date au survol / au toucher */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#22408F]/85 via-transparent to-transparent opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity p-2.5 flex flex-col justify-end text-white">
+                  <div className="absolute inset-0 bg-gradient-to-t from-riso-ink/85 via-transparent to-transparent opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity p-2.5 flex flex-col justify-end text-white">
                     <span className="text-[10px] opacity-80 font-mono">{formatFrenchDate(entry.date, false)}</span>
                     <h4 className="text-xs font-bold line-clamp-2 leading-tight">{getTraceTitle(entry)}</h4>
                   </div>
@@ -492,7 +492,7 @@ export const LogbookSection: React.FC = () => {
         <button
           type="button"
           onClick={handleOpenAddModal}
-          className="w-13 h-13 rounded-[999px] bg-[#2F6DBB] hover:bg-[#22408F] active:translate-y-1 text-white border-2 border-[#22408F] shadow-[0_4px_0_#F0505A] active:shadow-none flex items-center justify-center transition-all cursor-pointer"
+          className="w-13 h-13 rounded-[999px] bg-riso-p1 hover:bg-riso-ink active:translate-y-1 text-white border-2 border-riso-ink shadow-riso-primary active:shadow-none flex items-center justify-center transition-all cursor-pointer"
           title="Nouvelle trace"
           aria-label="Nouvelle trace"
         >
@@ -506,16 +506,16 @@ export const LogbookSection: React.FC = () => {
       {/* ============================================================ */}
       <div className="hidden md:block max-w-[1280px] mx-auto py-4 px-4 space-y-6 animate-in fade-in duration-200">
         {/* Top Bar Header */}
-        <div className="bg-white border-2 border-[#22408F] rounded-2xl p-3.5 shadow-[0_4px_0_#22408F] flex items-center justify-between gap-4">
+        <div className="bg-white border-2 border-riso-ink rounded-[16px] p-3.5 shadow-riso flex items-center justify-between gap-4">
           {/* Switcher Grille / Liste : contrôle segmenté à contour bleu */}
-          <div className="flex items-center bg-white p-0.5 rounded-xl border-2 border-[#22408F]">
+          <div className="flex items-center bg-white p-0.5 rounded-[16px] border-2 border-riso-ink">
             <button
               type="button"
               onClick={() => setViewMode('wall')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-[8px] text-xs font-bold transition-all cursor-pointer ${
                 viewMode === 'wall'
-                  ? 'bg-[#22408F] text-white shadow-2xs'
-                  : 'text-[#5A6A94] hover:text-[#22408F]'
+                  ? 'bg-riso-ink text-white shadow-2xs'
+                  : 'text-riso-ink-secondary hover:text-riso-ink'
               }`}
               title="Vue Grille de photos"
             >
@@ -526,10 +526,10 @@ export const LogbookSection: React.FC = () => {
             <button
               type="button"
               onClick={() => setViewMode('list')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-[8px] text-xs font-bold transition-all cursor-pointer ${
                 viewMode === 'list'
-                  ? 'bg-[#22408F] text-white shadow-2xs'
-                  : 'text-[#5A6A94] hover:text-[#22408F]'
+                  ? 'bg-riso-ink text-white shadow-2xs'
+                  : 'text-riso-ink-secondary hover:text-riso-ink'
               }`}
               title="Vue Liste chronologique"
             >
@@ -556,9 +556,9 @@ export const LogbookSection: React.FC = () => {
         {/* 2 Colonnes : Filtres à gauche, Grille de photos à droite */}
         <div className="grid grid-cols-12 gap-6 items-start">
           {/* Colonne Filtres (Gauche) */}
-          <div className="col-span-4 xl:col-span-3 sticky top-20 space-y-4 bg-white p-4 rounded-2xl border border-neutral-200/90 shadow-2xs">
+          <div className="col-span-4 xl:col-span-3 sticky top-20 space-y-4 bg-white p-4 rounded-[16px] border border-riso-line shadow-2xs">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-neutral-500">
+              <span className="text-xs font-bold uppercase tracking-wider text-riso-ink-subtle">
                 Filtres
               </span>
               {(selectedPhaseFilter !== 'all' || selectedTagFilter !== 'all' || searchQuery) && (
@@ -569,7 +569,7 @@ export const LogbookSection: React.FC = () => {
                     setSelectedTagFilter('all');
                     setSearchQuery('');
                   }}
-                  className="text-xs text-[#22408F] underline underline-offset-2 font-bold cursor-pointer hover:opacity-80"
+                  className="text-xs text-riso-ink underline underline-offset-2 font-bold cursor-pointer hover:opacity-80"
                 >
                   Réinitialiser →
                 </button>
@@ -578,19 +578,19 @@ export const LogbookSection: React.FC = () => {
 
             {/* Recherche textuelle */}
             <div className="relative">
-              <Search className="w-3.5 h-3.5 text-neutral-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <Search className="w-3.5 h-3.5 text-riso-ink-subtle absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Rechercher une trace..."
-                className="w-full pl-8 pr-7 py-2 bg-neutral-50 border border-neutral-200 rounded-xl text-xs text-neutral-800 placeholder-neutral-400 focus:outline-hidden focus:border-neutral-900 focus:bg-white transition-all"
+                className="w-full pl-8 pr-7 py-2 bg-riso-paper border border-riso-line rounded-[16px] text-xs text-riso-ink placeholder-riso-ink-subtle focus:outline-hidden focus:border-riso-ink focus:bg-white transition-all"
               />
               {searchQuery && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-riso-ink-subtle hover:text-riso-ink-secondary"
                 >
                   <X className="w-3 h-3" />
                 </button>
@@ -598,18 +598,18 @@ export const LogbookSection: React.FC = () => {
             </div>
 
             {/* Filtre par Phase */}
-            <div className="space-y-1.5 pt-2 border-t border-neutral-100">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 block">
+            <div className="space-y-1.5 pt-2 border-t border-riso-line">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-riso-ink-subtle block">
                 Phases du projet
               </span>
               <div className="space-y-1">
                 <button
                   type="button"
                   onClick={() => setSelectedPhaseFilter('all')}
-                  className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs transition-colors cursor-pointer ${
+                  className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-[16px] text-xs transition-colors cursor-pointer ${
                     selectedPhaseFilter === 'all'
-                      ? 'bg-neutral-900 text-white font-bold'
-                      : 'text-neutral-600 hover:bg-neutral-100'
+                      ? 'bg-riso-ink text-white font-bold'
+                      : 'text-riso-ink-secondary hover:bg-riso-p1-light'
                   }`}
                 >
                   <span>Toutes les phases</span>
@@ -625,10 +625,10 @@ export const LogbookSection: React.FC = () => {
                       key={p.id}
                       type="button"
                       onClick={() => setSelectedPhaseFilter(isSelected ? 'all' : p.id)}
-                      className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-xl text-xs transition-colors cursor-pointer ${
+                      className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-[16px] text-xs transition-colors cursor-pointer ${
                         isSelected
-                          ? 'bg-neutral-900 text-white font-bold'
-                          : 'text-neutral-600 hover:bg-neutral-100'
+                          ? 'bg-riso-ink text-white font-bold'
+                          : 'text-riso-ink-secondary hover:bg-riso-p1-light'
                       }`}
                     >
                       <div className="flex items-center gap-2 truncate">
@@ -649,8 +649,8 @@ export const LogbookSection: React.FC = () => {
 
             {/* Filtre par Opération / Tags */}
             {availableTags.length > 0 && (
-              <div className="space-y-1.5 pt-2 border-t border-neutral-100">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-neutral-400 block">
+              <div className="space-y-1.5 pt-2 border-t border-riso-line">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-riso-ink-subtle block">
                   Opérations
                 </span>
                 <div className="flex flex-wrap gap-1.5">
@@ -659,8 +659,8 @@ export const LogbookSection: React.FC = () => {
                     onClick={() => setSelectedTagFilter('all')}
                     className={`px-2.5 py-1 rounded-[999px] text-[11px] font-bold transition-all cursor-pointer ${
                       selectedTagFilter === 'all'
-                        ? 'bg-[#EBF1FF] text-[#22408F] border-2 border-[#22408F] shadow-[0_2px_0_#22408F]'
-                        : 'bg-white border-2 border-[#22408F]/30 text-[#5A6A94] hover:border-[#22408F] hover:text-[#22408F]'
+                        ? 'bg-riso-p1-light text-riso-ink border-2 border-riso-ink shadow-riso-press'
+                        : 'bg-white border-2 border-riso-line text-riso-ink-secondary hover:border-riso-ink hover:text-riso-ink'
                     }`}
                   >
                     {selectedTagFilter === 'all' ? '✓ ' : ''}Toutes
@@ -674,8 +674,8 @@ export const LogbookSection: React.FC = () => {
                         onClick={() => setSelectedTagFilter(isSelected ? 'all' : tag)}
                         className={`px-2.5 py-1 rounded-[999px] text-[11px] font-bold transition-all cursor-pointer ${
                           isSelected
-                            ? 'bg-[#EBF1FF] text-[#22408F] border-2 border-[#22408F] shadow-[0_2px_0_#22408F]'
-                            : 'bg-white border-2 border-[#22408F]/30 text-[#5A6A94] hover:border-[#22408F] hover:text-[#22408F]'
+                            ? 'bg-riso-p1-light text-riso-ink border-2 border-riso-ink shadow-riso-press'
+                            : 'bg-white border-2 border-riso-line text-riso-ink-secondary hover:border-riso-ink hover:text-riso-ink'
                         }`}
                       >
                         {isSelected ? '✓ ' : ''}#{tag}
@@ -687,7 +687,7 @@ export const LogbookSection: React.FC = () => {
             )}
 
             {/* Total / Stats */}
-            <div className="pt-2 border-t border-neutral-100 text-[11px] text-neutral-400 font-mono">
+            <div className="pt-2 border-t border-riso-line text-[11px] text-riso-ink-subtle font-mono">
               {filteredEntries.length} trace{filteredEntries.length > 1 ? 's' : ''} affichée{filteredEntries.length > 1 ? 's' : ''}
             </div>
           </div>
@@ -696,8 +696,8 @@ export const LogbookSection: React.FC = () => {
           <div className="col-span-8 xl:col-span-9 space-y-4">
             {filteredEntries.length === 0 ? (
               /* État vide demandé : Mascotte en 96 px */
-              <div className="bg-white border border-neutral-200/90 rounded-3xl p-12 text-center flex flex-col items-center justify-center space-y-4 shadow-2xs">
-                <div className="w-24 h-24 rounded-2xl bg-white border border-neutral-200/80 p-2 shadow-2xs flex items-center justify-center">
+              <div className="bg-white border border-riso-line rounded-[24px] p-12 text-center flex flex-col items-center justify-center space-y-4 shadow-2xs">
+                <div className="w-24 h-24 rounded-[16px] bg-white border border-riso-line p-2 shadow-2xs flex items-center justify-center">
                   <img
                     src="/logo.png"
                     alt=""
@@ -712,10 +712,10 @@ export const LogbookSection: React.FC = () => {
                   />
                 </div>
                 <div className="space-y-1.5 max-w-sm">
-                  <h3 className="text-base font-bold text-neutral-900">
+                  <h3 className="text-base font-bold text-riso-ink">
                     Ton carnet est vide.
                   </h3>
-                  <p className="text-xs text-neutral-500 leading-relaxed">
+                  <p className="text-xs text-riso-ink-subtle leading-relaxed">
                     Ajoute ta première trace après ta prochaine session en cliquant sur le bouton « + » en bas à droite.
                   </p>
                 </div>
@@ -796,17 +796,17 @@ export const LogbookSection: React.FC = () => {
 
       {/* 7. MODAL D'EXPORT IMPRIMABLE DU CARNET (Une entrée par page) */}
       {isPrintModalOpen && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-neutral-950/70 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4 print:p-0 print:bg-white">
-          <div className="bg-white rounded-3xl max-w-4xl w-full border-2 border-[#22408F] shadow-2xl flex flex-col max-h-[92vh] overflow-hidden print:max-h-none print:shadow-none print:border-none print:rounded-none">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-riso-ink/70 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4 print:p-0 print:bg-white">
+          <div className="bg-white rounded-[24px] max-w-4xl w-full border-2 border-riso-ink shadow-2xl flex flex-col max-h-[92vh] overflow-hidden print:max-h-none print:shadow-none print:border-none print:rounded-none">
             
             {/* Header du modal d'export (caché à l'impression) */}
-            <div className="px-6 py-4 border-b-2 border-[#22408F] bg-[#FBFAF6] flex items-center justify-between print:hidden">
+            <div className="px-6 py-4 border-b-2 border-riso-ink bg-riso-paper flex items-center justify-between print:hidden">
               <div>
-                <h3 className="font-bold text-sm text-[#22408F] flex items-center gap-2 font-heading">
-                  <Printer className="w-4 h-4 text-[#22408F]" />
+                <h3 className="font-bold text-sm text-riso-ink flex items-center gap-2 font-heading">
+                  <Printer className="w-4 h-4 text-riso-ink" />
                   Mise en page imprimable du carnet de recherche
                 </h3>
-                <p className="text-xs text-[#5A6A94]">
+                <p className="text-xs text-riso-ink-secondary">
                   Une entrée par page A4 portrait, format standard d'évaluation et de rendu d'atelier.
                 </p>
               </div>
@@ -832,7 +832,7 @@ export const LogbookSection: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setIsPrintModalOpen(false)}
-                  className="w-8 h-8 rounded-full flex items-center justify-center text-[#5A6A94] hover:text-[#22408F] hover:bg-[#EBF1FF] transition-colors cursor-pointer"
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-riso-ink-secondary hover:text-riso-ink hover:bg-riso-p1-light transition-colors cursor-pointer"
                   title="Fermer (Échap)"
                 >
                   <X className="w-4 h-4" />
@@ -849,29 +849,29 @@ export const LogbookSection: React.FC = () => {
                 return (
                   <div
                     key={entry.id}
-                    className="print-plate border-2 border-[#22408F] rounded-2xl p-6 sm:p-8 bg-white space-y-6 print:border-2 print:border-[#22408F] print:rounded-none print:p-8 print:break-after-page print:min-h-screen print:flex print:flex-col print:justify-between"
+                    className="print-plate border-2 border-riso-ink rounded-[16px] p-6 sm:p-8 bg-white space-y-6 print:border-2 print:border-riso-ink print:rounded-none print:p-8 print:break-after-page print:min-h-screen print:flex print:flex-col print:justify-between"
                   >
                     {/* En-tête de la planche de carnet */}
-                    <div className="flex items-center justify-between border-b-2 border-[#22408F]/20 pb-4">
+                    <div className="flex items-center justify-between border-b-2 border-riso-line pb-4">
                       <div>
-                        <span className="text-xs font-mono text-[#5A6A94] uppercase tracking-widest block font-bold">
+                        <span className="text-xs font-mono text-riso-ink-secondary uppercase tracking-widest block font-bold">
                           Projet {settings.name} · Planche {idx + 1}/{filteredEntries.length}
                         </span>
-                        <h2 className="text-xl font-bold text-[#22408F] mt-1 font-heading">
+                        <h2 className="text-xl font-bold text-riso-ink mt-1 font-heading">
                           {getTraceTitle(entry)}
                         </h2>
                       </div>
                       <div className="text-right">
                         <span
-                          className="text-xs font-bold px-2.5 py-0.5 rounded-[999px] inline-block mb-1 border border-[#22408F]"
+                          className="text-xs font-bold px-2.5 py-0.5 rounded-[999px] inline-block mb-1 border-2 border-riso-ink"
                           style={{
                             backgroundColor: `${pColor.hex}20`,
-                            color: '#22408F',
+                            color: 'var(--riso-ink)',
                           }}
                         >
                           {phase?.nom || phase?.name || 'Phase'}
                         </span>
-                        <span className="text-xs font-mono text-[#5A6A94] block">
+                        <span className="text-xs font-mono text-riso-ink-secondary block">
                           {formatFrenchDate(entry.date)}
                         </span>
                       </div>
@@ -882,29 +882,29 @@ export const LogbookSection: React.FC = () => {
 
                     {/* Bloc 3 champs : 1. Ce que j'ai fait, 2. Ce que je constate, 3. Ce que je décide */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs pt-2">
-                      <div className="p-4 rounded-xl bg-[#FBFAF6] border-2 border-[#22408F]/30 space-y-1.5">
-                        <span className="font-bold text-[#22408F] uppercase tracking-wider text-[11px] block">
+                      <div className="p-4 rounded-[16px] bg-riso-paper border-2 border-riso-line space-y-1.5">
+                        <span className="font-bold text-riso-ink uppercase tracking-wider text-[11px] block">
                           1. Ce que j'ai fait
                         </span>
-                        <p className="text-neutral-800 leading-relaxed font-medium">
+                        <p className="text-riso-ink leading-relaxed font-medium">
                           {getDone(entry) || '—'}
                         </p>
                       </div>
 
-                      <div className="p-4 rounded-xl bg-[#FBFAF6] border-2 border-[#22408F]/30 space-y-1.5">
-                        <span className="font-bold text-[#22408F] uppercase tracking-wider text-[11px] block">
+                      <div className="p-4 rounded-[16px] bg-riso-paper border-2 border-riso-line space-y-1.5">
+                        <span className="font-bold text-riso-ink uppercase tracking-wider text-[11px] block">
                           2. Ce que je constate
                         </span>
-                        <p className="text-neutral-800 leading-relaxed font-medium">
+                        <p className="text-riso-ink leading-relaxed font-medium">
                           {getObserved(entry) || '—'}
                         </p>
                       </div>
 
-                      <div className="p-4 rounded-xl bg-[#FBFAF6] border-2 border-[#22408F]/30 space-y-1.5">
-                        <span className="font-bold text-[#22408F] uppercase tracking-wider text-[11px] block">
+                      <div className="p-4 rounded-[16px] bg-riso-paper border-2 border-riso-line space-y-1.5">
+                        <span className="font-bold text-riso-ink uppercase tracking-wider text-[11px] block">
                           3. Ce que je décide
                         </span>
-                        <p className="text-neutral-800 leading-relaxed font-medium">
+                        <p className="text-riso-ink leading-relaxed font-medium">
                           {getDecided(entry) || '—'}
                         </p>
                       </div>
@@ -913,24 +913,24 @@ export const LogbookSection: React.FC = () => {
                     <TracePrintExtras entry={entry} />
 
                     {/* Pied de planche : Opérations & Auteur */}
-                    <div className="flex items-center justify-between text-xs pt-4 border-t-2 border-[#22408F]/20">
+                    <div className="flex items-center justify-between text-xs pt-4 border-t-2 border-riso-line">
                       <div className="flex items-center gap-2">
-                        <span className="text-[#5A6A94] font-bold">Opérations :</span>
+                        <span className="text-riso-ink-secondary font-bold">Opérations :</span>
                         {entry.tags && entry.tags.length > 0 ? (
                           <div className="flex gap-2">
                             {entry.tags.map((t) => (
-                              <span key={t} className="text-[#22408F] font-bold">
+                              <span key={t} className="text-riso-ink font-bold">
                                 #{t}
                               </span>
                             ))}
                           </div>
                         ) : (
-                          <span className="text-[#5A6A94] italic">Aucune</span>
+                          <span className="text-riso-ink-secondary italic">Aucune</span>
                         )}
                       </div>
 
-                      <div className="text-[#5A6A94] text-xs font-mono font-medium">
-                        Rédigé par <strong className="text-[#22408F]">{entry.author}</strong> · planche {idx + 1}/{filteredEntries.length}
+                      <div className="text-riso-ink-secondary text-xs font-mono font-medium">
+                        Rédigé par <strong className="text-riso-ink">{entry.author}</strong> · planche {idx + 1}/{filteredEntries.length}
                       </div>
                     </div>
                   </div>

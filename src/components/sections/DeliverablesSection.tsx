@@ -145,7 +145,7 @@ export const DeliverablesSection: React.FC = () => {
     <div className="space-y-6">
       {/* Top Header : Titre & bouton Ajouter un livrable */}
       <div className="flex items-center justify-between">
-        <h2 className="font-bold text-sm text-[#22408F] uppercase tracking-wider font-heading">
+        <h2 className="font-bold text-sm text-riso-ink uppercase tracking-wider font-heading">
           Livrables ({deliverables.length})
         </h2>
         <button
@@ -160,15 +160,15 @@ export const DeliverablesSection: React.FC = () => {
 
       {/* Formulaire « Ajouter un livrable » juste sous le bouton, tout en haut de l'onglet */}
       {isCreating && (
-        <div className="p-5 bg-white border-2 border-[#22408F] rounded-xl shadow-[0_4px_0_#22408F] space-y-4 animate-in fade-in duration-150">
+        <div className="p-5 bg-white border-2 border-riso-ink rounded-[16px] shadow-riso space-y-4 animate-in fade-in duration-150">
           <div className="flex items-center justify-between">
-            <h3 className="font-bold text-xs text-[#22408F] uppercase tracking-wider font-heading">
+            <h3 className="font-bold text-xs text-riso-ink uppercase tracking-wider font-heading">
               Nouveau livrable
             </h3>
             <button
               type="button"
               onClick={() => setIsCreating(false)}
-              className="text-xs text-[#5A6A94] hover:text-[#22408F] flex items-center gap-1 cursor-pointer font-medium"
+              className="text-xs text-riso-ink-secondary hover:text-riso-ink flex items-center gap-1 cursor-pointer font-medium"
             >
               <X className="w-3.5 h-3.5" />
               <span>Annuler</span>
@@ -179,7 +179,7 @@ export const DeliverablesSection: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
               {/* Intitulé */}
               <div className="sm:col-span-5">
-                <label className="block text-[#22408F] font-bold text-[11px] uppercase tracking-wider mb-1">
+                <label className="block text-riso-ink font-bold text-[11px] uppercase tracking-wider mb-1">
                   Titre
                 </label>
                 <input
@@ -187,20 +187,20 @@ export const DeliverablesSection: React.FC = () => {
                   placeholder="ex: Dossier de synthèse & Benchmark"
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
-                  className="w-full px-3 py-1.5 bg-white border-2 border-[#22408F]/30 rounded-lg text-xs text-[#22408F] focus:border-[#22408F]"
+                  className="w-full px-3 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs text-riso-ink focus:border-riso-ink"
                   autoFocus
                 />
               </div>
 
               {/* Champ Phase */}
               <div className="sm:col-span-3">
-                <label className="block text-[#22408F] font-bold text-[11px] uppercase tracking-wider mb-1">
+                <label className="block text-riso-ink font-bold text-[11px] uppercase tracking-wider mb-1">
                   Phase
                 </label>
                 <select
                   value={newPhaseId}
                   onChange={(e) => setNewPhaseId(e.target.value)}
-                  className="w-full px-3 py-1.5 bg-white border-2 border-[#22408F]/30 rounded-lg text-xs text-[#22408F] focus:border-[#22408F] font-medium cursor-pointer"
+                  className="w-full px-3 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs text-riso-ink focus:border-riso-ink font-medium cursor-pointer"
                 >
                   {phases.map((ph) => (
                     <option key={ph.id} value={ph.id}>
@@ -212,7 +212,7 @@ export const DeliverablesSection: React.FC = () => {
 
               {/* Format */}
               <div className="sm:col-span-2">
-                <label className="block text-[#22408F] font-bold text-[11px] uppercase tracking-wider mb-1">
+                <label className="block text-riso-ink font-bold text-[11px] uppercase tracking-wider mb-1">
                   Format
                 </label>
                 <input
@@ -220,13 +220,13 @@ export const DeliverablesSection: React.FC = () => {
                   placeholder="ex: PDF A4"
                   value={newFormat}
                   onChange={(e) => setNewFormat(e.target.value)}
-                  className="w-full px-3 py-1.5 bg-white border-2 border-[#22408F]/30 rounded-lg text-xs text-[#22408F] focus:border-[#22408F]"
+                  className="w-full px-3 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs text-riso-ink focus:border-riso-ink"
                 />
               </div>
 
               {/* Date de dépôt */}
               <div className="sm:col-span-2">
-                <label className="block text-[#22408F] font-bold text-[11px] uppercase tracking-wider mb-1">
+                <label className="block text-riso-ink font-bold text-[11px] uppercase tracking-wider mb-1">
                   Date de dépôt
                 </label>
                 <input
@@ -256,10 +256,10 @@ export const DeliverablesSection: React.FC = () => {
                       }
                     }
                   }}
-                  className="w-full px-2.5 py-1.5 bg-white border-2 border-[#22408F]/30 rounded-lg font-mono text-xs text-[#22408F] focus:border-[#22408F]"
+                  className="w-full px-2.5 py-1.5 bg-white border-2 border-riso-line rounded-[8px] font-mono text-xs text-riso-ink focus:border-riso-ink"
                 />
                 {newDeadline && settings.deadlineDate && newDeadline > settings.deadlineDate && (
-                  <p className="text-[11px] text-[#F0505A] font-semibold flex items-center gap-1 mt-1">
+                  <p className="text-[11px] text-riso-p4 font-semibold flex items-center gap-1 mt-1">
                     <AlertCircle className="w-3 h-3 shrink-0" />
                     <span>Postérieur au rendu final</span>
                   </p>
@@ -269,7 +269,7 @@ export const DeliverablesSection: React.FC = () => {
 
             {/* Barème optionnel */}
             <div>
-              <label className="block text-[#22408F] font-bold text-[11px] uppercase tracking-wider mb-1">
+              <label className="block text-riso-ink font-bold text-[11px] uppercase tracking-wider mb-1">
                 Barème & critères d'évaluation
               </label>
               <input
@@ -277,7 +277,7 @@ export const DeliverablesSection: React.FC = () => {
                 placeholder="ex: Rigueur d'analyse / 10, Clarté graphique / 10"
                 value={newRubric}
                 onChange={(e) => setNewRubric(e.target.value)}
-                className="w-full px-3 py-1.5 bg-white border-2 border-[#22408F]/30 rounded-lg text-xs text-[#22408F] focus:border-[#22408F]"
+                className="w-full px-3 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs text-riso-ink focus:border-riso-ink"
               />
             </div>
 
@@ -312,26 +312,26 @@ export const DeliverablesSection: React.FC = () => {
             <div key={phase.id} className="space-y-3">
               {/* En-tête coloré de la phase */}
               <div
-                className="flex items-center justify-between p-3 rounded-xl border-2 border-[#22408F] shadow-[0_2px_0_#22408F]"
+                className="flex items-center justify-between p-3 rounded-[16px] border-2 border-riso-ink shadow-riso-press"
                 style={{ backgroundColor: phaseColor.bgLight }}
               >
                 <div className="flex items-center gap-2.5">
                   <span
-                    className="w-3 h-3 rounded-full border border-[#22408F] shadow-xs shrink-0"
+                    className="w-3 h-3 rounded-full border-2 border-riso-ink shadow-xs shrink-0"
                     style={{ backgroundColor: phaseColor.hex }}
                   />
-                  <span className="font-bold text-xs uppercase tracking-wider text-[#22408F] font-heading">
+                  <span className="font-bold text-xs uppercase tracking-wider text-riso-ink font-heading">
                     {phase.nom || phase.name}
                   </span>
                 </div>
-                <span className="font-mono text-xs font-bold text-[#22408F]">
+                <span className="font-mono text-xs font-bold text-riso-ink">
                   {phaseDeliverables.length} livrable{phaseDeliverables.length > 1 ? 's' : ''}
                 </span>
               </div>
 
               {/* Liste des livrables de la phase */}
               {phaseDeliverables.length === 0 ? (
-                <div className="p-4 bg-white border-2 border-dashed border-[#22408F]/25 rounded-xl text-center text-xs text-[#5A6A94] italic">
+                <div className="p-4 bg-white border-2 border-dashed border-riso-line rounded-[16px] text-center text-xs text-riso-ink-secondary italic">
                   Aucun livrable rattaché à cette phase.
                 </div>
               ) : (
@@ -350,16 +350,16 @@ export const DeliverablesSection: React.FC = () => {
                       return (
                         <div
                           key={del.id}
-                          className="p-5 bg-white border-2 border-[#22408F] rounded-xl shadow-[0_4px_0_#22408F] space-y-4 ring-4 ring-[#2F6DBB]/40 animate-in fade-in duration-150"
+                          className="p-5 bg-white border-2 border-riso-ink rounded-[16px] shadow-riso space-y-4 ring-4 ring-riso-p1/40 animate-in fade-in duration-150"
                         >
                           <div className="flex items-center justify-between">
-                            <h3 className="font-bold text-xs text-[#22408F] uppercase tracking-wider font-heading">
+                            <h3 className="font-bold text-xs text-riso-ink uppercase tracking-wider font-heading">
                               Modifier le livrable
                             </h3>
                             <button
                               type="button"
                               onClick={handleCancelEdit}
-                              className="text-xs text-[#5A6A94] hover:text-[#22408F] flex items-center gap-1 cursor-pointer font-medium"
+                              className="text-xs text-riso-ink-secondary hover:text-riso-ink flex items-center gap-1 cursor-pointer font-medium"
                             >
                               <X className="w-3.5 h-3.5" />
                               <span>Annuler la modification</span>
@@ -369,26 +369,26 @@ export const DeliverablesSection: React.FC = () => {
                           <form onSubmit={handleSubmitForm} className="space-y-3 text-xs">
                             <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
                               <div className="sm:col-span-5">
-                                <label className="block text-[#22408F] font-bold text-[11px] uppercase tracking-wider mb-1">
+                                <label className="block text-riso-ink font-bold text-[11px] uppercase tracking-wider mb-1">
                                   Titre
                                 </label>
                                 <input
                                   type="text"
                                   value={newTitle}
                                   onChange={(e) => setNewTitle(e.target.value)}
-                                  className="w-full px-3 py-1.5 bg-white border-2 border-[#22408F]/30 rounded-lg text-xs text-[#22408F] focus:border-[#22408F]"
+                                  className="w-full px-3 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs text-riso-ink focus:border-riso-ink"
                                   autoFocus
                                 />
                               </div>
 
                               <div className="sm:col-span-3">
-                                <label className="block text-[#22408F] font-bold text-[11px] uppercase tracking-wider mb-1">
+                                <label className="block text-riso-ink font-bold text-[11px] uppercase tracking-wider mb-1">
                                   Phase
                                 </label>
                                 <select
                                   value={newPhaseId}
                                   onChange={(e) => setNewPhaseId(e.target.value)}
-                                  className="w-full px-3 py-1.5 bg-white border-2 border-[#22408F]/30 rounded-lg text-xs text-[#22408F] focus:border-[#22408F] font-medium cursor-pointer"
+                                  className="w-full px-3 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs text-riso-ink focus:border-riso-ink font-medium cursor-pointer"
                                 >
                                   {phases.map((ph) => (
                                     <option key={ph.id} value={ph.id}>
@@ -399,19 +399,19 @@ export const DeliverablesSection: React.FC = () => {
                               </div>
 
                               <div className="sm:col-span-2">
-                                <label className="block text-[#22408F] font-bold text-[11px] uppercase tracking-wider mb-1">
+                                <label className="block text-riso-ink font-bold text-[11px] uppercase tracking-wider mb-1">
                                   Format
                                 </label>
                                 <input
                                   type="text"
                                   value={newFormat}
                                   onChange={(e) => setNewFormat(e.target.value)}
-                                  className="w-full px-3 py-1.5 bg-white border-2 border-[#22408F]/30 rounded-lg text-xs text-[#22408F] focus:border-[#22408F]"
+                                  className="w-full px-3 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs text-riso-ink focus:border-riso-ink"
                                 />
                               </div>
 
                               <div className="sm:col-span-2">
-                                <label className="block text-[#22408F] font-bold text-[11px] uppercase tracking-wider mb-1">
+                                <label className="block text-riso-ink font-bold text-[11px] uppercase tracking-wider mb-1">
                                   Date de dépôt
                                 </label>
                                 <input
@@ -441,10 +441,10 @@ export const DeliverablesSection: React.FC = () => {
                                       }
                                     }
                                   }}
-                                  className="w-full px-2.5 py-1.5 bg-white border-2 border-[#22408F]/30 rounded-lg font-mono text-xs text-[#22408F] focus:border-[#22408F]"
+                                  className="w-full px-2.5 py-1.5 bg-white border-2 border-riso-line rounded-[8px] font-mono text-xs text-riso-ink focus:border-riso-ink"
                                 />
                                 {newDeadline && settings.deadlineDate && newDeadline > settings.deadlineDate && (
-                                  <p className="text-[11px] text-[#F0505A] font-semibold flex items-center gap-1 mt-1">
+                                  <p className="text-[11px] text-riso-p4 font-semibold flex items-center gap-1 mt-1">
                                     <AlertCircle className="w-3 h-3 shrink-0" />
                                     <span>Postérieur au rendu final</span>
                                   </p>
@@ -453,14 +453,14 @@ export const DeliverablesSection: React.FC = () => {
                             </div>
 
                             <div>
-                              <label className="block text-[#22408F] font-bold text-[11px] uppercase tracking-wider mb-1">
+                              <label className="block text-riso-ink font-bold text-[11px] uppercase tracking-wider mb-1">
                                 Barème & critères d'évaluation
                               </label>
                               <input
                                 type="text"
                                 value={newRubric}
                                 onChange={(e) => setNewRubric(e.target.value)}
-                                className="w-full px-3 py-1.5 bg-white border-2 border-[#22408F]/30 rounded-lg text-xs text-[#22408F] focus:border-[#22408F]"
+                                className="w-full px-3 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs text-riso-ink focus:border-riso-ink"
                               />
                             </div>
 
@@ -489,47 +489,47 @@ export const DeliverablesSection: React.FC = () => {
                     return (
                       <div
                         key={del.id}
-                        className={`bg-white border-2 border-[#22408F] rounded-xl overflow-hidden transition-all shadow-[0_4px_0_#22408F] ${
-                          del.status === 'valide' ? 'ring-2 ring-[#2E8B4A]' : ''
+                        className={`bg-white border-2 border-riso-ink rounded-[16px] overflow-hidden transition-all shadow-riso ${
+                          del.status === 'valide' ? 'ring-2 ring-riso-p2' : ''
                         }`}
                       >
                         {/* En-tête de carte (ligne repliée, cliquable pour déplier) */}
                         <div
                           onClick={() => toggleExpand(del.id)}
-                          className="p-3.5 sm:p-4 flex flex-wrap items-center justify-between gap-3 bg-[#FBFAF6] cursor-pointer hover:bg-[#F4F7FC] transition-colors select-none"
+                          className="p-3.5 sm:p-4 flex flex-wrap items-center justify-between gap-3 bg-riso-paper cursor-pointer hover:bg-riso-p1-light transition-colors select-none"
                         >
                           <div className="flex items-center gap-2.5 min-w-0 flex-1">
                             {isExpanded ? (
-                              <ChevronDown className="w-4 h-4 text-[#22408F] shrink-0" />
+                              <ChevronDown className="w-4 h-4 text-riso-ink shrink-0" />
                             ) : (
-                              <ChevronRight className="w-4 h-4 text-[#5A6A94] shrink-0" />
+                              <ChevronRight className="w-4 h-4 text-riso-ink-secondary shrink-0" />
                             )}
 
                             {/* Titre */}
-                            <span className="font-bold text-sm text-[#22408F] font-heading truncate">
+                            <span className="font-bold text-sm text-riso-ink font-heading truncate">
                               {del.title}
                             </span>
 
-                            <span className="text-[#5A6A94]/40 shrink-0">·</span>
+                            <span className="text-riso-ink-secondary/40 shrink-0">·</span>
 
                             {/* Pastille phase */}
-                            <div className="inline-flex items-center gap-1.5 shrink-0 px-2 py-0.5 rounded-full bg-white border border-[#22408F]/20 text-[11px] font-medium text-[#22408F]">
+                            <div className="inline-flex items-center gap-1.5 shrink-0 px-2 py-0.5 rounded-full bg-white border border-riso-line text-[11px] font-medium text-riso-ink">
                               <span
-                                className="w-2 h-2 rounded-full border border-[#22408F]/40 shrink-0"
+                                className="w-2 h-2 rounded-full border border-riso-line shrink-0"
                                 style={{ backgroundColor: phaseColor.hex }}
                               />
                               <span>{phase.nom || phase.name}</span>
                             </div>
 
-                            <span className="text-[#5A6A94]/40 shrink-0">·</span>
+                            <span className="text-riso-ink-secondary/40 shrink-0">·</span>
 
                             {/* Date */}
-                            <div className="inline-flex items-center gap-1 text-xs font-mono text-[#22408F] shrink-0">
-                              <Calendar className="w-3.5 h-3.5 text-[#5A6A94]" />
+                            <div className="inline-flex items-center gap-1 text-xs font-mono text-riso-ink shrink-0">
+                              <Calendar className="w-3.5 h-3.5 text-riso-ink-secondary" />
                               <span>{formatFrenchDate(del.deadline)}</span>
                               {del.deadline && settings.deadlineDate && del.deadline > settings.deadlineDate && (
-                                <span className="inline-flex items-center gap-0.5 text-[10px] font-bold text-[#F0505A] bg-[#FDEEEF] border border-[#F0505A] rounded px-1.5 py-0.2">
-                                  <AlertCircle className="w-3 h-3 text-[#F0505A] shrink-0" />
+                                <span className="inline-flex items-center gap-0.5 text-[10px] font-bold text-riso-p4 bg-riso-p4-light border border-riso-p4 rounded-[8px] px-1.5 py-0.2">
+                                  <AlertCircle className="w-3 h-3 text-riso-p4 shrink-0" />
                                   <span>Postérieur au rendu</span>
                                 </span>
                               )}
@@ -549,7 +549,7 @@ export const DeliverablesSection: React.FC = () => {
                                   status: e.target.value as Deliverable['status'],
                                 })
                               }
-                              className="border-2 border-[#22408F] text-[#22408F] bg-white rounded-[999px] px-3 py-1 text-xs font-bold shadow-xs focus:outline-none focus:ring-2 focus:ring-[#F2D21B] cursor-pointer"
+                              className="border-2 border-riso-ink text-riso-ink bg-white rounded-[999px] px-3 py-1 text-xs font-bold shadow-xs focus:outline-none focus:ring-2 focus:ring-riso-p3 cursor-pointer"
                               title="Statut du livrable"
                             >
                               <option value="non_commence">Non commencé</option>
@@ -562,7 +562,7 @@ export const DeliverablesSection: React.FC = () => {
                             <button
                               type="button"
                               onClick={() => handleStartEdit(del)}
-                              className="p-1.5 rounded-lg border text-[#5A6A94] hover:text-[#2F6DBB] hover:bg-[#EBF1FF] border-transparent transition-colors cursor-pointer"
+                              className="p-1.5 rounded-[8px] border text-riso-ink-secondary hover:text-riso-p1 hover:bg-riso-p1-light border-transparent transition-colors cursor-pointer"
                               title="Modifier ce livrable"
                               aria-label={`Modifier le livrable ${del.title}`}
                             >
@@ -573,7 +573,7 @@ export const DeliverablesSection: React.FC = () => {
                             <button
                               type="button"
                               onClick={() => deleteDeliverable(del.id)}
-                              className="p-1.5 text-[#5A6A94] hover:text-[#F0505A] hover:bg-[#FDEEEF] rounded-lg border border-transparent transition-colors cursor-pointer"
+                              className="p-1.5 text-riso-ink-secondary hover:text-riso-p4 hover:bg-riso-p4-light rounded-[8px] border border-transparent transition-colors cursor-pointer"
                               title="Supprimer ce livrable"
                               aria-label={`Supprimer le livrable ${del.title}`}
                             >
@@ -584,14 +584,14 @@ export const DeliverablesSection: React.FC = () => {
 
                         {/* Contenu déplié : Attendus + Barème */}
                         {isExpanded && (
-                          <div className="p-4 sm:p-5 border-t-2 border-[#22408F] bg-white space-y-4 animate-in fade-in duration-150">
+                          <div className="p-4 sm:p-5 border-t-2 border-riso-ink bg-white space-y-4 animate-in fade-in duration-150">
                             {/* Format */}
                             {del.format && (
-                              <div className="flex items-center gap-2 text-xs text-[#5A6A94]">
-                                <span className="font-bold text-[#22408F] uppercase tracking-wider text-[11px]">
+                              <div className="flex items-center gap-2 text-xs text-riso-ink-secondary">
+                                <span className="font-bold text-riso-ink uppercase tracking-wider text-[11px]">
                                   Format attendu :
                                 </span>
-                                <span className="bg-[#FBFAF6] border border-[#22408F]/30 rounded px-2.5 py-0.5 font-medium text-[#22408F]">
+                                <span className="bg-riso-paper border border-riso-line rounded-[8px] px-2.5 py-0.5 font-medium text-riso-ink">
                                   {del.format}
                                 </span>
                               </div>
@@ -602,20 +602,20 @@ export const DeliverablesSection: React.FC = () => {
                               {/* 2 Cols: Checklist des Attendus */}
                               <div className="md:col-span-2 space-y-3">
                                 <div className="flex items-center justify-between">
-                                  <span className="font-bold text-[#22408F] uppercase tracking-wider text-[11px] flex items-center gap-1.5 font-heading">
-                                    <CheckCircle2 className="w-4 h-4 text-[#2F6DBB]" />
+                                  <span className="font-bold text-riso-ink uppercase tracking-wider text-[11px] flex items-center gap-1.5 font-heading">
+                                    <CheckCircle2 className="w-4 h-4 text-riso-p1" />
                                     Attendus du rendu ({verifiedCount}/{totalCriteria} vérifiés)
                                   </span>
-                                  <span className="font-mono text-[11px] font-bold text-[#22408F]">
+                                  <span className="font-mono text-[11px] font-bold text-riso-ink">
                                     {completionPercent}% de conformité
                                   </span>
                                 </div>
 
                                 {/* Progress bar */}
-                                <div className="w-full bg-[#EBF1FF] rounded-full h-2 overflow-hidden border border-[#22408F]/20">
+                                <div className="w-full bg-riso-p1-light rounded-full h-2 overflow-hidden border border-riso-line">
                                   <div
                                     className={`h-2 rounded-full transition-all ${
-                                      isFullyVerified ? 'bg-[#2E8B4A]' : 'bg-[#2F6DBB]'
+                                      isFullyVerified ? 'bg-riso-p2' : 'bg-riso-p1'
                                     }`}
                                     style={{ width: `${completionPercent}%` }}
                                   ></div>
@@ -626,10 +626,10 @@ export const DeliverablesSection: React.FC = () => {
                                   {del.criteria.map((crit) => (
                                     <div
                                       key={crit.id}
-                                      className={`p-2.5 rounded-lg border-2 flex items-center justify-between transition-colors ${
+                                      className={`p-2.5 rounded-[8px] border-2 flex items-center justify-between transition-colors ${
                                         crit.verified
-                                          ? 'bg-[#EAF6EE] border-[#22408F]/30 text-[#5A6A94]'
-                                          : 'bg-white border-[#22408F] text-[#22408F]'
+                                          ? 'bg-riso-p2-light border-riso-line text-riso-ink-secondary'
+                                          : 'bg-white border-riso-ink text-riso-ink'
                                       }`}
                                     >
                                       <label className="flex items-center gap-2.5 cursor-pointer flex-1 min-w-0 pr-2">
@@ -637,12 +637,12 @@ export const DeliverablesSection: React.FC = () => {
                                           type="checkbox"
                                           checked={crit.verified}
                                           onChange={() => toggleDeliverableCriterion(del.id, crit.id)}
-                                          className="w-4 h-4 rounded border-2 border-[#22408F] text-[#2F6DBB] focus:ring-[#F2D21B] cursor-pointer"
+                                          className="w-4 h-4 rounded-[8px] border-2 border-riso-ink text-riso-p1 focus:ring-riso-p3 cursor-pointer"
                                           aria-label={crit.title}
                                         />
                                         <span
                                           className={`text-xs ${
-                                            crit.verified ? 'line-through text-[#5A6A94]' : 'font-medium'
+                                            crit.verified ? 'line-through text-riso-ink-secondary' : 'font-medium'
                                           }`}
                                         >
                                           {crit.title}
@@ -652,7 +652,7 @@ export const DeliverablesSection: React.FC = () => {
                                       <button
                                         type="button"
                                         onClick={() => handleRemoveCriterion(del.id, crit.id)}
-                                        className="text-[#5A6A94] hover:text-[#F0505A] p-0.5 rounded transition-colors cursor-pointer"
+                                        className="text-riso-ink-secondary hover:text-riso-p4 p-0.5 rounded-[8px] transition-colors cursor-pointer"
                                         title="Supprimer cet attendu"
                                         aria-label={`Supprimer l'attendu ${crit.title}`}
                                       >
@@ -677,7 +677,7 @@ export const DeliverablesSection: React.FC = () => {
                                         handleAddCriterion(del.id);
                                       }
                                     }}
-                                    className="flex-1 px-3 py-1.5 bg-white border-2 border-[#22408F]/30 rounded-lg text-xs text-[#22408F] focus:border-[#22408F]"
+                                    className="flex-1 px-3 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs text-riso-ink focus:border-riso-ink"
                                   />
                                   <button
                                     type="button"
@@ -690,8 +690,8 @@ export const DeliverablesSection: React.FC = () => {
                               </div>
 
                               {/* 1 Col: Barème */}
-                              <div className="riso-info-box p-4 rounded-xl space-y-2">
-                                <span className="font-bold text-[#22408F] uppercase tracking-wider text-[11px] block font-heading">
+                              <div className="riso-info-box p-4 rounded-[16px] space-y-2">
+                                <span className="font-bold text-riso-ink uppercase tracking-wider text-[11px] block font-heading">
                                   Barème
                                 </span>
                                 <textarea
@@ -701,7 +701,7 @@ export const DeliverablesSection: React.FC = () => {
                                     updateDeliverable(del.id, { evaluationRubric: e.target.value })
                                   }
                                   placeholder="ex: Clarté des insights / 5, Qualité du prototype / 10..."
-                                  className="w-full px-2.5 py-1.5 bg-white border-2 border-[#22408F]/30 rounded-lg text-xs text-[#22408F] focus:border-[#22408F]"
+                                  className="w-full px-2.5 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs text-riso-ink focus:border-riso-ink"
                                 />
                               </div>
                             </div>

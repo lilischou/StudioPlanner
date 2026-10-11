@@ -22,15 +22,19 @@
   --color-riso-p5-tint: #FCDCCB;
   --color-riso-p6-tint: #E2D8EE;
 
-  --color-riso-p1-light: #D1DFF0;
-  --color-riso-p2-light: #D1E5D7;
-  --color-riso-p3-light: #FCF5CD;
-  --color-riso-p4-light: #FCD8DB;
-  --color-riso-p5-light: #FCDDCE;
-  --color-riso-p6-light: #E2D7EA;
+  --color-riso-p1-light: #EBF2FB;
+  --color-riso-p2-light: #EAF6EE;
+  --color-riso-p3-light: #FEFCE8;
+  --color-riso-p4-light: #FDEEEF;
+  --color-riso-p5-light: #FEF0E9;
+  --color-riso-p6-light: #F3EEF8;
 
+  --color-riso-p1-text: #2A61A7;
+  --color-riso-p2-text: #246C3A;
+  --color-riso-p3-text: #7C6B07;
   --color-riso-p4-text: #C4111C;
   --color-riso-p5-text: #B8410A;
+  --color-riso-p6-text: #77489B;
 
   --radius-sm: 8px;
   --radius-md: 16px;
@@ -60,12 +64,12 @@
     --riso-p6: #7A4A9E;
 
     /* Pastels phases (selon planche Riso) */
-    --riso-p1-light: #D1DFF0;
-    --riso-p2-light: #D1E5D7;
-    --riso-p3-light: #FCF5CD;
-    --riso-p4-light: #FCD8DB;
-    --riso-p5-light: #FCDDCE;
-    --riso-p6-light: #E2D7EA;
+    --riso-p1-light: #EBF2FB;
+    --riso-p2-light: #EAF6EE;
+    --riso-p3-light: #FEFCE8;
+    --riso-p4-light: #FDEEEF;
+    --riso-p5-light: #FEF0E9;
+    --riso-p6-light: #F3EEF8;
 
     /* Textes contrastés phases */
     --riso-p1-text: #2A61A7;
@@ -124,8 +128,8 @@
 
   /* Sélection de texte */
   ::selection {
-    background: #F2D21B;
-    color: #22408F;
+    background: var(--riso-p3);
+    color: var(--riso-ink);
   }
 }
 
@@ -192,54 +196,54 @@
 /* 1. ÉLÉMENTS CLIQUABLES GÉNÉRAUX */
 /* Contour 2 px #22408F, ombre nette 0 4px 0 #22408F, cursor: pointer. Au survol : monte de 2 px. Au clic : descend de 4 px, sans ombre. Focus clavier : anneau 3 px #F2D21B */
 .riso-clickable {
-  border: 2px solid #22408F;
+  border: 2px solid var(--riso-ink);
   border-radius: 8px;
-  box-shadow: 0 4px 0 #22408F;
+  box-shadow: 0 4px 0 var(--riso-ink);
   cursor: pointer;
   transition: transform 0.1s ease, box-shadow 0.1s ease;
   user-select: none;
 }
 .riso-clickable:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 0 #22408F;
+  box-shadow: 0 6px 0 var(--riso-ink);
 }
 .riso-clickable:active {
   transform: translateY(4px);
-  box-shadow: 0 0 0 #22408F;
+  box-shadow: 0 0 0 var(--riso-ink);
 }
 .riso-clickable:focus-visible,
 button:focus-visible,
 [role="button"]:focus-visible,
 a:focus-visible {
-  outline: 3px solid #F2D21B !important;
+  outline: 3px solid var(--riso-p3) !important;
   outline-offset: 2px;
 }
 
 /* 2. CARTES ET PANNEAUX */
 /* Contour 2px #22408F, arrondi 8px, ombre nette 0 4px 0 #22408F */
 .riso-card {
-  background-color: #FFFFFF;
-  border: 2px solid #22408F;
+  background-color: var(--riso-card);
+  border: 2px solid var(--riso-ink);
   border-radius: 8px;
-  box-shadow: 0 4px 0 #22408F;
-  color: #22408F;
+  box-shadow: 0 4px 0 var(--riso-ink);
+  color: var(--riso-ink);
 }
 
 /* 3. INFORMATION SEULE (cartes de chiffres, encadrés « objectif », « livrable ») */
 /* Aucune ombre ni contour bleu, fond blanc ou pastel, filet 1 px #DCE2EF */
 .riso-info-box {
-  border: 1px solid #DCE2EF !important;
+  border: 1px solid var(--riso-line) !important;
   box-shadow: none !important;
   border-radius: 8px;
 }
 
 /* 4. NOTIFICATIONS (Arrondi 16px) */
 .riso-notification {
-  background-color: #FFFFFF;
-  border: 2px solid #22408F;
+  background-color: var(--riso-card);
+  border: 2px solid var(--riso-ink);
   border-radius: 16px;
-  box-shadow: 0 4px 0 #22408F;
-  color: #22408F;
+  box-shadow: 0 4px 0 var(--riso-ink);
+  color: var(--riso-ink);
 }
 
 /* 5. LES BOUTONS (Arrondi 999px) */
@@ -249,14 +253,14 @@ a:focus-visible {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background-color: #2F6DBB;
-  color: #FFFFFF;
+  background-color: var(--riso-p1);
+  color: var(--riso-card);
   font-family: 'DM Sans', sans-serif;
   font-weight: 700;
   font-size: 14px;
-  border: 2px solid #22408F;
+  border: 2px solid var(--riso-ink);
   border-radius: 999px;
-  box-shadow: 0 4px 0 #F0505A;
+  box-shadow: 0 4px 0 var(--riso-p4);
   padding: 0.625rem 1.25rem;
   transition: transform 0.1s ease, box-shadow 0.1s ease;
   cursor: pointer;
@@ -264,11 +268,11 @@ a:focus-visible {
 }
 .btn-riso-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 0 #F0505A;
+  box-shadow: 0 6px 0 var(--riso-p4);
 }
 .btn-riso-primary:active {
   transform: translateY(4px);
-  box-shadow: 0 0 0 #F0505A;
+  box-shadow: 0 0 0 var(--riso-p4);
 }
 
 /* Secondaire : fond #FFFFFF, contour 2px #22408F, texte #22408F, arrondi 999px */
@@ -277,27 +281,27 @@ a:focus-visible {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background-color: #FFFFFF;
-  color: #22408F;
+  background-color: var(--riso-card);
+  color: var(--riso-ink);
   font-family: 'DM Sans', sans-serif;
   font-weight: 700;
   font-size: 13px;
-  border: 2px solid #22408F;
+  border: 2px solid var(--riso-ink);
   border-radius: 999px;
-  box-shadow: 0 4px 0 #22408F;
+  box-shadow: 0 4px 0 var(--riso-ink);
   padding: 0.5rem 1rem;
   transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.1s ease;
   cursor: pointer;
   user-select: none;
 }
 .btn-riso-secondary:hover {
-  background-color: #EBF1FF;
+  background-color: var(--riso-p1-light);
   transform: translateY(-2px);
-  box-shadow: 0 6px 0 #22408F;
+  box-shadow: 0 6px 0 var(--riso-ink);
 }
 .btn-riso-secondary:active {
   transform: translateY(4px);
-  box-shadow: 0 0 0 #22408F;
+  box-shadow: 0 0 0 var(--riso-ink);
 }
 
 /* Discret / Liens texte : toujours soulignés, #22408F, suivis de « → ». Plus d'orange */
@@ -306,7 +310,7 @@ a:focus-visible {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  color: #22408F;
+  color: var(--riso-ink);
   font-family: 'DM Sans', sans-serif;
   font-weight: 600;
   font-size: 13px;
@@ -331,13 +335,13 @@ button,
 
 /* 4. PASTILLES ET BADGES (Arrondi 999px) */
 .riso-pill {
-  border: 2px solid #22408F;
+  border: 2px solid var(--riso-ink);
   border-radius: 999px;
   padding: 0.125rem 0.625rem;
   font-size: 13px;
   font-weight: 700;
-  color: #22408F;
-  background-color: #FFFFFF;
+  color: var(--riso-ink);
+  background-color: var(--riso-card);
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
@@ -346,7 +350,7 @@ button,
 
 /* Trame de points risographique pour les étapes à venir */
 .riso-dots {
-  background-image: radial-gradient(#22408F 1.5px, transparent 1.5px);
+  background-image: radial-gradient(var(--riso-ink) 1.5px, transparent 1.5px);
   background-size: 6px 6px;
 }
 
@@ -362,10 +366,10 @@ button,
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #FBFAF6;
+  background: var(--riso-paper);
 }
 ::-webkit-scrollbar-thumb {
-  background: #22408F;
+  background: var(--riso-ink);
   border-radius: 999px;
 }
 
@@ -390,8 +394,8 @@ button[disabled],
   }
 
   body, html {
-    background: #FFFFFF !important;
-    color: #22408F !important;
+    background: var(--riso-card) !important;
+    color: var(--riso-ink) !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
     font-size: 11pt !important;
@@ -415,8 +419,8 @@ button[disabled],
     break-after: page;
     page-break-after: always;
     min-height: 100vh;
-    border: 2px solid #22408F !important;
-    background: #FFFFFF !important;
+    border: 2px solid var(--riso-ink) !important;
+    background: var(--riso-card) !important;
     padding: 15mm !important;
     margin: 0 !important;
     box-shadow: none !important;

@@ -226,18 +226,18 @@ export const SessionsSection: React.FC = () => {
             <button
               type="button"
               onClick={() => setWeekOffset((prev) => prev - 1)}
-              className="p-1.5 rounded-[8px] hover:bg-[#EBF1FF] text-[#22408F] transition-colors cursor-pointer border border-transparent hover:border-[#22408F]"
+              className="p-1.5 rounded-[8px] hover:bg-riso-p1-light text-riso-ink transition-colors cursor-pointer border border-transparent hover:border-riso-ink"
               aria-label="Semaine précédente"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
 
             <div className="text-center">
-              <h2 className="text-sm font-bold text-[#22408F] tracking-tight font-heading">
+              <h2 className="text-sm font-bold text-riso-ink tracking-tight font-heading">
                 Semaine du {formatFrenchDate(mondayISO, false)}
               </h2>
               {weekOffset === 0 && (
-                <span className="text-[11px] font-bold text-[#22408F] bg-[#EBF1FF] border border-[#22408F] px-2 py-0.5 rounded-[999px]">
+                <span className="text-[11px] font-bold text-riso-ink bg-riso-p1-light border-2 border-riso-ink px-2 py-0.5 rounded-[999px]">
                   Semaine en cours
                 </span>
               )}
@@ -246,7 +246,7 @@ export const SessionsSection: React.FC = () => {
             <button
               type="button"
               onClick={() => setWeekOffset((prev) => prev + 1)}
-              className="p-1.5 rounded-[8px] hover:bg-[#EBF1FF] text-[#22408F] transition-colors cursor-pointer border border-transparent hover:border-[#22408F]"
+              className="p-1.5 rounded-[8px] hover:bg-riso-p1-light text-riso-ink transition-colors cursor-pointer border border-transparent hover:border-riso-ink"
               aria-label="Semaine suivante"
             >
               <ChevronRight className="w-4 h-4" />
@@ -267,15 +267,15 @@ export const SessionsSection: React.FC = () => {
                   key={d.iso}
                   className="flex flex-col items-center justify-center py-1 cursor-pointer select-none"
                 >
-                  <span className="text-[11px] font-bold text-[#5A6A94] uppercase">
+                  <span className="text-[11px] font-bold text-riso-ink-secondary uppercase">
                     {d.dayName}
                   </span>
 
                   <div
                     className={`w-8 h-8 rounded-[999px] flex items-center justify-center tabular-nums text-xs font-bold mt-1 transition-all ${
                       d.isToday
-                        ? 'border-2 border-[#22408F] text-[#22408F] bg-[#EBF1FF]'
-                        : 'text-[#22408F] hover:bg-[#EBF1FF]'
+                        ? 'border-2 border-riso-ink text-riso-ink bg-riso-p1-light'
+                        : 'text-riso-ink hover:bg-riso-p1-light'
                     }`}
                   >
                     {d.dayNum}
@@ -284,7 +284,7 @@ export const SessionsSection: React.FC = () => {
                   <div className="h-1.5 flex items-center justify-center mt-1">
                     {hasSessions ? (
                       <span
-                        className="w-2 h-2 rounded-[999px] border border-[#22408F]"
+                        className="w-2 h-2 rounded-[999px] border-2 border-riso-ink"
                         style={{ backgroundColor: dotColor }}
                       ></span>
                     ) : null}
@@ -294,13 +294,13 @@ export const SessionsSection: React.FC = () => {
             })}
           </div>
 
-          <div className="pt-2 border-t-2 border-[#22408F]/20 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between text-xs text-[#5A6A94] tabular-nums font-bold">
+          <div className="pt-2 border-t-2 border-riso-line flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between text-xs text-riso-ink-secondary tabular-nums font-bold">
             <span>
-              Total : <strong className="text-[#22408F]">{totalPlannedHours} h</strong> prévues ({sessions.length} sessions)
+              Total : <strong className="text-riso-ink">{totalPlannedHours} h</strong> prévues ({sessions.length} sessions)
             </span>
             <span>
-              Semaine : <strong className="text-[#22408F]">{plannedHoursThisWeek} h</strong> prévues ·{' '}
-              <strong className="text-[#2E8B4A]">{realizedHoursThisWeek} h</strong> faites
+              Semaine : <strong className="text-riso-ink">{plannedHoursThisWeek} h</strong> prévues ·{' '}
+              <strong className="text-riso-p2">{realizedHoursThisWeek} h</strong> faites
             </span>
           </div>
         </div>
@@ -311,18 +311,18 @@ export const SessionsSection: React.FC = () => {
             return (
               <div key={d.iso} className="space-y-2">
                 <div className="flex items-center gap-2 px-1">
-                  <span className={`text-xs font-bold ${d.isToday ? 'text-[#22408F]' : 'text-[#5A6A94]'}`}>
+                  <span className={`text-xs font-bold ${d.isToday ? 'text-riso-ink' : 'text-riso-ink-secondary'}`}>
                     {d.dayName}. {d.dayNum}
                   </span>
                   {d.isToday && (
-                    <span className="text-[11px] font-bold bg-[#EBF1FF] text-[#22408F] border border-[#22408F] px-2 py-0.2 rounded-[999px]">
+                    <span className="text-[11px] font-bold bg-riso-p1-light text-riso-ink border-2 border-riso-ink px-2 py-0.2 rounded-[999px]">
                       Aujourd'hui
                     </span>
                   )}
                 </div>
 
                 {d.sessions.length === 0 ? (
-                  <div className="p-3 rounded-[8px] border-2 border-dashed border-[#22408F]/20 text-center text-xs text-[#5A6A94] bg-[#FBFAF6]">
+                  <div className="p-3 rounded-[8px] border-2 border-dashed border-riso-line text-center text-xs text-riso-ink-secondary bg-riso-paper">
                     Rien de prévu
                   </div>
                 ) : (
@@ -337,33 +337,33 @@ export const SessionsSection: React.FC = () => {
                         <div
                           key={session.id}
                           onClick={() => handleOpenSessionSheet(session)}
-                          className={`p-3.5 rounded-[8px] border-2 border-[#22408F] transition-all cursor-pointer flex items-center gap-3 ${
+                          className={`p-3.5 rounded-[8px] border-2 border-riso-ink transition-all cursor-pointer flex items-center gap-3 ${
                             isDone
-                              ? 'bg-[#EAF6EE] opacity-90'
+                              ? 'bg-riso-p2-light opacity-90'
                               : isPastUncompleted
-                              ? 'bg-[#FEF0E9]'
-                              : 'bg-white shadow-[0_2px_0_#22408F]'
+                              ? 'bg-riso-p5-light'
+                              : 'bg-white shadow-riso-press'
                           }`}
                         >
                           {/* Pastille */}
                           <div
-                            className="w-10 h-10 rounded-[999px] border-2 border-[#22408F] flex items-center justify-center shrink-0 shadow-2xs relative"
+                            className="w-10 h-10 rounded-[999px] border-2 border-riso-ink flex items-center justify-center shrink-0 shadow-2xs relative"
                             style={{
                               backgroundColor: isDone ? '#EBF1FF' : colorInfo.hex,
                             }}
                           >
                             {(session.type === 'individuelle' || (session.type as string) === 'solo') && (
-                              <User className="w-5 h-5 text-[#22408F]" />
+                              <User className="w-5 h-5 text-riso-ink" />
                             )}
                             {session.type === 'groupe' && (
                               <Users className="w-5 h-5 text-white" />
                             )}
                             {session.type === 'encadree' && (
-                              <GraduationCap className="w-5 h-5 text-[#22408F]" />
+                              <GraduationCap className="w-5 h-5 text-riso-ink" />
                             )}
 
                             {isDone && (
-                              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-[#2E8B4A] border border-[#22408F] rounded-[999px] flex items-center justify-center text-white text-[9px] font-bold">
+                              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-riso-p2 border-2 border-riso-ink rounded-[999px] flex items-center justify-center text-white text-[9px] font-bold">
                                 ✓
                               </div>
                             )}
@@ -372,18 +372,18 @@ export const SessionsSection: React.FC = () => {
                           <div className="flex-1 min-w-0 pr-1">
                             <h3
                               className={`font-bold text-xs sm:text-sm leading-snug line-clamp-3 ${
-                                isDone ? 'line-through text-[#5A6A94]' : 'text-[#22408F]'
+                                isDone ? 'line-through text-riso-ink-secondary' : 'text-riso-ink'
                               }`}
                             >
                               {session.objective}
                             </h3>
 
-                            <div className="flex items-center gap-2 text-xs text-[#5A6A94] mt-1 tabular-nums font-bold">
-                              <span className="text-[#22408F]">
+                            <div className="flex items-center gap-2 text-xs text-riso-ink-secondary mt-1 tabular-nums font-bold">
+                              <span className="text-riso-ink">
                                 {session.plannedDurationHours} h
                               </span>
                               <span>·</span>
-                              <span className="truncate text-[#5A6A94]">
+                              <span className="truncate text-riso-ink-secondary">
                                 {phase?.shortName || phase?.name}
                               </span>
                             </div>
@@ -404,21 +404,21 @@ export const SessionsSection: React.FC = () => {
                               title="Ajouter à l'Agenda"
                               aria-label="Ajouter à l'Agenda"
                               onClick={(e) => e.stopPropagation()}
-                              className="w-7 h-7 flex items-center justify-center rounded-[8px] border-2 border-[#22408F] bg-white text-[#22408F] shadow-[0_2px_0_#22408F] hover:-translate-y-0.5 hover:shadow-[0_4px_0_#22408F] active:translate-y-0.5 active:shadow-none transition-all cursor-pointer"
+                              className="w-7 h-7 flex items-center justify-center rounded-[8px] border-2 border-riso-ink bg-white text-riso-ink shadow-riso-press hover:-translate-y-0.5 hover:shadow-riso active:translate-y-0.5 active:shadow-none transition-all cursor-pointer"
                             >
                               <CalendarIcon className="w-3.5 h-3.5" />
                             </a>
 
                             {isDone ? (
-                              <span className="text-xs text-[#2E8B4A] font-bold riso-pill bg-white">
+                              <span className="text-xs text-riso-p2 font-bold riso-pill bg-white">
                                 Fait
                               </span>
                             ) : isPastUncompleted ? (
-                              <span className="text-[11px] text-[#F0505A] font-bold bg-[#FDEEEF] border border-[#22408F] px-2 py-0.5 rounded-[999px] whitespace-normal text-center max-w-[70px]">
+                              <span className="text-[11px] text-riso-p4 font-bold bg-riso-p4-light border-2 border-riso-ink px-2 py-0.5 rounded-[999px] whitespace-normal text-center max-w-[70px]">
                                 À replanifier
                               </span>
                             ) : (
-                              <span className="text-[11px] text-[#5A6A94] font-medium">Prévue</span>
+                              <span className="text-[11px] text-riso-ink-secondary font-medium">Prévue</span>
                             )}
                           </div>
                         </div>
@@ -438,7 +438,7 @@ export const SessionsSection: React.FC = () => {
             setAddDay(todayISO);
             setIsAddModalOpen(true);
           }}
-          className="fixed bottom-20 right-5 z-30 w-13 h-13 rounded-[999px] bg-[#2F6DBB] hover:bg-[#22408F] active:translate-y-1 text-white border-2 border-[#22408F] shadow-[0_4px_0_#F0505A] active:shadow-none flex items-center justify-center transition-all cursor-pointer md:hidden"
+          className="fixed bottom-20 right-5 z-30 w-13 h-13 rounded-[999px] bg-riso-p1 hover:bg-riso-ink active:translate-y-1 text-white border-2 border-riso-ink shadow-riso-primary active:shadow-none flex items-center justify-center transition-all cursor-pointer md:hidden"
           title="Nouvelle session"
           aria-label="Nouvelle session"
         >
@@ -448,18 +448,18 @@ export const SessionsSection: React.FC = () => {
         {/* Bottom Sheet Mobile pour session sélectionnée */}
         {selectedSession && (
           <div
-            className="fixed inset-0 z-50 bg-[#22408F]/40 backdrop-blur-xs flex md:hidden items-end justify-center"
+            className="fixed inset-0 z-50 bg-riso-ink/40 backdrop-blur-xs flex md:hidden items-end justify-center"
             onClick={() => setSelectedSession(null)}
           >
             <div
-              className="bg-white w-full max-w-lg rounded-t-[16px] border-t-2 border-x-2 border-[#22408F] shadow-[0_-4px_0_#22408F] max-h-[85vh] flex flex-col p-6 pb-28 sm:pb-8 overflow-y-auto space-y-5 animate-in slide-in-from-bottom duration-200"
+              className="bg-white w-full max-w-lg rounded-t-[16px] border-t-2 border-x-2 border-riso-ink shadow-[0_-4px_0_var(--riso-ink)] max-h-[85vh] flex flex-col p-6 pb-28 sm:pb-8 overflow-y-auto space-y-5 animate-in slide-in-from-bottom duration-200"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="w-12 h-1 bg-[#22408F]/30 rounded-[999px] mx-auto -mt-2 mb-2 shrink-0"></div>
+              <div className="w-12 h-1 bg-riso-ink/30 rounded-[999px] mx-auto -mt-2 mb-2 shrink-0"></div>
 
               <div className="flex items-start justify-between shrink-0 gap-2">
                 <div className="flex-1 min-w-0">
-                  <span className="text-xs font-bold text-[#5A6A94] uppercase tracking-wider block">
+                  <span className="text-xs font-bold text-riso-ink-secondary uppercase tracking-wider block">
                     Session {getSessionTypeLabel(selectedSession.type)} · {selectedSession.plannedDurationHours} h
                   </span>
                   {isEditingTitle ? (
@@ -480,23 +480,23 @@ export const SessionsSection: React.FC = () => {
                           setIsEditingTitle(false);
                         }
                       }}
-                      className="w-full mt-1 px-2.5 py-1 bg-white border-2 border-[#22408F] rounded-[8px] text-sm font-bold text-[#22408F] focus:outline-none"
+                      className="w-full mt-1 px-2.5 py-1 bg-white border-2 border-riso-ink rounded-[8px] text-sm font-bold text-riso-ink focus:outline-none"
                     />
                   ) : (
                     <h3
                       onClick={() => setIsEditingTitle(true)}
                       title="Cliquer pour modifier le titre"
-                      className="text-base font-bold text-[#22408F] mt-0.5 font-heading cursor-pointer hover:underline flex items-center gap-1.5 group"
+                      className="text-base font-bold text-riso-ink mt-0.5 font-heading cursor-pointer hover:underline flex items-center gap-1.5 group"
                     >
                       <span className="truncate">{selectedSession.objective || 'Sans titre'}</span>
-                      <Pencil className="w-3.5 h-3.5 text-[#5A6A94] opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+                      <Pencil className="w-3.5 h-3.5 text-riso-ink-secondary opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
                     </h3>
                   )}
                 </div>
                 <button
                   type="button"
                   onClick={() => setSelectedSession(null)}
-                  className="p-1 text-[#5A6A94] hover:text-[#22408F] rounded-[8px]"
+                  className="p-1 text-riso-ink-secondary hover:text-riso-ink rounded-[8px]"
                   aria-label="Fermer"
                 >
                   <X className="w-5 h-5" />
@@ -513,9 +513,9 @@ export const SessionsSection: React.FC = () => {
                   <span>Lancer la session (Mode Focus)</span>
                 </button>
 
-                <div className="p-3.5 bg-[#FBFAF6] rounded-[8px] border-2 border-[#22408F] flex items-center justify-between gap-3 text-xs">
-                  <div className="flex items-center gap-2 font-bold text-[#22408F]">
-                    <Check className="w-4 h-4 text-[#2E8B4A]" />
+                <div className="p-3.5 bg-riso-paper rounded-[8px] border-2 border-riso-ink flex items-center justify-between gap-3 text-xs">
+                  <div className="flex items-center gap-2 font-bold text-riso-ink">
+                    <Check className="w-4 h-4 text-riso-p2" />
                     <span>Durée réelle :</span>
                     <input
                       type="number"
@@ -524,7 +524,7 @@ export const SessionsSection: React.FC = () => {
                       max={12}
                       value={actualDurationInput}
                       onChange={(e) => setActualDurationInput(Number(e.target.value))}
-                      className="w-16 px-2 py-1 bg-white border-2 border-[#22408F] rounded-[8px] text-center font-bold text-xs"
+                      className="w-16 px-2 py-1 bg-white border-2 border-riso-ink rounded-[8px] text-center font-bold text-xs"
                     />
                     <span>h</span>
                   </div>
@@ -538,15 +538,15 @@ export const SessionsSection: React.FC = () => {
                   </button>
                 </div>
 
-                <div className="p-3.5 bg-[#FBFAF6] rounded-[8px] border-2 border-[#22408F] flex items-center justify-between gap-2 text-xs">
-                  <div className="flex items-center gap-2 text-[#22408F] font-bold">
-                    <CalendarIcon className="w-4 h-4 text-[#22408F]" />
+                <div className="p-3.5 bg-riso-paper rounded-[8px] border-2 border-riso-ink flex items-center justify-between gap-2 text-xs">
+                  <div className="flex items-center gap-2 text-riso-ink font-bold">
+                    <CalendarIcon className="w-4 h-4 text-riso-ink" />
                     <span>Déplacer au :</span>
                     <input
                       type="date"
                       value={moveDateInput}
                       onChange={(e) => setMoveDateInput(e.target.value)}
-                      className="px-2 py-1 bg-white border-2 border-[#22408F] rounded-[8px] text-xs font-bold"
+                      className="px-2 py-1 bg-white border-2 border-riso-ink rounded-[8px] text-xs font-bold"
                     />
                   </div>
 
@@ -565,7 +565,7 @@ export const SessionsSection: React.FC = () => {
                   onClick={() => handleLogbookFromSession(selectedSession)}
                   className="btn-riso-secondary w-full text-xs"
                 >
-                  <BookOpen className="w-4 h-4 text-[#22408F]" />
+                  <BookOpen className="w-4 h-4 text-riso-ink" />
                   <span>Consigner au journal de bord</span>
                 </button>
 
@@ -581,11 +581,11 @@ export const SessionsSection: React.FC = () => {
                   rel="noopener noreferrer"
                   className="btn-riso-secondary w-full text-xs justify-center flex items-center gap-2"
                 >
-                  <CalendarIcon className="w-4 h-4 text-[#22408F]" />
+                  <CalendarIcon className="w-4 h-4 text-riso-ink" />
                   <span>Ajouter à l'Agenda</span>
                 </a>
 
-                <div className="pt-2 border-t-2 border-[#22408F]/20">
+                <div className="pt-2 border-t-2 border-riso-line">
                   <button
                     type="button"
                     onClick={() => {
@@ -594,7 +594,7 @@ export const SessionsSection: React.FC = () => {
                         setSelectedSession(null);
                       }
                     }}
-                    className="w-full py-2 px-3 text-xs font-bold text-[#F0505A] hover:bg-[#FDEEEF] rounded-[8px] border-2 border-transparent hover:border-[#F0505A] flex items-center justify-center gap-2 transition-all cursor-pointer"
+                    className="w-full py-2 px-3 text-xs font-bold text-riso-p4 hover:bg-riso-p4-light rounded-[8px] border-2 border-transparent hover:border-riso-p4 flex items-center justify-center gap-2 transition-all cursor-pointer"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                     <span>Supprimer cette séance</span>
@@ -616,7 +616,7 @@ export const SessionsSection: React.FC = () => {
             <button
               type="button"
               onClick={() => setWeekOffset((prev) => prev - 1)}
-              className="p-2 rounded-[8px] hover:bg-[#EBF1FF] text-[#22408F] transition-colors cursor-pointer border-2 border-[#22408F]"
+              className="p-2 rounded-[8px] hover:bg-riso-p1-light text-riso-ink transition-colors cursor-pointer border-2 border-riso-ink"
               title="Semaine précédente"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -625,7 +625,7 @@ export const SessionsSection: React.FC = () => {
             <button
               type="button"
               onClick={() => setWeekOffset(0)}
-              className="px-3.5 py-1.5 rounded-[999px] hover:bg-[#EBF1FF] text-[#22408F] text-xs font-bold transition-colors cursor-pointer border-2 border-[#22408F]"
+              className="px-3.5 py-1.5 rounded-[999px] hover:bg-riso-p1-light text-riso-ink text-xs font-bold transition-colors cursor-pointer border-2 border-riso-ink"
             >
               Cette semaine
             </button>
@@ -633,24 +633,24 @@ export const SessionsSection: React.FC = () => {
             <button
               type="button"
               onClick={() => setWeekOffset((prev) => prev + 1)}
-              className="p-2 rounded-[8px] hover:bg-[#EBF1FF] text-[#22408F] transition-colors cursor-pointer border-2 border-[#22408F]"
+              className="p-2 rounded-[8px] hover:bg-riso-p1-light text-riso-ink transition-colors cursor-pointer border-2 border-riso-ink"
               title="Semaine suivante"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
 
-            <span className="font-bold text-sm text-[#22408F] ml-2 font-heading">
+            <span className="font-bold text-sm text-riso-ink ml-2 font-heading">
               Semaine du {formatFrenchDate(mondayISO, false)} au {formatFrenchDate(weekDays[6].iso, false)}
             </span>
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="text-xs text-[#22408F] bg-[#FBFAF6] px-3.5 py-1.5 rounded-[999px] border-2 border-[#22408F] tabular-nums font-bold">
+            <div className="text-xs text-riso-ink bg-riso-paper px-3.5 py-1.5 rounded-[999px] border-2 border-riso-ink tabular-nums font-bold">
               Total prévu : <strong>{totalPlannedHours} h</strong> ({sessions.length} sessions)
             </div>
-            <div className="text-xs text-[#22408F] bg-[#FBFAF6] px-3.5 py-1.5 rounded-[999px] border-2 border-[#22408F] tabular-nums font-bold">
+            <div className="text-xs text-riso-ink bg-riso-paper px-3.5 py-1.5 rounded-[999px] border-2 border-riso-ink tabular-nums font-bold">
               Semaine : <strong>{plannedHoursThisWeek} h</strong> prévues ·{' '}
-              <strong className="text-[#2E8B4A]">{realizedHoursThisWeek} h</strong> réalisées
+              <strong className="text-riso-p2">{realizedHoursThisWeek} h</strong> réalisées
             </div>
           </div>
 
@@ -677,25 +677,25 @@ export const SessionsSection: React.FC = () => {
             return (
               <div
                 key={d.iso}
-                className={`flex flex-col rounded-[8px] border-2 border-[#22408F] shadow-[0_4px_0_#22408F] transition-all ${
-                  d.isToday ? 'bg-[#EBF1FF]' : 'bg-white'
+                className={`flex flex-col rounded-[8px] border-2 border-riso-ink shadow-riso transition-all ${
+                  d.isToday ? 'bg-riso-p1-light' : 'bg-white'
                 }`}
               >
                 {/* Column Day Header */}
                 <div
-                  className={`p-3 border-b-2 border-[#22408F] text-center select-none ${
-                    d.isToday ? 'bg-[#EBF1FF]' : 'bg-[#FBFAF6]'
+                  className={`p-3 border-b-2 border-riso-ink text-center select-none ${
+                    d.isToday ? 'bg-riso-p1-light' : 'bg-riso-paper'
                   }`}
                 >
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#5A6A94] block">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-riso-ink-secondary block">
                     {d.dayName}
                   </span>
                   <div className="mt-0.5 flex items-center justify-center">
                     <span
                       className={`w-7 h-7 rounded-[999px] flex items-center justify-center tabular-nums text-xs font-bold ${
                         d.isToday
-                          ? 'bg-[#22408F] text-white'
-                          : 'text-[#22408F]'
+                          ? 'bg-riso-ink text-white'
+                          : 'text-riso-ink'
                       }`}
                     >
                       {d.dayNum}
@@ -725,8 +725,8 @@ export const SessionsSection: React.FC = () => {
                         <div
                           key={session.id}
                           onClick={() => handleOpenSessionSheet(session)}
-                          className={`${minHeightClass} p-2.5 rounded-[8px] border-2 border-[#22408F] bg-white hover:translate-y-[-1px] transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between group ${
-                            isDone ? 'opacity-85 bg-[#EAF6EE]' : ''
+                          className={`${minHeightClass} p-2.5 rounded-[8px] border-2 border-riso-ink bg-white hover:translate-y-[-1px] transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between group ${
+                            isDone ? 'opacity-85 bg-riso-p2-light' : ''
                           }`}
                         >
                           {/* Accent Color Left Strip */}
@@ -736,8 +736,8 @@ export const SessionsSection: React.FC = () => {
                           ></div>
 
                           <div className="pl-1">
-                            <div className="flex items-center justify-between text-[11px] text-[#5A6A94] mb-1 tabular-nums font-bold">
-                              <span className="font-bold text-[#22408F] truncate max-w-[80px]">
+                            <div className="flex items-center justify-between text-[11px] text-riso-ink-secondary mb-1 tabular-nums font-bold">
+                              <span className="font-bold text-riso-ink truncate max-w-[80px]">
                                 {phase?.shortName || 'Phase'}
                               </span>
                               <div className="flex items-center gap-1">
@@ -754,11 +754,11 @@ export const SessionsSection: React.FC = () => {
                                   title="Ajouter à l'Agenda"
                                   aria-label="Ajouter à l'Agenda"
                                   onClick={(e) => e.stopPropagation()}
-                                  className="w-5 h-5 flex items-center justify-center rounded-[4px] border border-[#22408F] bg-white text-[#22408F] hover:bg-[#EBF1FF] transition-all cursor-pointer"
+                                  className="w-5 h-5 flex items-center justify-center rounded-[8px] border-2 border-riso-ink bg-white text-riso-ink hover:bg-riso-p1-light transition-all cursor-pointer"
                                 >
                                   <CalendarIcon className="w-3 h-3" />
                                 </a>
-                                <span className="bg-[#FBFAF6] border border-[#22408F] px-1 py-0.2 rounded-[4px] text-[#22408F]">
+                                <span className="bg-riso-paper border-2 border-riso-ink px-1 py-0.2 rounded-[8px] text-riso-ink">
                                   {duration} h
                                 </span>
                               </div>
@@ -766,8 +766,8 @@ export const SessionsSection: React.FC = () => {
 
                             {/* Objectif sur 3 lignes */}
                             <h4
-                              className={`text-xs font-bold text-[#22408F] leading-snug line-clamp-3 ${
-                                isDone ? 'line-through text-[#5A6A94]' : ''
+                              className={`text-xs font-bold text-riso-ink leading-snug line-clamp-3 ${
+                                isDone ? 'line-through text-riso-ink-secondary' : ''
                               }`}
                             >
                               {session.objective}
@@ -775,14 +775,14 @@ export const SessionsSection: React.FC = () => {
                           </div>
 
                           {/* Bottom tags avec étiquette 'Fait' qui reste à l'intérieur */}
-                          <div className="pl-1 pt-1.5 flex flex-wrap items-center justify-between gap-1 text-[11px] text-[#5A6A94] border-t border-[#22408F]/20 mt-2">
-                            <span className="inline-flex items-center gap-1 font-bold text-[#22408F]">
-                              {(session.type === 'individuelle' || (session.type as string) === 'solo') && <User className="w-3 h-3 text-[#22408F]" />}
+                          <div className="pl-1 pt-1.5 flex flex-wrap items-center justify-between gap-1 text-[11px] text-riso-ink-secondary border-t border-riso-line mt-2">
+                            <span className="inline-flex items-center gap-1 font-bold text-riso-ink">
+                              {(session.type === 'individuelle' || (session.type as string) === 'solo') && <User className="w-3 h-3 text-riso-ink" />}
                               {session.type === 'groupe' && settings.mode === 'groupe' && (
-                                <Users className="w-3 h-3 text-[#22408F]" />
+                                <Users className="w-3 h-3 text-riso-ink" />
                               )}
                               {session.type === 'encadree' && (
-                                <GraduationCap className="w-3 h-3 text-[#22408F]" />
+                                <GraduationCap className="w-3 h-3 text-riso-ink" />
                               )}
                               <span>
                                 {getSessionTypeLabel(session.type)}
@@ -790,7 +790,7 @@ export const SessionsSection: React.FC = () => {
                             </span>
 
                             {isDone && (
-                              <span className="bg-[#2E8B4A] text-white font-bold px-1.5 py-0.5 rounded-[999px] text-[10px] flex items-center gap-0.5">
+                              <span className="bg-riso-p2 text-white font-bold px-1.5 py-0.5 rounded-[999px] text-[10px] flex items-center gap-0.5">
                                 <Check className="w-2.5 h-2.5 stroke-[3]" />
                                 <span>Fait</span>
                               </span>
@@ -809,16 +809,16 @@ export const SessionsSection: React.FC = () => {
         {/* Right Drawer Desktop (420px) */}
         {selectedSession && (
           <div
-            className="fixed inset-0 z-50 bg-[#22408F]/40 backdrop-blur-2xs hidden md:flex justify-end"
+            className="fixed inset-0 z-50 bg-riso-ink/40 backdrop-blur-2xs hidden md:flex justify-end"
             onClick={() => setSelectedSession(null)}
           >
             <div
-              className="w-[420px] max-w-full h-full bg-white shadow-2xl p-7 border-l-2 border-[#22408F] overflow-y-auto animate-in slide-in-from-right duration-200 space-y-6"
+              className="w-[420px] max-w-full h-full bg-white shadow-2xl p-7 border-l-2 border-riso-ink overflow-y-auto animate-in slide-in-from-right duration-200 space-y-6"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="pb-4 border-b-2 border-[#22408F]/20 flex items-start justify-between gap-3">
+              <div className="pb-4 border-b-2 border-riso-line flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
-                  <span className="text-xs font-bold text-[#5A6A94] uppercase tracking-wider block">
+                  <span className="text-xs font-bold text-riso-ink-secondary uppercase tracking-wider block">
                     Session {getSessionTypeLabel(selectedSession.type)} · {selectedSession.plannedDurationHours} h
                   </span>
                   {isEditingTitle ? (
@@ -839,19 +839,19 @@ export const SessionsSection: React.FC = () => {
                           setIsEditingTitle(false);
                         }
                       }}
-                      className="w-full mt-1 px-2.5 py-1 bg-white border-2 border-[#22408F] rounded-[8px] text-base font-bold text-[#22408F] focus:outline-none"
+                      className="w-full mt-1 px-2.5 py-1 bg-white border-2 border-riso-ink rounded-[8px] text-base font-bold text-riso-ink focus:outline-none"
                     />
                   ) : (
                     <h3
                       onClick={() => setIsEditingTitle(true)}
                       title="Cliquer pour modifier le titre"
-                      className="text-xl font-bold text-[#22408F] mt-1 font-heading cursor-pointer hover:underline flex items-center gap-2 group"
+                      className="text-xl font-bold text-riso-ink mt-1 font-heading cursor-pointer hover:underline flex items-center gap-2 group"
                     >
                       <span>{selectedSession.objective || 'Sans titre'}</span>
-                      <Pencil className="w-4 h-4 text-[#5A6A94] opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
+                      <Pencil className="w-4 h-4 text-riso-ink-secondary opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
                     </h3>
                   )}
-                  <p className="text-xs text-[#5A6A94] tabular-nums mt-0.5">
+                  <p className="text-xs text-riso-ink-secondary tabular-nums mt-0.5">
                     Date prévue : {formatFrenchDate(selectedSession.date, false)}
                   </p>
                 </div>
@@ -859,7 +859,7 @@ export const SessionsSection: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setSelectedSession(null)}
-                  className="p-1.5 text-[#5A6A94] hover:text-[#22408F] rounded-[8px] hover:bg-[#EBF1FF] transition-colors cursor-pointer"
+                  className="p-1.5 text-riso-ink-secondary hover:text-riso-ink rounded-[8px] hover:bg-riso-p1-light transition-colors cursor-pointer"
                   title="Fermer (Échap)"
                 >
                   <X className="w-5 h-5" />
@@ -876,9 +876,9 @@ export const SessionsSection: React.FC = () => {
                   <span>Lancer la session (Mode Focus)</span>
                 </button>
 
-                <div className="p-3.5 bg-[#FBFAF6] rounded-[8px] border-2 border-[#22408F] flex items-center justify-between gap-3 text-xs">
-                  <div className="flex items-center gap-2 font-bold text-[#22408F]">
-                    <Check className="w-4 h-4 text-[#2E8B4A]" />
+                <div className="p-3.5 bg-riso-paper rounded-[8px] border-2 border-riso-ink flex items-center justify-between gap-3 text-xs">
+                  <div className="flex items-center gap-2 font-bold text-riso-ink">
+                    <Check className="w-4 h-4 text-riso-p2" />
                     <span>Durée réelle passée :</span>
                     <input
                       type="number"
@@ -887,7 +887,7 @@ export const SessionsSection: React.FC = () => {
                       max={12}
                       value={actualDurationInput}
                       onChange={(e) => setActualDurationInput(Number(e.target.value))}
-                      className="w-16 px-2 py-1 bg-white border-2 border-[#22408F] rounded-[8px] text-center font-bold text-xs"
+                      className="w-16 px-2 py-1 bg-white border-2 border-riso-ink rounded-[8px] text-center font-bold text-xs"
                     />
                     <span>h</span>
                   </div>
@@ -901,15 +901,15 @@ export const SessionsSection: React.FC = () => {
                   </button>
                 </div>
 
-                <div className="p-3.5 bg-[#FBFAF6] rounded-[8px] border-2 border-[#22408F] flex items-center justify-between gap-2 text-xs">
-                  <div className="flex items-center gap-2 text-[#22408F] font-bold">
-                    <CalendarIcon className="w-4 h-4 text-[#22408F]" />
+                <div className="p-3.5 bg-riso-paper rounded-[8px] border-2 border-riso-ink flex items-center justify-between gap-2 text-xs">
+                  <div className="flex items-center gap-2 text-riso-ink font-bold">
+                    <CalendarIcon className="w-4 h-4 text-riso-ink" />
                     <span>Déplacer au :</span>
                     <input
                       type="date"
                       value={moveDateInput}
                       onChange={(e) => setMoveDateInput(e.target.value)}
-                      className="px-2 py-1 bg-white border-2 border-[#22408F] rounded-[8px] text-xs font-bold"
+                      className="px-2 py-1 bg-white border-2 border-riso-ink rounded-[8px] text-xs font-bold"
                     />
                   </div>
 
@@ -928,7 +928,7 @@ export const SessionsSection: React.FC = () => {
                   onClick={() => handleLogbookFromSession(selectedSession)}
                   className="btn-riso-secondary w-full text-xs"
                 >
-                  <BookOpen className="w-4 h-4 text-[#22408F]" />
+                  <BookOpen className="w-4 h-4 text-riso-ink" />
                   <span>Consigner au journal de bord</span>
                 </button>
 
@@ -944,18 +944,18 @@ export const SessionsSection: React.FC = () => {
                   rel="noopener noreferrer"
                   className="btn-riso-secondary w-full text-xs justify-center flex items-center gap-2"
                 >
-                  <CalendarIcon className="w-4 h-4 text-[#22408F]" />
+                  <CalendarIcon className="w-4 h-4 text-riso-ink" />
                   <span>Ajouter à l'Agenda</span>
                 </a>
 
-                <div className="pt-2 border-t-2 border-[#22408F]/20 text-right">
+                <div className="pt-2 border-t-2 border-riso-line text-right">
                   <button
                     type="button"
                     onClick={() => {
                       deleteSession(selectedSession.id);
                       setSelectedSession(null);
                     }}
-                    className="text-xs text-[#F0505A] hover:underline font-bold cursor-pointer"
+                    className="text-xs text-riso-p4 hover:underline font-bold cursor-pointer"
                   >
                     Supprimer cette session
                   </button>
@@ -968,16 +968,16 @@ export const SessionsSection: React.FC = () => {
 
       {/* Modal Ajout Rapide */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 bg-[#22408F]/40 backdrop-blur-xs flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 bg-riso-ink/40 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="riso-card max-w-sm w-full p-6 animate-in zoom-in-95 duration-150 max-h-[90vh] flex flex-col overflow-hidden">
-            <div className="flex items-center justify-between border-b-2 border-[#22408F]/20 pb-3 shrink-0">
-              <h3 className="font-bold text-base text-[#22408F] font-heading">
+            <div className="flex items-center justify-between border-b-2 border-riso-line pb-3 shrink-0">
+              <h3 className="font-bold text-base text-riso-ink font-heading">
                 Nouvelle session
               </h3>
               <button
                 type="button"
                 onClick={() => setIsAddModalOpen(false)}
-                className="p-1 text-[#5A6A94] hover:text-[#22408F] rounded-[8px]"
+                className="p-1 text-riso-ink-secondary hover:text-riso-ink rounded-[8px]"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -986,29 +986,29 @@ export const SessionsSection: React.FC = () => {
             <form onSubmit={handleQuickAddSession} className="flex-1 overflow-y-auto pt-4 space-y-4 text-xs flex flex-col justify-between">
               <div className="space-y-4">
                 <div className="space-y-1.5">
-                  <label className="font-bold text-[#22408F] block uppercase tracking-wider text-[11px]">
+                  <label className="font-bold text-riso-ink block uppercase tracking-wider text-[11px]">
                     1. Choisir le jour
                   </label>
                   <input
                     type="date"
                     value={addDay}
                     onChange={(e) => setAddDay(e.target.value)}
-                    className="w-full px-3 py-2 bg-[#FBFAF6] border-2 border-[#22408F] rounded-[8px] text-xs font-bold"
+                    className="w-full px-3 py-2 bg-riso-paper border-2 border-riso-ink rounded-[8px] text-xs font-bold"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="font-bold text-[#22408F] block uppercase tracking-wider text-[11px]">
+                  <label className="font-bold text-riso-ink block uppercase tracking-wider text-[11px]">
                     2. Type de session
                   </label>
                   <div className="grid grid-cols-3 gap-2">
                     <button
                       type="button"
                       onClick={() => setAddType('individuelle')}
-                      className={`p-2.5 rounded-[8px] border-2 border-[#22408F] text-center transition-all cursor-pointer flex flex-col items-center gap-1 ${
+                      className={`p-2.5 rounded-[8px] border-2 border-riso-ink text-center transition-all cursor-pointer flex flex-col items-center gap-1 ${
                         addType === 'individuelle'
-                          ? 'bg-[#2F6DBB] text-white font-bold shadow-[0_2px_0_#22408F]'
-                          : 'bg-[#FBFAF6] text-[#22408F]'
+                          ? 'bg-riso-p1 text-white font-bold shadow-riso-press'
+                          : 'bg-riso-paper text-riso-ink'
                       }`}
                     >
                       <User className="w-4 h-4" />
@@ -1021,10 +1021,10 @@ export const SessionsSection: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setAddType('groupe')}
-                      className={`p-2.5 rounded-[8px] border-2 border-[#22408F] text-center transition-all cursor-pointer flex flex-col items-center gap-1 ${
+                      className={`p-2.5 rounded-[8px] border-2 border-riso-ink text-center transition-all cursor-pointer flex flex-col items-center gap-1 ${
                         addType === 'groupe'
-                          ? 'bg-[#2F6DBB] text-white font-bold shadow-[0_2px_0_#22408F]'
-                          : 'bg-[#FBFAF6] text-[#22408F]'
+                          ? 'bg-riso-p1 text-white font-bold shadow-riso-press'
+                          : 'bg-riso-paper text-riso-ink'
                       }`}
                     >
                       <Users className="w-4 h-4" />
@@ -1037,10 +1037,10 @@ export const SessionsSection: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setAddType('encadree')}
-                      className={`p-2.5 rounded-[8px] border-2 border-[#22408F] text-center transition-all cursor-pointer flex flex-col items-center gap-1 ${
+                      className={`p-2.5 rounded-[8px] border-2 border-riso-ink text-center transition-all cursor-pointer flex flex-col items-center gap-1 ${
                         addType === 'encadree'
-                          ? 'bg-[#2F6DBB] text-white font-bold shadow-[0_2px_0_#22408F]'
-                          : 'bg-[#FBFAF6] text-[#22408F]'
+                          ? 'bg-riso-p1 text-white font-bold shadow-riso-press'
+                          : 'bg-riso-paper text-riso-ink'
                       }`}
                     >
                       <GraduationCap className="w-4 h-4" />
@@ -1053,7 +1053,7 @@ export const SessionsSection: React.FC = () => {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="font-bold text-[#22408F] block uppercase tracking-wider text-[11px]">
+                  <label className="font-bold text-riso-ink block uppercase tracking-wider text-[11px]">
                     3. Phase associée
                   </label>
                   <div className="grid grid-cols-3 gap-1.5">
@@ -1066,14 +1066,14 @@ export const SessionsSection: React.FC = () => {
                           key={p.id}
                           type="button"
                           onClick={() => setAddPhaseId(p.id)}
-                          className={`p-2 rounded-[8px] border-2 border-[#22408F] text-left transition-all cursor-pointer truncate flex items-center gap-1.5 ${
+                          className={`p-2 rounded-[8px] border-2 border-riso-ink text-left transition-all cursor-pointer truncate flex items-center gap-1.5 ${
                             isSelected
-                              ? 'bg-[#EBF1FF] font-bold text-[#22408F]'
-                              : 'bg-white text-[#5A6A94]'
+                              ? 'bg-riso-p1-light font-bold text-riso-ink'
+                              : 'bg-white text-riso-ink-secondary'
                           }`}
                         >
                           <span
-                            className="w-2.5 h-2.5 rounded-[999px] border border-[#22408F] shrink-0"
+                            className="w-2.5 h-2.5 rounded-[999px] border-2 border-riso-ink shrink-0"
                             style={{ backgroundColor: color }}
                           ></span>
                           <span className="truncate text-[11px] font-bold">{p.nom || p.name || p.shortName}</span>
@@ -1084,7 +1084,7 @@ export const SessionsSection: React.FC = () => {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[#22408F] text-[11px] block font-bold">
+                  <label className="text-riso-ink text-[11px] block font-bold">
                     Objectif de la session
                   </label>
                   <input
@@ -1092,7 +1092,7 @@ export const SessionsSection: React.FC = () => {
                     placeholder="ex: Atelier de croquis rapides ou tests de maquettes"
                     value={addObjective}
                     onChange={(e) => setAddObjective(e.target.value)}
-                    className="w-full px-3 py-2 bg-[#FBFAF6] border-2 border-[#22408F] rounded-[8px] text-xs font-medium"
+                    className="w-full px-3 py-2 bg-riso-paper border-2 border-riso-ink rounded-[8px] text-xs font-medium"
                   />
                 </div>
               </div>

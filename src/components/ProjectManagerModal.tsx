@@ -69,15 +69,15 @@ export const ProjectManagerModal: React.FC<ProjectManagerModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#22408F]/40 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="bg-white rounded-[8px] max-w-2xl w-full border-2 border-[#22408F] shadow-[0_4px_0_#22408F] max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-        <div className="flex items-center justify-between px-6 py-4 border-b-2 border-[#22408F] bg-[#FBFAF6] shrink-0">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-riso-ink/40 backdrop-blur-xs flex items-center justify-center p-4">
+      <div className="bg-white rounded-[8px] max-w-2xl w-full border-2 border-riso-ink shadow-riso max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+        <div className="flex items-center justify-between px-6 py-4 border-b-2 border-riso-ink bg-riso-paper shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-[#EBF1FF] text-[#22408F] rounded-[8px] border-2 border-[#22408F]">
-              <FolderKanban className="w-5 h-5 text-[#22408F]" />
+            <div className="p-2 bg-riso-p1-light text-riso-ink rounded-[8px] border-2 border-riso-ink">
+              <FolderKanban className="w-5 h-5 text-riso-ink" />
             </div>
             <div>
-              <h2 className="text-sm font-bold text-[#22408F] font-heading">
+              <h2 className="text-sm font-bold text-riso-ink font-heading">
                 Gérer les projets
               </h2>
             </div>
@@ -85,27 +85,27 @@ export const ProjectManagerModal: React.FC<ProjectManagerModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 text-[#5A6A94] hover:text-[#22408F] rounded-[8px] hover:bg-[#EBF1FF] transition-colors border border-transparent hover:border-[#22408F] cursor-pointer"
+            className="p-1.5 text-riso-ink-secondary hover:text-riso-ink rounded-[8px] hover:bg-riso-p1-light transition-colors border border-transparent hover:border-riso-ink cursor-pointer"
             aria-label="Fermer"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        <div className="p-6 space-y-6 flex-1 overflow-y-auto text-[13px] bg-[#FBFAF6]">
+        <div className="p-6 space-y-6 flex-1 overflow-y-auto text-[13px] bg-riso-paper">
           {/* Projects List */}
           <div>
-            <h3 className="text-xs font-bold text-[#22408F] uppercase tracking-wider mb-2.5 font-heading">
+            <h3 className="text-xs font-bold text-riso-ink uppercase tracking-wider mb-2.5 font-heading">
               Projets actuels ({projects.length})
             </h3>
-            <div className="divide-y-2 divide-[#22408F]/20 border-2 border-[#22408F] rounded-[8px] overflow-hidden bg-white shadow-[0_2px_0_#22408F]">
+            <div className="divide-y-2 divide-riso-ink/20 border-2 border-riso-ink rounded-[8px] overflow-hidden bg-white shadow-riso-press">
               {projects.map((proj) => {
                 const isActive = proj.id === activeProjectId;
                 return (
                   <div
                     key={proj.id}
                     className={`p-3.5 flex items-center justify-between transition-colors ${
-                      isActive ? 'bg-[#EBF1FF]' : 'hover:bg-[#FBFAF6]'
+                      isActive ? 'bg-riso-p1-light' : 'hover:bg-riso-paper'
                     }`}
                   >
                     <div
@@ -116,16 +116,16 @@ export const ProjectManagerModal: React.FC<ProjectManagerModalProps> = ({
                       }}
                     >
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-[#22408F] truncate">
+                        <span className="font-bold text-riso-ink truncate">
                           {proj.settings.name}
                         </span>
                         {isActive && (
-                          <span className="text-[13px] font-bold text-[#22408F] bg-[#F2D21B] px-2 py-0.5 rounded-[999px] border-2 border-[#22408F]">
+                          <span className="text-[13px] font-bold text-riso-ink bg-riso-p3 px-2 py-0.5 rounded-[999px] border-2 border-riso-ink">
                             Actif
                           </span>
                         )}
                       </div>
-                      <div className="flex items-center gap-2 text-[#5A6A94] text-[13px] mt-0.5 tabular-nums">
+                      <div className="flex items-center gap-2 text-riso-ink-secondary text-[13px] mt-0.5 tabular-nums">
                         <span className="font-semibold">
                           {proj.settings.mode === 'individuel' ? 'Solo' : 'Groupe'}
                         </span>
@@ -157,7 +157,7 @@ export const ProjectManagerModal: React.FC<ProjectManagerModalProps> = ({
                           }}
                           title="Supprimer ce projet"
                           aria-label={`Supprimer le projet ${proj.settings.name}`}
-                          className="p-1.5 text-[#5A6A94] hover:text-[#F0505A] hover:bg-[#FDEEEF] rounded-[8px] border-2 border-transparent hover:border-[#F0505A] transition-colors cursor-pointer"
+                          className="p-1.5 text-riso-ink-secondary hover:text-riso-p4 hover:bg-riso-p4-light rounded-[8px] border-2 border-transparent hover:border-riso-p4 transition-colors cursor-pointer"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
@@ -171,9 +171,9 @@ export const ProjectManagerModal: React.FC<ProjectManagerModalProps> = ({
 
           {/* Sauvegarde JSON (Import / Export) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-            <div className="p-3.5 bg-white border-2 border-[#22408F] rounded-[8px] shadow-[0_2px_0_#22408F] space-y-2">
-              <span className="font-bold text-[#22408F] block font-heading">Télécharger une sauvegarde</span>
-              <p className="text-[#5A6A94] text-[13px]">
+            <div className="p-3.5 bg-white border-2 border-riso-ink rounded-[8px] shadow-riso-press space-y-2">
+              <span className="font-bold text-riso-ink block font-heading">Télécharger une sauvegarde</span>
+              <p className="text-riso-ink-secondary text-[13px]">
                 Téléchargez l'intégralité du projet en fichier JSON pour archivage ou partage.
               </p>
               <button
@@ -186,9 +186,9 @@ export const ProjectManagerModal: React.FC<ProjectManagerModalProps> = ({
               </button>
             </div>
 
-            <div className="p-3.5 bg-white border-2 border-[#22408F] rounded-[8px] shadow-[0_2px_0_#22408F] space-y-2">
-              <span className="font-bold text-[#22408F] block font-heading">Restaurer une sauvegarde</span>
-              <p className="text-[#5A6A94] text-[13px]">
+            <div className="p-3.5 bg-white border-2 border-riso-ink rounded-[8px] shadow-riso-press space-y-2">
+              <span className="font-bold text-riso-ink block font-heading">Restaurer une sauvegarde</span>
+              <p className="text-riso-ink-secondary text-[13px]">
                 Restaurez un projet StudioPlanner depuis un fichier JSON sauvegardé.
               </p>
               <input
@@ -207,13 +207,13 @@ export const ProjectManagerModal: React.FC<ProjectManagerModalProps> = ({
                 Importer un JSON
               </button>
               {importError && (
-                <p className="text-[#F0505A] text-[13px] font-bold mt-1">{importError}</p>
+                <p className="text-riso-p4 text-[13px] font-bold mt-1">{importError}</p>
               )}
             </div>
           </div>
         </div>
 
-        <div className="px-6 py-3.5 bg-[#FBFAF6] border-t-2 border-[#22408F] flex justify-end shrink-0">
+        <div className="px-6 py-3.5 bg-riso-paper border-t-2 border-riso-ink flex justify-end shrink-0">
           <button
             type="button"
             onClick={onClose}

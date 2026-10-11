@@ -59,7 +59,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <>
-      <header className="sticky top-0 z-30 bg-[#FFFFFF]/95 backdrop-blur-md border-b-2 border-[#22408F] md:pl-[72px] xl:pl-[240px] transition-all text-[#22408F]">
+      <header className="sticky top-0 z-30 bg-riso-card/95 backdrop-blur-md border-b-2 border-riso-ink md:pl-[72px] xl:pl-[240px] transition-all text-riso-ink">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14">
             {/* Zone 1: Menu (< 1024px) + Mobile brand vs Desktop Screen Title & Mode badge */}
@@ -68,7 +68,7 @@ export const Header: React.FC<HeaderProps> = ({
               <button
                 type="button"
                 onClick={() => setIsMenuOpen(true)}
-                className="lg:hidden p-1.5 rounded-[8px] border-2 border-[#22408F] bg-white text-[#22408F] shadow-[0_2px_0_#22408F] hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer flex items-center justify-center shrink-0"
+                className="lg:hidden p-1.5 rounded-[8px] border-2 border-riso-ink bg-white text-riso-ink shadow-riso-press hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer flex items-center justify-center shrink-0"
                 aria-label="Menu principal"
                 title="Menu"
               >
@@ -77,7 +77,7 @@ export const Header: React.FC<HeaderProps> = ({
 
               {/* Mobile-only Logo and Brand */}
               <div className="flex md:hidden items-center gap-2.5">
-                <div className="w-8 h-8 rounded-[8px] bg-white overflow-hidden shrink-0 flex items-center justify-center border-2 border-[#22408F] shadow-[0_4px_0_#22408F]">
+                <div className="w-8 h-8 rounded-[8px] bg-white overflow-hidden shrink-0 flex items-center justify-center border-2 border-riso-ink shadow-riso">
                   <img
                     src="/logo.png"
                     alt="StudioPlanner"
@@ -91,20 +91,20 @@ export const Header: React.FC<HeaderProps> = ({
                     }}
                   />
                 </div>
-                <span className="font-bold text-base text-[#22408F] tracking-tight flex items-center">
+                <span className="font-bold text-base text-riso-ink tracking-tight flex items-center">
                   StudioPlanner
                 </span>
-                <span className="text-[11px] text-[#22408F] bg-[#F2D21B] px-2 py-0.5 rounded-[999px] border-2 border-[#22408F] font-bold">
+                <span className="text-[11px] text-riso-ink bg-riso-p3 px-2 py-0.5 rounded-[999px] border-2 border-riso-ink font-bold">
                   {activeProject.settings.mode === 'individuel' ? 'Solo' : 'Groupe'}
                 </span>
               </div>
 
               {/* Desktop-only Screen Title & Mode badge */}
               <div className="hidden md:flex items-center gap-2.5 text-sm">
-                <span className="font-bold text-base text-[#22408F] tracking-tight">
+                <span className="font-bold text-base text-riso-ink tracking-tight">
                   {currentTabLabel}
                 </span>
-                <span className="text-[11px] text-[#22408F] bg-[#F2D21B] px-2 py-0.5 rounded-[999px] border-2 border-[#22408F] font-bold">
+                <span className="text-[11px] text-riso-ink bg-riso-p3 px-2 py-0.5 rounded-[999px] border-2 border-riso-ink font-bold">
                   {activeProject.settings.mode === 'individuel' ? 'Solo' : 'Groupe'}
                 </span>
               </div>
@@ -116,11 +116,11 @@ export const Header: React.FC<HeaderProps> = ({
                 <button
                   type="button"
                   onClick={onOpenDetailedView}
-                  className="flex items-center gap-1.5 px-2.5 py-1 text-xs text-[#22408F] bg-[#FFF9D6] hover:bg-[#FFDD00] rounded-[8px] border-2 border-[#22408F] shadow-[0_4px_0_#22408F] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#22408F] active:translate-y-1 active:shadow-none transition-all font-semibold cursor-pointer"
+                  className="flex items-center gap-1.5 px-2.5 py-1 text-xs text-riso-ink bg-riso-p3-tint hover:bg-riso-p3 rounded-[8px] border-2 border-riso-ink shadow-riso hover:-translate-y-0.5 hover:shadow-riso active:translate-y-1 active:shadow-none transition-all font-semibold cursor-pointer"
                   title={`${dependencyAlerts.length} conflit(s) de dépendance détecté(s)`}
                   aria-label={`${dependencyAlerts.length} conflit(s) de dépendance détecté(s)`}
                 >
-                  <AlertTriangle className="w-3.5 h-3.5 text-[#22408F] shrink-0" />
+                  <AlertTriangle className="w-3.5 h-3.5 text-riso-ink shrink-0" />
                   <span className="tabular-nums font-bold">{dependencyAlerts.length}</span>
                 </button>
               )}
@@ -129,13 +129,13 @@ export const Header: React.FC<HeaderProps> = ({
               <button
                 type="button"
                 onClick={onOpenNotifications}
-                className="relative p-2 text-[#22408F] bg-white hover:bg-[#EBF1FF] rounded-[8px] border-2 border-[#22408F] shadow-[0_4px_0_#22408F] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#22408F] active:translate-y-1 active:shadow-none transition-all cursor-pointer"
+                className="relative p-2 text-riso-ink bg-white hover:bg-riso-p1-light rounded-[8px] border-2 border-riso-ink shadow-riso hover:-translate-y-0.5 hover:shadow-riso active:translate-y-1 active:shadow-none transition-all cursor-pointer"
                 title="Rappels"
                 aria-label="Rappels"
               >
-                <Bell className="w-4 h-4 text-[#22408F]" />
+                <Bell className="w-4 h-4 text-riso-ink" />
                 {unreadNotificationCount > 0 && (
-                  <span className="absolute -top-1 -right-1 flex items-center justify-center min-w-4 h-4 px-1 text-[11px] font-bold text-white bg-[#F0505A] rounded-[999px] border-2 border-[#22408F]">
+                  <span className="absolute -top-1 -right-1 flex items-center justify-center min-w-4 h-4 px-1 text-[11px] font-bold text-white bg-riso-p4 rounded-[999px] border-2 border-riso-ink">
                     {unreadNotificationCount > 9 ? '9+' : unreadNotificationCount}
                   </span>
                 )}
@@ -148,17 +148,17 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Tiroir Mobile / Tablette (< 1024 px) */}
       {isMenuOpen && (
         <div
-          className="fixed inset-0 z-50 bg-[#22408F]/40 backdrop-blur-xs flex lg:hidden animate-in fade-in duration-150"
+          className="fixed inset-0 z-50 bg-riso-ink/40 backdrop-blur-xs flex lg:hidden animate-in fade-in duration-150"
           onClick={() => setIsMenuOpen(false)}
         >
           <div
-            className="w-[300px] max-w-[85vw] h-full bg-[#FBFAF6] border-r-2 border-[#22408F] shadow-[4px_0_0_#22408F] flex flex-col animate-in slide-in-from-left duration-200 overflow-y-auto"
+            className="w-[300px] max-w-[85vw] h-full bg-riso-paper border-r-2 border-riso-ink shadow-[4px_0_0_var(--riso-ink)] flex flex-col animate-in slide-in-from-left duration-200 overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Entête du tiroir */}
-            <div className="p-4 border-b-2 border-[#22408F] bg-white flex items-center justify-between shrink-0">
+            <div className="p-4 border-b-2 border-riso-ink bg-white flex items-center justify-between shrink-0">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-[8px] bg-white overflow-hidden shrink-0 flex items-center justify-center border-2 border-[#22408F] shadow-[0_2px_0_#22408F]">
+                <div className="w-8 h-8 rounded-[8px] bg-white overflow-hidden shrink-0 flex items-center justify-center border-2 border-riso-ink shadow-riso-press">
                   <img
                     src="/logo.png"
                     alt="StudioPlanner"
@@ -172,12 +172,12 @@ export const Header: React.FC<HeaderProps> = ({
                     }}
                   />
                 </div>
-                <span className="font-bold text-base text-[#22408F] tracking-tight">StudioPlanner</span>
+                <span className="font-bold text-base text-riso-ink tracking-tight">StudioPlanner</span>
               </div>
               <button
                 type="button"
                 onClick={() => setIsMenuOpen(false)}
-                className="p-1.5 text-[#5A6A94] hover:text-[#22408F] rounded-[8px] cursor-pointer"
+                className="p-1.5 text-riso-ink-secondary hover:text-riso-ink rounded-[8px] cursor-pointer"
                 aria-label="Fermer le menu"
               >
                 <X className="w-5 h-5" />
@@ -188,7 +188,7 @@ export const Header: React.FC<HeaderProps> = ({
             <div className="p-4 space-y-6 flex-1">
               {/* 1. Sélecteur de projet */}
               <div>
-                <span className="text-[11px] font-bold text-[#5A6A94] uppercase tracking-wider block mb-2">
+                <span className="text-[11px] font-bold text-riso-ink-secondary uppercase tracking-wider block mb-2">
                   Projet actif
                 </span>
                 <div className="space-y-1.5 max-h-56 overflow-y-auto pr-1">
@@ -205,18 +205,18 @@ export const Header: React.FC<HeaderProps> = ({
                         }}
                         className={`w-full flex items-center gap-2.5 p-2 rounded-[8px] border-2 transition-all cursor-pointer text-left ${
                           isCurrent
-                            ? 'bg-white border-[#22408F] shadow-[0_2px_0_#22408F]'
-                            : 'border-transparent hover:bg-white/70 text-[#5A6A94]'
+                            ? 'bg-white border-riso-ink shadow-riso-press'
+                            : 'border-transparent hover:bg-white/70 text-riso-ink-secondary'
                         }`}
                       >
                         <span
-                          className="w-3.5 h-3.5 rounded-full shrink-0 border border-[#22408F]"
+                          className="w-3.5 h-3.5 rounded-full shrink-0 border-2 border-riso-ink"
                           style={{ backgroundColor: projColor }}
                         />
-                        <span className={`flex-1 text-xs truncate ${isCurrent ? 'font-bold text-[#22408F]' : 'font-medium'}`}>
+                        <span className={`flex-1 text-xs truncate ${isCurrent ? 'font-bold text-riso-ink' : 'font-medium'}`}>
                           {proj.settings?.name || 'Sans titre'}
                         </span>
-                        {isCurrent && <Check className="w-3.5 h-3.5 text-[#2E8B4A] stroke-[3]" />}
+                        {isCurrent && <Check className="w-3.5 h-3.5 text-riso-p2 stroke-[3]" />}
                       </button>
                     );
                   })}
@@ -224,7 +224,7 @@ export const Header: React.FC<HeaderProps> = ({
               </div>
 
               {/* 2. Actions : + Nouveau projet, Vue détaillée, Réglages, Aide */}
-              <div className="space-y-2.5 pt-3 border-t-2 border-[#DCE2EF]">
+              <div className="space-y-2.5 pt-3 border-t-2 border-riso-line">
                 {/* + Nouveau projet */}
                 <button
                   type="button"
@@ -246,7 +246,7 @@ export const Header: React.FC<HeaderProps> = ({
                   }}
                   className="btn-riso-secondary w-full text-xs justify-center py-2.5 cursor-pointer"
                 >
-                  <TableProperties className="w-4 h-4 text-[#22408F]" />
+                  <TableProperties className="w-4 h-4 text-riso-ink" />
                   <span>Vue détaillée</span>
                 </button>
 
@@ -257,9 +257,9 @@ export const Header: React.FC<HeaderProps> = ({
                     setIsMenuOpen(false);
                     setActiveTab('parametres');
                   }}
-                  className="w-full flex items-center justify-center gap-2 p-2.5 rounded-[8px] text-xs font-bold border-2 border-[#22408F] bg-white text-[#22408F] shadow-[0_2px_0_#22408F] hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer"
+                  className="w-full flex items-center justify-center gap-2 p-2.5 rounded-[8px] text-xs font-bold border-2 border-riso-ink bg-white text-riso-ink shadow-riso-press hover:-translate-y-0.5 active:translate-y-0.5 active:shadow-none transition-all cursor-pointer"
                 >
-                  <Settings className="w-4 h-4 text-[#22408F]" />
+                  <Settings className="w-4 h-4 text-riso-ink" />
                   <span>Réglages</span>
                 </button>
 
@@ -270,9 +270,9 @@ export const Header: React.FC<HeaderProps> = ({
                     setIsMenuOpen(false);
                     onOpenHelp?.();
                   }}
-                  className="w-full flex items-center justify-center gap-1.5 py-2 text-xs text-[#5A6A94] hover:text-[#22408F] font-bold hover:underline cursor-pointer"
+                  className="w-full flex items-center justify-center gap-1.5 py-2 text-xs text-riso-ink-secondary hover:text-riso-ink font-bold hover:underline cursor-pointer"
                 >
-                  <HelpCircle className="w-4 h-4 text-[#5A6A94]" />
+                  <HelpCircle className="w-4 h-4 text-riso-ink-secondary" />
                   <span>Aide & Légende</span>
                 </button>
               </div>

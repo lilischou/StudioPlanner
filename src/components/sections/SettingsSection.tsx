@@ -417,14 +417,14 @@ ${projectsMd}
     <div className="space-y-6">
       {/* Bandeau d'alerte si modifications de planification en attente */}
       {isPlanningModified && (
-        <div className="bg-[#EBF1FF] border-2 border-[#22408F] shadow-[0_4px_0_#22408F] rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 animate-in fade-in duration-200">
+        <div className="bg-riso-p1-light border-2 border-riso-ink shadow-riso rounded-[16px] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 animate-in fade-in duration-200">
           <div className="flex items-center gap-3">
-            <span className="w-3 h-3 rounded-full bg-[#F0505A] animate-pulse shrink-0" />
+            <span className="w-3 h-3 rounded-full bg-riso-p4 animate-pulse shrink-0" />
             <div>
-              <h4 className="font-bold text-sm text-[#22408F]">
+              <h4 className="font-bold text-sm text-riso-ink">
                 Modifications de planification en attente
               </h4>
-              <p className="text-xs text-[#5A6A94]">
+              <p className="text-xs text-riso-ink-secondary">
                 Les dates, encadrements ou disponibilités ont été ajustés. Prévisualise l'impact
                 avant d'appliquer.
               </p>
@@ -457,28 +457,28 @@ ${projectsMd}
         {/* Left 2 Cols: Identity, Dates & Planning */}
         <div className="lg:col-span-2 space-y-6">
           {/* 1. General Information Card */}
-          <div className="bg-white border-2 border-[#22408F] rounded-2xl p-5 shadow-[0_4px_0_#22408F] space-y-4">
-            <h3 className="font-bold text-sm text-[#22408F] flex items-center gap-2 font-heading">
-              <Settings className="w-4 h-4 text-[#22408F]" />
+          <div className="bg-white border-2 border-riso-ink rounded-[16px] p-5 shadow-riso space-y-4">
+            <h3 className="font-bold text-sm text-riso-ink flex items-center gap-2 font-heading">
+              <Settings className="w-4 h-4 text-riso-ink" />
               Identité
             </h3>
 
             <div className="space-y-3 text-xs">
               <div>
-                <label className="block font-bold text-[#22408F] mb-1">
-                  Nom du projet <span className="text-[#F0505A]">*</span>
+                <label className="block font-bold text-riso-ink mb-1">
+                  Nom du projet <span className="text-riso-p4">*</span>
                 </label>
                 <input
                   type="text"
                   value={settings.name}
                   onChange={(e) => updateSettings({ name: e.target.value })}
-                  className="w-full px-3 py-2 bg-white border-2 border-[#22408F]/30 rounded-lg text-[#22408F] font-medium focus:border-[#22408F] focus:outline-none transition-all text-xs"
+                  className="w-full px-3 py-2 bg-white border-2 border-riso-line rounded-[8px] text-riso-ink font-medium focus:border-riso-ink focus:outline-none transition-all text-xs"
                   placeholder="ex: Identité visuelle, Application mobile, Mobilier urbain..."
                 />
               </div>
 
               <div>
-                <label className="block font-bold text-[#22408F] mb-1">
+                <label className="block font-bold text-riso-ink mb-1">
                   Brief
                 </label>
                 <textarea
@@ -490,14 +490,14 @@ ${projectsMd}
                       description: e.target.value,
                     })
                   }
-                  className="w-full px-3 py-2 bg-white border-2 border-[#22408F]/30 rounded-lg text-[#22408F] focus:border-[#22408F] focus:outline-none transition-all text-xs leading-relaxed resize-none"
+                  className="w-full px-3 py-2 bg-white border-2 border-riso-line rounded-[8px] text-riso-ink focus:border-riso-ink focus:outline-none transition-all text-xs leading-relaxed resize-none"
                   placeholder="Enjeux, intentions de design, public visé..."
                 />
               </div>
 
               {/* Couleur du projet */}
               <div>
-                <label className="block font-bold text-[#22408F] mb-1.5 font-heading">
+                <label className="block font-bold text-riso-ink mb-1.5 font-heading">
                   Couleur du projet
                 </label>
                 <div className="flex items-center gap-2.5 flex-wrap">
@@ -510,7 +510,7 @@ ${projectsMd}
                         onClick={() => updateSettings({ color: c.hex })}
                         className={`w-7 h-7 rounded-full border-2 transition-all flex items-center justify-center cursor-pointer ${
                           isSelected
-                            ? 'border-[#22408F] shadow-[0_2px_0_#22408F] scale-110'
+                            ? 'border-riso-ink shadow-riso-press scale-110'
                             : 'border-transparent hover:scale-105'
                         }`}
                         style={{ backgroundColor: c.hex }}
@@ -526,23 +526,23 @@ ${projectsMd}
 
               {/* Mode switch (Solo vs Groupe) */}
               <div className="pt-2">
-                <label className="block font-bold text-[#22408F] mb-1.5 font-heading">
+                <label className="block font-bold text-riso-ink mb-1.5 font-heading">
                   Mode de travail
                 </label>
                 <div className="grid grid-cols-2 gap-3">
                   <button
                     type="button"
                     onClick={() => handleModeChange('individuel')}
-                    className={`p-3.5 rounded-xl border-2 text-left transition-all cursor-pointer ${
+                    className={`p-3.5 rounded-[16px] border-2 text-left transition-all cursor-pointer ${
                       settings.mode === 'individuel'
-                        ? 'bg-[#EBF1FF] border-[#22408F] shadow-[0_4px_0_#22408F] text-[#22408F]'
-                        : 'bg-white border-[#22408F]/30 text-[#5A6A94] hover:bg-[#EBF1FF]/30'
+                        ? 'bg-riso-p1-light border-riso-ink shadow-riso text-riso-ink'
+                        : 'bg-white border-riso-line text-riso-ink-secondary hover:bg-riso-p1-light/30'
                     }`}
                   >
-                    <div className="font-bold text-xs flex items-center justify-between text-[#22408F]">
+                    <div className="font-bold text-xs flex items-center justify-between text-riso-ink">
                       <span>Projet individuel (Solo)</span>
                       {settings.mode === 'individuel' && (
-                        <span className="w-5 h-5 rounded-full bg-[#2F6DBB] text-white flex items-center justify-center text-xs font-bold">
+                        <span className="w-5 h-5 rounded-full bg-riso-p1 text-white flex items-center justify-center text-xs font-bold">
                           ✓
                         </span>
                       )}
@@ -552,16 +552,16 @@ ${projectsMd}
                   <button
                     type="button"
                     onClick={() => handleModeChange('groupe')}
-                    className={`p-3.5 rounded-xl border-2 text-left transition-all cursor-pointer ${
+                    className={`p-3.5 rounded-[16px] border-2 text-left transition-all cursor-pointer ${
                       settings.mode === 'groupe'
-                        ? 'bg-[#EBF1FF] border-[#22408F] shadow-[0_4px_0_#22408F] text-[#22408F]'
-                        : 'bg-white border-[#22408F]/30 text-[#5A6A94] hover:bg-[#EBF1FF]/30'
+                        ? 'bg-riso-p1-light border-riso-ink shadow-riso text-riso-ink'
+                        : 'bg-white border-riso-line text-riso-ink-secondary hover:bg-riso-p1-light/30'
                     }`}
                   >
-                    <div className="font-bold text-xs flex items-center justify-between text-[#22408F]">
+                    <div className="font-bold text-xs flex items-center justify-between text-riso-ink">
                       <span>Projet en groupe (Équipe)</span>
                       {settings.mode === 'groupe' && (
-                        <span className="w-5 h-5 rounded-full bg-[#2F6DBB] text-white flex items-center justify-center text-xs font-bold">
+                        <span className="w-5 h-5 rounded-full bg-riso-p1 text-white flex items-center justify-center text-xs font-bold">
                           ✓
                         </span>
                       )}
@@ -573,47 +573,47 @@ ${projectsMd}
           </div>
 
           {/* 2. Temporal Boundaries & Safe Recalculation Card */}
-          <div className="bg-white border-2 border-[#22408F] rounded-2xl p-5 shadow-[0_4px_0_#22408F] space-y-4">
+          <div className="bg-white border-2 border-riso-ink rounded-[16px] p-5 shadow-riso space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="font-bold text-sm text-[#22408F] flex items-center gap-2 font-heading">
-                <Calendar className="w-4 h-4 text-[#22408F]" />
+              <h3 className="font-bold text-sm text-riso-ink flex items-center gap-2 font-heading">
+                <Calendar className="w-4 h-4 text-riso-ink" />
                 Calendrier
               </h3>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
               <div>
-                <label className="block font-bold text-[#22408F] mb-1">
+                <label className="block font-bold text-riso-ink mb-1">
                   Date de début du projet
                 </label>
                 <input
                   type="date"
                   value={draftStartDate}
                   onChange={(e) => e.target.value && setDraftStartDate(e.target.value)}
-                  className="w-full px-3 py-2 bg-white border-2 border-[#22408F]/30 rounded-lg font-mono text-[#22408F] text-xs focus:border-[#22408F]"
+                  className="w-full px-3 py-2 bg-white border-2 border-riso-line rounded-[8px] font-mono text-riso-ink text-xs focus:border-riso-ink"
                 />
-                <span className="text-[11px] text-[#5A6A94] mt-1 block">
+                <span className="text-[11px] text-riso-ink-secondary mt-1 block">
                   {formatFrenchDateLocal(draftStartDate)}
                 </span>
               </div>
 
               <div>
-                <label className="block font-bold text-[#22408F] mb-1">
+                <label className="block font-bold text-riso-ink mb-1">
                   Date de rendu final / Jury
                 </label>
                 <input
                   type="date"
                   value={draftDeadlineDate}
                   onChange={(e) => e.target.value && setDraftDeadlineDate(e.target.value)}
-                  className="w-full px-3 py-2 bg-white border-2 border-[#22408F]/30 rounded-lg font-mono text-[#22408F] text-xs focus:border-[#22408F]"
+                  className="w-full px-3 py-2 bg-white border-2 border-riso-line rounded-[8px] font-mono text-riso-ink text-xs focus:border-riso-ink"
                 />
-                <span className="text-[11px] text-[#5A6A94] mt-1 block">
+                <span className="text-[11px] text-riso-ink-secondary mt-1 block">
                   {formatFrenchDateLocal(draftDeadlineDate)}
                 </span>
               </div>
             </div>
 
-            <div className="p-3 bg-[#FBFAF6] border border-[#22408F]/20 rounded-xl text-xs flex items-center justify-between text-[#22408F]">
+            <div className="p-3 bg-riso-paper border border-riso-line rounded-[16px] text-xs flex items-center justify-between text-riso-ink">
               <span className="font-bold">Durée calculée :</span>
               <span className="font-mono font-bold">
                 {totalDays} jours ({totalWeeks} semaines)
@@ -622,15 +622,15 @@ ${projectsMd}
           </div>
 
           {/* 3. Rendus intermédiaires */}
-          <div className="bg-white border-2 border-[#22408F] rounded-2xl p-5 shadow-[0_4px_0_#22408F] space-y-4">
-            <h3 className="font-bold text-sm text-[#22408F] flex items-center gap-2 font-heading">
-              <Flag className="w-4 h-4 text-[#22408F]" />
+          <div className="bg-white border-2 border-riso-ink rounded-[16px] p-5 shadow-riso space-y-4">
+            <h3 className="font-bold text-sm text-riso-ink flex items-center gap-2 font-heading">
+              <Flag className="w-4 h-4 text-riso-ink" />
               Objectifs
             </h3>
 
             <div className="space-y-2 text-xs">
               {draftDeadlines.length === 0 ? (
-                <p className="text-xs text-[#5A6A94] italic p-3 bg-[#FBFAF6] rounded-xl border border-[#22408F]/20">
+                <p className="text-xs text-riso-ink-secondary italic p-3 bg-riso-paper rounded-[16px] border border-riso-line">
                   Aucun objectif intermédiaire spécifique configuré.
                 </p>
               ) : (
@@ -638,13 +638,13 @@ ${projectsMd}
                   {draftDeadlines.map((dead) => (
                     <li
                       key={dead.id}
-                      className="flex items-center justify-between p-2.5 bg-[#FBFAF6] border border-[#22408F]/30 rounded-lg"
+                      className="flex items-center justify-between p-2.5 bg-riso-paper border border-riso-line rounded-[8px]"
                     >
                       <div className="flex items-center gap-2">
-                        <Flag className="w-4 h-4 text-[#2F6DBB]" />
+                        <Flag className="w-4 h-4 text-riso-p1" />
                         <div>
-                          <span className="font-bold text-[#22408F] block">{dead.name}</span>
-                          <span className="font-mono text-[10px] text-[#5A6A94]">
+                          <span className="font-bold text-riso-ink block">{dead.name}</span>
+                          <span className="font-mono text-[10px] text-riso-ink-secondary">
                             {formatFrenchDateLocal(dead.date)}
                           </span>
                         </div>
@@ -654,7 +654,7 @@ ${projectsMd}
                         onClick={() =>
                           setDraftDeadlines((prev) => prev.filter((d) => d.id !== dead.id))
                         }
-                        className="text-[#5A6A94] hover:text-[#F0505A] p-1"
+                        className="text-riso-ink-secondary hover:text-riso-p4 p-1"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
@@ -664,19 +664,19 @@ ${projectsMd}
               )}
 
               {/* Formulaire ajout rapide */}
-              <div className="flex flex-col sm:flex-row gap-2 pt-2 border-t border-[#22408F]/15">
+              <div className="flex flex-col sm:flex-row gap-2 pt-2 border-t border-riso-line">
                 <input
                   type="text"
                   value={newDeadlineName}
                   onChange={(e) => setNewDeadlineName(e.target.value)}
                   placeholder="Intitulé du rendu..."
-                  className="flex-1 px-3 py-1.5 bg-white border-2 border-[#22408F]/30 rounded-lg text-xs text-[#22408F]"
+                  className="flex-1 px-3 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs text-riso-ink"
                 />
                 <input
                   type="date"
                   value={newDeadlineDate}
                   onChange={(e) => setNewDeadlineDate(e.target.value)}
-                  className="px-3 py-1.5 bg-white border-2 border-[#22408F]/30 rounded-lg text-xs font-mono text-[#22408F]"
+                  className="px-3 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs font-mono text-riso-ink"
                 />
                 <button
                   type="button"
@@ -704,31 +704,31 @@ ${projectsMd}
           </div>
 
           {/* 4. Rythme : Séances encadrées & Disponibilités */}
-          <div className="bg-white border-2 border-[#22408F] rounded-2xl p-5 shadow-[0_4px_0_#22408F] space-y-4">
+          <div className="bg-white border-2 border-riso-ink rounded-[16px] p-5 shadow-riso space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-              <h3 className="font-bold text-sm text-[#22408F] flex items-center gap-2 font-heading">
-                <Clock className="w-4 h-4 text-[#22408F]" />
+              <h3 className="font-bold text-sm text-riso-ink flex items-center gap-2 font-heading">
+                <Clock className="w-4 h-4 text-riso-ink" />
                 Rythme
               </h3>
-              <div className="text-xs text-[#22408F] bg-[#FBFAF6] px-3 py-1 rounded-[999px] border-2 border-[#22408F] tabular-nums font-bold self-start sm:self-auto">
+              <div className="text-xs text-riso-ink bg-riso-paper px-3 py-1 rounded-[999px] border-2 border-riso-ink tabular-nums font-bold self-start sm:self-auto">
                 Total prévu : <strong>{totalPlannedHours} h</strong> ({sessions.length} sessions)
               </div>
             </div>
 
             <div className="space-y-4 text-xs">
-              <div className="p-3 bg-[#EBF1FF] border-2 border-[#22408F] rounded-xl flex items-center justify-between text-xs font-bold text-[#22408F]">
+              <div className="p-3 bg-riso-p1-light border-2 border-riso-ink rounded-[16px] flex items-center justify-between text-xs font-bold text-riso-ink">
                 <span>Volume de travail total prévu :</span>
-                <span className="font-mono text-xs bg-white border border-[#22408F] px-2.5 py-0.5 rounded-full">
+                <span className="font-mono text-xs bg-white border-2 border-riso-ink px-2.5 py-0.5 rounded-full">
                   {totalPlannedHours} h ({sessions.length} sessions)
                 </span>
               </div>
 
               {/* Séances encadrées */}
               <div className="space-y-2">
-                <span className="font-bold text-[#22408F] block">Séances encadrées :</span>
+                <span className="font-bold text-riso-ink block">Séances encadrées :</span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[11px] text-[#5A6A94] mb-1">Mode</label>
+                    <label className="block text-[11px] text-riso-ink-secondary mb-1">Mode</label>
                     <select
                       value={draftSupervised.mode}
                       onChange={(e) =>
@@ -737,7 +737,7 @@ ${projectsMd}
                           mode: e.target.value as any,
                         }))
                       }
-                      className="w-full px-3 py-2 bg-white border-2 border-[#22408F]/30 rounded-lg text-xs font-bold text-[#22408F]"
+                      className="w-full px-3 py-2 bg-white border-2 border-riso-line rounded-[8px] text-xs font-bold text-riso-ink"
                     >
                       <option value="recurrent">Jour récurrent par semaine</option>
                       <option value="dates_libres">Dates libres / ponctuelles</option>
@@ -746,7 +746,7 @@ ${projectsMd}
 
                   {draftSupervised.mode === 'recurrent' && (
                     <div>
-                      <label className="block text-[11px] text-[#5A6A94] mb-1">Jour fixe</label>
+                      <label className="block text-[11px] text-riso-ink-secondary mb-1">Jour fixe</label>
                       <select
                         value={draftSupervised.dayOfWeek || 4}
                         onChange={(e) =>
@@ -755,7 +755,7 @@ ${projectsMd}
                             dayOfWeek: Number(e.target.value),
                           }))
                         }
-                        className="w-full px-3 py-2 bg-white border-2 border-[#22408F]/30 rounded-lg text-xs font-bold text-[#22408F]"
+                        className="w-full px-3 py-2 bg-white border-2 border-riso-line rounded-[8px] text-xs font-bold text-riso-ink"
                       >
                         {[1, 2, 3, 4, 5, 6, 7].map((d) => (
                           <option key={d} value={d}>
@@ -769,15 +769,15 @@ ${projectsMd}
 
                 {/* Exceptions pour les séances récurrentes */}
                 {draftSupervised.mode === 'recurrent' && (
-                  <div className="pt-2 border-t border-[#22408F]/15 space-y-2">
-                    <span className="text-[11px] font-bold text-[#22408F] block">
+                  <div className="pt-2 border-t border-riso-line space-y-2">
+                    <span className="text-[11px] font-bold text-riso-ink block">
                       Exceptions exclues (vacances / annulations) :
                     </span>
                     <div className="flex flex-wrap gap-1.5">
                       {draftSupervised.exceptions.map((ex) => (
                         <span
                           key={ex}
-                          className="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-full bg-[#FBFAF6] border border-[#22408F] text-[#22408F]"
+                          className="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-full bg-riso-paper border-2 border-riso-ink text-riso-ink"
                         >
                           <span>{formatFrenchDateLocal(ex, false)}</span>
                           <button
@@ -788,7 +788,7 @@ ${projectsMd}
                                 exceptions: prev.exceptions.filter((x) => x !== ex),
                               }))
                             }
-                            className="text-[#F0505A] font-bold"
+                            className="text-riso-p4 font-bold"
                           >
                             ×
                           </button>
@@ -800,7 +800,7 @@ ${projectsMd}
                         type="date"
                         value={newExceptionDate}
                         onChange={(e) => setNewExceptionDate(e.target.value)}
-                        className="px-2.5 py-1 bg-white border-2 border-[#22408F]/30 rounded-lg text-xs font-mono text-[#22408F]"
+                        className="px-2.5 py-1 bg-white border-2 border-riso-line rounded-[8px] text-xs font-mono text-riso-ink"
                       />
                       <button
                         type="button"
@@ -827,8 +827,8 @@ ${projectsMd}
               </div>
 
               {/* Disponibilités */}
-              <div className="pt-3 border-t border-[#22408F]/20 space-y-2">
-                <div className="flex items-center justify-between text-xs font-bold text-[#22408F]">
+              <div className="pt-3 border-t border-riso-line space-y-2">
+                <div className="flex items-center justify-between text-xs font-bold text-riso-ink">
                   <span>Disponibilité personnelle visée :</span>
                   <span className="font-mono">{draftAvailability.hoursPerWeek}h / semaine</span>
                 </div>
@@ -843,11 +843,11 @@ ${projectsMd}
                       hoursPerWeek: Number(e.target.value),
                     }))
                   }
-                  className="w-full accent-[#2F6DBB]"
+                  className="w-full accent-riso-p1"
                 />
 
                 <div className="space-y-1.5 pt-1">
-                  <span className="text-[11px] text-[#5A6A94] block">
+                  <span className="text-[11px] text-riso-ink-secondary block">
                     Jours d'atelier préférés :
                   </span>
                   <div className="grid grid-cols-7 gap-1">
@@ -865,10 +865,10 @@ ${projectsMd}
                                 : [...prev.preferredDays, dIdx].sort(),
                             }));
                           }}
-                          className={`py-1 rounded text-[11px] font-bold border ${
+                          className={`py-1 rounded-[8px] text-[11px] font-bold border ${
                             isSel
-                              ? 'bg-[#2F6DBB] text-white border-[#22408F]'
-                              : 'bg-white text-[#5A6A94] border-[#22408F]/30 hover:border-[#22408F]'
+                              ? 'bg-riso-p1 text-white border-riso-ink'
+                              : 'bg-white text-riso-ink-secondary border-riso-line hover:border-riso-ink'
                           }`}
                         >
                           {getDayName(dIdx, true)}
@@ -886,10 +886,10 @@ ${projectsMd}
         <div className="space-y-6">
           {/* Team Members List (Mode groupe uniquement) */}
           {settings.mode === 'groupe' && (
-            <div className="bg-white border-2 border-[#22408F] rounded-2xl p-5 shadow-[0_4px_0_#22408F] space-y-4">
+            <div className="bg-white border-2 border-riso-ink rounded-[16px] p-5 shadow-riso space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="font-bold text-sm text-[#22408F] flex items-center gap-2 font-heading">
-                  <Users className="w-4 h-4 text-[#22408F]" />
+                <h3 className="font-bold text-sm text-riso-ink flex items-center gap-2 font-heading">
+                  <Users className="w-4 h-4 text-riso-ink" />
                   Membres de l'équipe ({settings.team.length})
                 </h3>
               </div>
@@ -898,19 +898,19 @@ ${projectsMd}
                 {settings.team.map((member) => (
                   <div
                     key={member.id}
-                    className="p-2.5 rounded-lg border-2 border-[#22408F]/20 bg-[#FBFAF6] flex items-center justify-between"
+                    className="p-2.5 rounded-[8px] border-2 border-riso-line bg-riso-paper flex items-center justify-between"
                   >
                     <div className="flex items-center gap-2 min-w-0 pr-2">
                       <span
-                        className="w-3.5 h-3.5 rounded-full shrink-0 border border-[#22408F]/30"
+                        className="w-3.5 h-3.5 rounded-full shrink-0 border border-riso-line"
                         style={{ backgroundColor: member.color || '#2F6DBB' }}
                       />
                       <div className="truncate">
-                        <span className="font-bold text-[#22408F] block truncate">
+                        <span className="font-bold text-riso-ink block truncate">
                           {member.name}
                         </span>
                         {member.role && (
-                          <span className="text-[11px] text-[#5A6A94] block truncate">
+                          <span className="text-[11px] text-riso-ink-secondary block truncate">
                             {member.role}
                           </span>
                         )}
@@ -921,7 +921,7 @@ ${projectsMd}
                       <button
                         type="button"
                         onClick={() => handleRemoveMember(member.id)}
-                        className="text-[#5A6A94] hover:text-[#F0505A] transition-colors p-1"
+                        className="text-riso-ink-secondary hover:text-riso-p4 transition-colors p-1"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
@@ -930,13 +930,13 @@ ${projectsMd}
                 ))}
               </div>
 
-              <form onSubmit={handleAddMember} className="space-y-2 pt-2 border-t-2 border-[#22408F]/15">
+              <form onSubmit={handleAddMember} className="space-y-2 pt-2 border-t-2 border-riso-line">
                 <input
                   type="text"
                   value={newMemberName}
                   onChange={(e) => setNewMemberName(e.target.value)}
                   placeholder="Prénom ou nom du membre…"
-                  className="w-full px-3 py-1.5 bg-white border-2 border-[#22408F]/30 rounded-lg text-xs text-[#22408F]"
+                  className="w-full px-3 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs text-riso-ink"
                 />
                 <button
                   type="submit"
@@ -950,9 +950,9 @@ ${projectsMd}
           )}
 
           {/* Tags */}
-          <div className="bg-white border-2 border-[#22408F] rounded-2xl p-5 shadow-[0_4px_0_#22408F] space-y-4">
-            <h3 className="font-bold text-sm text-[#22408F] flex items-center gap-2 font-heading">
-              <Tag className="w-4 h-4 text-[#22408F]" />
+          <div className="bg-white border-2 border-riso-ink rounded-[16px] p-5 shadow-riso space-y-4">
+            <h3 className="font-bold text-sm text-riso-ink flex items-center gap-2 font-heading">
+              <Tag className="w-4 h-4 text-riso-ink" />
               Tags
             </h3>
 
@@ -960,7 +960,7 @@ ${projectsMd}
               {(settings.customTags !== undefined ? settings.customTags : DEFAULT_OPERATION_TAGS).map((tag) => (
                 <span
                   key={tag}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-white text-[#22408F] border-2 border-[#22408F]"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-white text-riso-ink border-2 border-riso-ink"
                 >
                   <span>#{tag}</span>
                   <button
@@ -971,7 +971,7 @@ ${projectsMd}
                         customTags: current.filter((t) => t !== tag),
                       });
                     }}
-                    className="text-[#5A6A94] hover:text-[#F0505A]"
+                    className="text-riso-ink-secondary hover:text-riso-p4"
                   >
                     ×
                   </button>
@@ -991,14 +991,14 @@ ${projectsMd}
                 }
                 setNewTagInput('');
               }}
-              className="flex items-center gap-2 pt-2 border-t-2 border-[#22408F]/15"
+              className="flex items-center gap-2 pt-2 border-t-2 border-riso-line"
             >
               <input
                 type="text"
                 value={newTagInput}
                 onChange={(e) => setNewTagInput(e.target.value)}
                 placeholder="Nouveau tag..."
-                className="flex-1 px-3 py-1.5 bg-white border-2 border-[#22408F]/30 rounded-lg text-xs text-[#22408F]"
+                className="flex-1 px-3 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs text-riso-ink"
               />
               <button
                 type="submit"
@@ -1011,16 +1011,16 @@ ${projectsMd}
           </div>
 
           {/* Section IA */}
-          <div className="bg-white border-2 border-[#22408F] rounded-2xl p-5 shadow-[0_4px_0_#22408F] space-y-4">
+          <div className="bg-white border-2 border-riso-ink rounded-[16px] p-5 shadow-riso space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="font-bold text-sm text-[#22408F] flex items-center gap-2 font-heading">
-                <Sparkles className="w-4 h-4 text-[#2F6DBB]" />
+              <h3 className="font-bold text-sm text-riso-ink flex items-center gap-2 font-heading">
+                <Sparkles className="w-4 h-4 text-riso-p1" />
                 IA
               </h3>
             </div>
 
             <div className="flex items-center justify-between py-1">
-              <span className="text-xs font-bold text-[#22408F]">
+              <span className="text-xs font-bold text-riso-ink">
                 Activer l'aide de Gemini
               </span>
               <button
@@ -1028,26 +1028,26 @@ ${projectsMd}
                 onClick={handleToggleAi}
                 className={`px-3 py-1.5 rounded-[999px] text-xs font-bold border-2 transition-all cursor-pointer ${
                   aiUsage.enabled
-                    ? 'bg-[#2E8B4A] text-white border-[#22408F] shadow-[0_2px_0_#22408F]'
-                    : 'bg-[#FBFAF6] text-[#5A6A94] border-[#22408F]/40'
+                    ? 'bg-riso-p2 text-white border-riso-ink shadow-riso-press'
+                    : 'bg-riso-paper text-riso-ink-secondary border-riso-line'
                 }`}
               >
                 {aiUsage.enabled ? 'Activé' : 'Désactivé'}
               </button>
             </div>
 
-            <div className="flex items-center justify-between p-3 bg-[#FBFAF6] border border-[#DCE2EF] rounded-xl text-xs">
-              <span className="text-[#5A6A94] font-medium">Compteur :</span>
-              <span className="font-bold text-[#22408F] tabular-nums font-mono">
+            <div className="flex items-center justify-between p-3 bg-riso-paper border border-riso-line rounded-[16px] text-xs">
+              <span className="text-riso-ink-secondary font-medium">Compteur :</span>
+              <span className="font-bold text-riso-ink tabular-nums font-mono">
                 {aiUsage.count} appel{aiUsage.count > 1 ? 's' : ''} aujourd'hui sur 30
               </span>
             </div>
           </div>
 
           {/* Bloc Données */}
-          <div className="bg-white border-2 border-[#22408F] rounded-2xl p-5 shadow-[0_4px_0_#22408F] space-y-4">
-            <h3 className="font-bold text-sm text-[#22408F] flex items-center gap-2 font-heading">
-              <HardDrive className="w-4 h-4 text-[#22408F]" />
+          <div className="bg-white border-2 border-riso-ink rounded-[16px] p-5 shadow-riso space-y-4">
+            <h3 className="font-bold text-sm text-riso-ink flex items-center gap-2 font-heading">
+              <HardDrive className="w-4 h-4 text-riso-ink" />
               Données
             </h3>
 
@@ -1080,12 +1080,12 @@ ${projectsMd}
               </div>
 
               {importError && (
-                <div className="p-2.5 bg-[#FDEEEF] border border-[#22408F] rounded-[8px] text-xs text-[#C4111C]">
+                <div className="p-2.5 bg-riso-p4-light border-2 border-riso-ink rounded-[8px] text-xs text-riso-p4-text">
                   {importError}
                 </div>
               )}
 
-              <p className="text-xs text-[#5A6A94]">
+              <p className="text-xs text-riso-ink-secondary">
                 Dépose ces fichiers dans ton dossier Drive StudioPlanner.
               </p>
             </div>

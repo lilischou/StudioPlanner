@@ -105,40 +105,40 @@ export const SessionsTableSection: React.FC = () => {
     <div className="space-y-6">
       {/* Stats summary row (Information seule : riso-info-box sans ombre) */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div className="riso-info-box p-4 rounded-xl text-xs space-y-1">
-          <span className="text-[#5A6A94] block font-medium">Sessions réalisées</span>
-          <span className="text-2xl font-mono font-bold text-[#22408F] block">
+        <div className="riso-info-box p-4 rounded-[16px] text-xs space-y-1">
+          <span className="text-riso-ink-secondary block font-medium">Sessions réalisées</span>
+          <span className="text-2xl font-mono font-bold text-riso-ink block">
             {sessions.filter((s) => s.status === 'realisee').length} / {sessions.length}
           </span>
-          <span className="text-[11px] text-[#5A6A94]">
+          <span className="text-[11px] text-riso-ink-secondary">
             Cible fixée : {settings.targetSessionsCount} sessions
           </span>
         </div>
 
-        <div className="riso-info-box p-4 rounded-xl text-xs space-y-1">
-          <span className="text-[#5A6A94] block font-medium">Temps de travail cumulé réel</span>
-          <span className="text-2xl font-mono font-bold text-[#22408F] block">
+        <div className="riso-info-box p-4 rounded-[16px] text-xs space-y-1">
+          <span className="text-riso-ink-secondary block font-medium">Temps de travail cumulé réel</span>
+          <span className="text-2xl font-mono font-bold text-riso-ink block">
             {totalActualHours} h
           </span>
-          <span className="text-[11px] text-[#5A6A94]">Sur les sessions terminées</span>
+          <span className="text-[11px] text-riso-ink-secondary">Sur les sessions terminées</span>
         </div>
 
-        <div className="riso-info-box p-4 rounded-xl text-xs space-y-1">
-          <span className="text-[#5A6A94] block font-medium">Temps prévu total</span>
-          <span className="text-2xl font-mono font-bold text-[#22408F] block">
+        <div className="riso-info-box p-4 rounded-[16px] text-xs space-y-1">
+          <span className="text-riso-ink-secondary block font-medium">Temps prévu total</span>
+          <span className="text-2xl font-mono font-bold text-riso-ink block">
             {totalPlannedHours} h
           </span>
-          <span className="text-[11px] text-[#5A6A94]">
+          <span className="text-[11px] text-riso-ink-secondary">
             Écart : {Math.round((totalActualHours - totalPlannedHours) * 10) / 10} h
           </span>
         </div>
       </div>
 
       {/* Sessions Table */}
-      <div className="bg-white border-2 border-[#22408F] rounded-xl overflow-hidden shadow-[0_4px_0_#22408F]">
-        <div className="px-5 py-3.5 border-b-2 border-[#22408F] bg-[#FBFAF6] flex items-center justify-between">
-          <h3 className="font-bold text-xs text-[#22408F] uppercase tracking-wider flex items-center gap-2 font-heading">
-            <FolderKanban className="w-4 h-4 text-[#22408F]" />
+      <div className="bg-white border-2 border-riso-ink rounded-[16px] overflow-hidden shadow-riso">
+        <div className="px-5 py-3.5 border-b-2 border-riso-ink bg-riso-paper flex items-center justify-between">
+          <h3 className="font-bold text-xs text-riso-ink uppercase tracking-wider flex items-center gap-2 font-heading">
+            <FolderKanban className="w-4 h-4 text-riso-ink" />
             Registre des sessions ({sessions.length})
           </h3>
         </div>
@@ -146,7 +146,7 @@ export const SessionsTableSection: React.FC = () => {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs table-auto">
             <thead>
-              <tr className="bg-[#FBFAF6] text-[#22408F] border-b-2 border-[#22408F]">
+              <tr className="bg-riso-paper text-riso-ink border-b-2 border-riso-ink">
                 <th className="py-2.5 px-3 font-bold w-28">Date</th>
                 <th className="py-2.5 px-3 font-bold w-28">Type</th>
                 <th className="py-2.5 px-3 font-bold w-32">Phase</th>
@@ -158,17 +158,17 @@ export const SessionsTableSection: React.FC = () => {
                 <th className="py-2.5 px-3 font-bold w-16 text-center">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#22408F]/15">
+            <tbody className="divide-y divide-riso-ink/15">
               {sortedSessions.map((s) => {
                 const phase = phases.find((p) => p.id === s.phaseId);
                 const isRealisee = s.status === 'realisee';
                 const isEditing = editingSessionId === s.id;
 
                 const rowClass = isRealisee
-                  ? 'bg-[#EAF6EE]/60 text-[#5A6A94]'
+                  ? 'bg-riso-p2-light/60 text-riso-ink-secondary'
                   : s.status === 'annulee'
-                  ? 'bg-[#FBFAF6] text-[#5A6A94] line-through'
-                  : 'hover:bg-[#EBF1FF]/40 text-[#22408F]';
+                  ? 'bg-riso-paper text-riso-ink-secondary line-through'
+                  : 'hover:bg-riso-p1-light/40 text-riso-ink';
 
                 return (
                   <tr key={s.id} className={`transition-colors ${rowClass}`}>
@@ -179,12 +179,12 @@ export const SessionsTableSection: React.FC = () => {
                           type="date"
                           value={s.date}
                           onChange={(e) => updateSession(s.id, { date: e.target.value })}
-                          className="bg-white border-2 border-[#22408F] rounded px-1.5 py-0.5 text-xs text-[#22408F]"
+                          className="bg-white border-2 border-riso-ink rounded-[8px] px-1.5 py-0.5 text-xs text-riso-ink"
                         />
                       ) : (
                         <span
                           onClick={() => setEditingSessionId(s.id)}
-                          className="cursor-pointer hover:underline text-[#22408F]"
+                          className="cursor-pointer hover:underline text-riso-ink"
                         >
                           {formatFrenchDate(s.date, false)}
                         </span>
@@ -203,14 +203,14 @@ export const SessionsTableSection: React.FC = () => {
                               plannedDurationHours: getDefaultDurationForType(newT),
                             });
                           }}
-                          className="bg-white border-2 border-[#22408F] rounded px-1.5 py-0.5 text-xs text-[#22408F]"
+                          className="bg-white border-2 border-riso-ink rounded-[8px] px-1.5 py-0.5 text-xs text-riso-ink"
                         >
                           <option value="individuelle">Solo</option>
                           {settings.mode === 'groupe' && <option value="groupe">Groupe</option>}
                           <option value="encadree">Tuteur</option>
                         </select>
                       ) : (
-                        <span className="font-medium text-[#22408F]">{getSessionTypeLabel(s.type)}</span>
+                        <span className="font-medium text-riso-ink">{getSessionTypeLabel(s.type)}</span>
                       )}
                     </td>
 
@@ -220,7 +220,7 @@ export const SessionsTableSection: React.FC = () => {
                         <select
                           value={s.phaseId}
                           onChange={(e) => updateSession(s.id, { phaseId: e.target.value })}
-                          className="bg-white border-2 border-[#22408F] rounded px-1.5 py-0.5 text-xs text-[#22408F]"
+                          className="bg-white border-2 border-riso-ink rounded-[8px] px-1.5 py-0.5 text-xs text-riso-ink"
                         >
                           {phases.map((p) => (
                             <option key={p.id} value={p.id}>
@@ -230,15 +230,15 @@ export const SessionsTableSection: React.FC = () => {
                         </select>
                       ) : (
                         <span
-                          className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-bold border border-[#22408F]/30"
+                          className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-bold border border-riso-line"
                           style={{
-                            backgroundColor: phase ? `${getPhaseColor(phase, phases).hex}20` : '#EBF1FF',
-                            color: '#22408F',
+                            backgroundColor: phase ? `${getPhaseColor(phase, phases).hex}20` : 'var(--riso-p1-light)',
+                            color: 'var(--riso-ink)',
                           }}
                         >
                           <span
                             className="w-2 h-2 rounded-full"
-                            style={{ backgroundColor: phase ? getPhaseColor(phase, phases).hex : '#22408F' }}
+                            style={{ backgroundColor: phase ? getPhaseColor(phase, phases).hex : 'var(--riso-ink)' }}
                           />
                           {phase ? (phase.shortName || phase.nom || phase.name) : s.phaseId}
                         </span>
@@ -252,12 +252,12 @@ export const SessionsTableSection: React.FC = () => {
                           type="text"
                           value={s.objective}
                           onChange={(e) => updateSession(s.id, { objective: e.target.value })}
-                          className="w-full bg-white border-2 border-[#22408F] rounded px-2 py-1 text-xs text-[#22408F]"
+                          className="w-full bg-white border-2 border-riso-ink rounded-[8px] px-2 py-1 text-xs text-riso-ink"
                         />
                       ) : (
                         <span
                           onClick={() => setEditingSessionId(s.id)}
-                          className="cursor-pointer hover:underline text-[#22408F] font-medium leading-snug break-words block"
+                          className="cursor-pointer hover:underline text-riso-ink font-medium leading-snug break-words block"
                         >
                           {s.objective}
                         </span>
@@ -276,12 +276,12 @@ export const SessionsTableSection: React.FC = () => {
                             onChange={(e) =>
                               updateSession(s.id, { plannedDurationHours: Number(e.target.value) })
                             }
-                            className="w-12 text-center bg-white border-2 border-[#22408F] rounded py-0.5 font-bold text-[#22408F] text-xs"
+                            className="w-12 text-center bg-white border-2 border-riso-ink rounded-[8px] py-0.5 font-bold text-riso-ink text-xs"
                           />
-                          <span className="text-[#5A6A94]">h</span>
+                          <span className="text-riso-ink-secondary">h</span>
                         </div>
                       ) : (
-                        <span className="font-mono font-bold text-[#22408F]">
+                        <span className="font-mono font-bold text-riso-ink">
                           {s.plannedDurationHours} h
                         </span>
                       )}
@@ -302,12 +302,12 @@ export const SessionsTableSection: React.FC = () => {
                                 actualDurationHours: e.target.value ? Number(e.target.value) : undefined,
                               })
                             }
-                            className="w-12 text-center bg-white border-2 border-[#22408F] rounded py-0.5 font-bold text-[#22408F] text-xs"
+                            className="w-12 text-center bg-white border-2 border-riso-ink rounded-[8px] py-0.5 font-bold text-riso-ink text-xs"
                           />
-                          <span className="text-[#5A6A94]">h</span>
+                          <span className="text-riso-ink-secondary">h</span>
                         </div>
                       ) : (
-                        <span className="font-mono font-bold text-[#22408F]">
+                        <span className="font-mono font-bold text-riso-ink">
                           {s.actualDurationHours !== undefined ? `${s.actualDurationHours} h` : '—'}
                         </span>
                       )}
@@ -321,7 +321,7 @@ export const SessionsTableSection: React.FC = () => {
                           onChange={(e) =>
                             updateSession(s.id, { status: e.target.value as SessionStatus })
                           }
-                          className="bg-white border-2 border-[#22408F] rounded px-1.5 py-0.5 text-xs text-[#22408F]"
+                          className="bg-white border-2 border-riso-ink rounded-[8px] px-1.5 py-0.5 text-xs text-riso-ink"
                         >
                           <option value="planifiee">Planifiée</option>
                           <option value="realisee">Réalisée ✓</option>
@@ -329,12 +329,12 @@ export const SessionsTableSection: React.FC = () => {
                         </select>
                       ) : (
                         <span
-                          className={`px-2 py-0.5 rounded text-[11px] font-bold border ${
+                          className={`px-2 py-0.5 rounded-[8px] text-[11px] font-bold border ${
                             s.status === 'realisee'
-                              ? 'bg-[#EAF6EE] text-[#5A6A94] border-[#22408F]/30'
+                              ? 'bg-riso-p2-light text-riso-ink-secondary border-riso-line'
                               : s.status === 'annulee'
-                              ? 'bg-[#FBFAF6] text-[#5A6A94] border-[#22408F]/20'
-                              : 'bg-[#EBF1FF] text-[#22408F] border-[#22408F]'
+                              ? 'bg-riso-paper text-riso-ink-secondary border-riso-line'
+                              : 'bg-riso-p1-light text-riso-ink border-riso-ink'
                           }`}
                         >
                           {s.status === 'realisee' ? 'Réalisée ✓' : s.status === 'annulee' ? 'Annulée' : 'Planifiée'}
@@ -367,7 +367,7 @@ export const SessionsTableSection: React.FC = () => {
                           })}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="p-1 text-[#22408F] hover:bg-[#EBF1FF] rounded transition-colors"
+                          className="p-1 text-riso-ink hover:bg-riso-p1-light rounded-[8px] transition-colors"
                           title="Ajouter à l'Agenda"
                           aria-label="Ajouter à l'Agenda"
                         >
@@ -378,7 +378,7 @@ export const SessionsTableSection: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => setEditingSessionId(null)}
-                            className="p-1 text-[#22408F] hover:bg-[#EBF1FF] rounded transition-colors"
+                            className="p-1 text-riso-ink hover:bg-riso-p1-light rounded-[8px] transition-colors"
                             title="Valider"
                             aria-label="Valider les modifications"
                           >
@@ -388,7 +388,7 @@ export const SessionsTableSection: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => setEditingSessionId(s.id)}
-                            className="p-1 text-[#5A6A94] hover:text-[#22408F] rounded transition-colors"
+                            className="p-1 text-riso-ink-secondary hover:text-riso-ink rounded-[8px] transition-colors"
                             title="Modifier"
                             aria-label={`Modifier la session du ${s.date}`}
                           >
@@ -398,7 +398,7 @@ export const SessionsTableSection: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => deleteSession(s.id)}
-                          className="p-1 text-[#5A6A94] hover:text-[#F0505A] rounded transition-colors"
+                          className="p-1 text-riso-ink-secondary hover:text-riso-p4 rounded-[8px] transition-colors"
                           title="Supprimer cette session"
                           aria-label={`Supprimer la session du ${s.date}`}
                         >
@@ -416,19 +416,19 @@ export const SessionsTableSection: React.FC = () => {
         {/* Add Session Form */}
         <form
           onSubmit={handleAddSession}
-          className="p-3.5 bg-[#FBFAF6] border-t-2 border-[#22408F] flex flex-wrap items-center gap-2.5 text-xs"
+          className="p-3.5 bg-riso-paper border-t-2 border-riso-ink flex flex-wrap items-center gap-2.5 text-xs"
         >
-          <span className="font-bold text-[#22408F] font-heading">+ Nouvelle session :</span>
+          <span className="font-bold text-riso-ink font-heading">+ Nouvelle session :</span>
           <input
             type="date"
             value={newDate}
             onChange={(e) => setNewDate(e.target.value)}
-            className="px-2.5 py-1.5 bg-white border-2 border-[#22408F]/40 rounded-lg font-mono text-xs text-[#22408F]"
+            className="px-2.5 py-1.5 bg-white border-2 border-riso-line rounded-[8px] font-mono text-xs text-riso-ink"
           />
           <select
             value={newType}
             onChange={(e) => setNewType(e.target.value as SessionType)}
-            className="px-2.5 py-1.5 bg-white border-2 border-[#22408F]/40 rounded-lg text-xs text-[#22408F]"
+            className="px-2.5 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs text-riso-ink"
           >
             <option value="individuelle">Solo ({settings.defaultDurations.individuelle} h)</option>
             {settings.mode === 'groupe' && (
@@ -439,7 +439,7 @@ export const SessionsTableSection: React.FC = () => {
           <select
             value={newPhaseId}
             onChange={(e) => setNewPhaseId(e.target.value)}
-            className="px-2.5 py-1.5 bg-white border-2 border-[#22408F]/40 rounded-lg text-xs text-[#22408F]"
+            className="px-2.5 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs text-riso-ink"
           >
             {phases.map((p) => (
               <option key={p.id} value={p.id}>
@@ -452,7 +452,7 @@ export const SessionsTableSection: React.FC = () => {
             placeholder="Objectif de travail (ex: Synthèse des 5 interviews)"
             value={newObjective}
             onChange={(e) => setNewObjective(e.target.value)}
-            className="flex-1 min-w-[200px] px-2.5 py-1.5 bg-white border-2 border-[#22408F]/40 rounded-lg text-xs text-[#22408F]"
+            className="flex-1 min-w-[200px] px-2.5 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs text-riso-ink"
           />
           <button
             type="submit"

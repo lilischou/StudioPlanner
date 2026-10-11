@@ -42,12 +42,12 @@ export const CoverCropper: React.FC<Props> = ({ src, initial, onSave, onCancel }
   };
 
   return (
-    <div className="fixed inset-0 z-[60] bg-[#22408F]/40 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[60] bg-riso-ink/40 flex items-center justify-center p-4">
       <div className="riso-card w-full max-w-sm p-4 space-y-3">
-        <h3 className="font-heading font-bold text-sm text-[#22408F]">Recadrer la couverture</h3>
+        <h3 className="font-heading font-bold text-sm text-riso-ink">Recadrer la couverture</h3>
         <div
           ref={frameRef}
-          className="relative aspect-[4/3] w-full overflow-hidden rounded-lg border-2 border-[#22408F] bg-[#EBF1FF] cursor-grab active:cursor-grabbing touch-none"
+          className="relative aspect-[4/3] w-full overflow-hidden rounded-[8px] border-2 border-riso-ink bg-riso-p1-light cursor-grab active:cursor-grabbing touch-none"
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
@@ -57,8 +57,8 @@ export const CoverCropper: React.FC<Props> = ({ src, initial, onSave, onCancel }
         >
           <CoverImage src={src} crop={crop} />
         </div>
-        <p className="text-[11px] text-[#5A6A94]">Glisse l'image pour la positionner, puis ajuste le zoom.</p>
-        <label className="flex items-center gap-3 text-xs font-bold text-[#22408F]">
+        <p className="text-[11px] text-riso-ink-secondary">Glisse l'image pour la positionner, puis ajuste le zoom.</p>
+        <label className="flex items-center gap-3 text-xs font-bold text-riso-ink">
           <span>Zoom</span>
           <input
             type="range"
@@ -67,7 +67,7 @@ export const CoverCropper: React.FC<Props> = ({ src, initial, onSave, onCancel }
             step={0.05}
             value={crop.zoom}
             onChange={(e) => setCrop((c) => ({ ...c, zoom: Number(e.target.value) }))}
-            className="flex-1 accent-[#2F6DBB]"
+            className="flex-1 accent-riso-p1"
             aria-label="Zoom"
           />
           <span className="font-mono w-10 text-right">{crop.zoom.toFixed(2)}×</span>

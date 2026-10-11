@@ -474,17 +474,17 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
       role="dialog"
       aria-modal="true"
       aria-label="Passer de l'inertie à l'action"
-      className="fixed inset-0 z-50 overflow-y-auto bg-[#FBFAF6] flex flex-col justify-between text-[#22408F] p-4 sm:p-8 animate-in fade-in duration-150"
+      className="fixed inset-0 z-50 overflow-y-auto bg-riso-paper flex flex-col justify-between text-riso-ink p-4 sm:p-8 animate-in fade-in duration-150"
     >
       {/* Barre supérieure minimale */}
-      <div className="flex items-center justify-between max-w-4xl w-full mx-auto shrink-0 pb-3 border-b-2 border-[#22408F]">
-        <span className="font-heading font-bold text-sm text-[#22408F] lowercase">
+      <div className="flex items-center justify-between max-w-4xl w-full mx-auto shrink-0 pb-3 border-b-2 border-riso-ink">
+        <span className="font-heading font-bold text-sm text-riso-ink lowercase">
           passer à l'action
         </span>
         <button
           type="button"
           onClick={onClose}
-          className="p-1.5 text-[#5A6A94] hover:text-[#22408F] rounded-[8px] hover:bg-[#EBF1FF] transition-colors border border-transparent hover:border-[#22408F] cursor-pointer"
+          className="p-1.5 text-riso-ink-secondary hover:text-riso-ink rounded-[8px] hover:bg-riso-p1-light transition-colors border border-transparent hover:border-riso-ink cursor-pointer"
           aria-label="Fermer"
         >
           <X className="w-5 h-5" />
@@ -500,18 +500,18 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
           <div className="w-full space-y-6 flex flex-col items-center justify-center animate-in fade-in duration-150">
             {isLoadingAi ? (
               <div className="flex flex-col items-center gap-3 py-16">
-                <div className="w-8 h-8 rounded-full border-4 border-[#22408F] border-t-transparent animate-spin" />
-                <p className="text-sm font-bold text-[#5A6A94]">Gemini réfléchit…</p>
+                <div className="w-8 h-8 rounded-full border-4 border-riso-ink border-t-transparent animate-spin" />
+                <p className="text-sm font-bold text-riso-ink-secondary">Gemini réfléchit…</p>
               </div>
             ) : (
               <>
                 {/* L'action en gros */}
-                <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-[#22408F] font-heading leading-tight tracking-tight select-none max-w-2xl px-2">
+                <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold text-riso-ink font-heading leading-tight tracking-tight select-none max-w-2xl px-2">
                   « {actionText || 'Fais un premier pas sur ton projet'} »
                 </h1>
 
                 {/* La durée en dessous, rien d'autre */}
-                <p className="text-base sm:text-lg font-bold text-[#5A6A94]">
+                <p className="text-base sm:text-lg font-bold text-riso-ink-secondary">
                   {dureeMinutes} min
                 </p>
 
@@ -533,7 +533,7 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
                     disabled={isLoadingAi}
                     className="btn-riso-secondary w-full sm:w-auto text-sm sm:text-base py-3 px-6 cursor-pointer disabled:opacity-50"
                   >
-                    <Sparkles className="w-4 h-4 text-[#F2661F]" />
+                    <Sparkles className="w-4 h-4 text-riso-p5" />
                     <span>C'est trop difficile</span>
                   </button>
 
@@ -543,7 +543,7 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
                     disabled={isLoadingAi}
                     className="btn-riso-secondary w-full sm:w-auto text-sm sm:text-base py-3 px-6 cursor-pointer"
                   >
-                    <RotateCcw className="w-4 h-4 text-[#5A6A94]" />
+                    <RotateCcw className="w-4 h-4 text-riso-ink-secondary" />
                     <span>Faire autre chose</span>
                   </button>
                 </div>
@@ -554,7 +554,7 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
                     href={getGoogleCalendarUrl()}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs text-[#5A6A94] hover:text-[#22408F] underline cursor-pointer inline-flex items-center gap-1 transition-colors"
+                    className="text-xs text-riso-ink-secondary hover:text-riso-ink underline cursor-pointer inline-flex items-center gap-1 transition-colors"
                   >
                     Bloquer dans l'Agenda →
                   </a>
@@ -576,14 +576,14 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
                   cx="50"
                   cy="50"
                   r="42"
-                  className="stroke-[#EBF1FF] fill-white"
+                  className="stroke-riso-p1-light fill-white"
                   strokeWidth="8"
                 />
                 <circle
                   cx="50"
                   cy="50"
                   r="42"
-                  className="stroke-[#F0505A] fill-transparent transition-all duration-1000 ease-linear"
+                  className="stroke-riso-p4 fill-transparent transition-all duration-1000 ease-linear"
                   strokeWidth="8"
                   strokeDasharray={`${2 * Math.PI * 42}`}
                   strokeDashoffset={`${2 * Math.PI * 42 * (1 - progressFraction)}`}
@@ -593,7 +593,7 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
 
               {/* Temps restant en grand */}
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-5xl sm:text-7xl font-extrabold text-[#22408F] tabular-nums font-heading tracking-tight">
+                <span className="text-5xl sm:text-7xl font-extrabold text-riso-ink tabular-nums font-heading tracking-tight">
                   {timerDisplay}
                 </span>
               </div>
@@ -604,7 +604,7 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
               <button
                 type="button"
                 onClick={handleStopTimer}
-                className="btn-riso-secondary text-xs sm:text-sm py-1.5 px-4 font-bold text-[#5A6A94] hover:text-[#22408F] cursor-pointer"
+                className="btn-riso-secondary text-xs sm:text-sm py-1.5 px-4 font-bold text-riso-ink-secondary hover:text-riso-ink cursor-pointer"
               >
                 Arrêter
               </button>
@@ -616,24 +616,24 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
         {/* 5. FIN DU MINUTEUR : TRACE EN 1 CLIC                         */}
         {/* ============================================================ */}
         {step === 'record' && (
-          <div className="w-full max-w-xl text-left bg-white p-6 sm:p-7 rounded-2xl border-2 border-[#22408F] shadow-[0_4px_0_#22408F] space-y-4 animate-in fade-in duration-150">
+          <div className="w-full max-w-xl text-left bg-white p-6 sm:p-7 rounded-[16px] border-2 border-riso-ink shadow-riso space-y-4 animate-in fade-in duration-150">
             {/* Prérempli : titre = l'action ; date et heure actuelles ; durée réelle ; type = Séance */}
-            <div className="p-3 bg-[#FBFAF6] border border-[#DCE2EF] rounded-xl space-y-1">
-              <div className="flex items-center justify-between text-xs font-bold text-[#5A6A94]">
-                <span className="px-2 py-0.5 rounded-[999px] bg-[#EBF1FF] text-[#22408F] border border-[#22408F]/20">
+            <div className="p-3 bg-riso-paper border border-riso-line rounded-[16px] space-y-1">
+              <div className="flex items-center justify-between text-xs font-bold text-riso-ink-secondary">
+                <span className="px-2 py-0.5 rounded-[999px] bg-riso-p1-light text-riso-ink border border-riso-line">
                   Séance
                 </span>
                 <span className="tabular-nums font-mono text-[11px]">
                   {formatISODate(new Date())} · {elapsedMinutesRecord} min
                 </span>
               </div>
-              <h3 className="font-heading font-bold text-sm text-[#22408F] pt-1">
+              <h3 className="font-heading font-bold text-sm text-riso-ink pt-1">
                 {actionText}
               </h3>
             </div>
 
             {recordError && (
-              <div className="p-2 bg-[#FFF0F0] border-2 border-[#F0505A] rounded-[8px] text-xs font-bold text-[#F0505A]">
+              <div className="p-2 bg-riso-p4-light border-2 border-riso-p4 rounded-[8px] text-xs font-bold text-riso-p4">
                 {recordError}
               </div>
             )}
@@ -641,8 +641,8 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
             {/* Champs du formulaire */}
             <div className="space-y-3">
               <div>
-                <label className="block text-xs font-bold text-[#22408F] uppercase tracking-wider mb-1">
-                  Ce que j'ai fait <span className="text-[#F0505A]">*</span>
+                <label className="block text-xs font-bold text-riso-ink uppercase tracking-wider mb-1">
+                  Ce que j'ai fait <span className="text-riso-p4">*</span>
                 </label>
                 <textarea
                   rows={3}
@@ -654,12 +654,12 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
                     if (recordError) setRecordError('');
                   }}
                   placeholder="Qu’as-tu réalisé pendant cette séance ?"
-                  className="w-full px-3 py-2 bg-[#FBFAF6] border-2 border-[#22408F] rounded-[8px] text-xs text-[#22408F] focus:outline-none focus:ring-2 focus:ring-[#F2D21B]"
+                  className="w-full px-3 py-2 bg-riso-paper border-2 border-riso-ink rounded-[8px] text-xs text-riso-ink focus:outline-none focus:ring-2 focus:ring-riso-p3"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-[#22408F] uppercase tracking-wider mb-1">
+                <label className="block text-xs font-bold text-riso-ink uppercase tracking-wider mb-1">
                   Prochaine petite étape (optionnel)
                 </label>
                 <input
@@ -667,17 +667,17 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
                   value={nextStep}
                   onChange={(e) => setNextStep(e.target.value)}
                   placeholder="La prochaine micro-action concrète à lancer"
-                  className="w-full px-3 py-2 bg-[#FBFAF6] border-2 border-[#22408F] rounded-[8px] text-xs font-bold text-[#22408F] focus:outline-none focus:ring-2 focus:ring-[#F2D21B]"
+                  className="w-full px-3 py-2 bg-riso-paper border-2 border-riso-ink rounded-[8px] text-xs font-bold text-riso-ink focus:outline-none focus:ring-2 focus:ring-riso-p3"
                 />
               </div>
 
               <div>
-                <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-[#22408F] pt-1 select-none">
+                <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-riso-ink pt-1 select-none">
                   <input
                     type="checkbox"
                     checked={isTaskCompleted}
                     onChange={(e) => setIsTaskCompleted(e.target.checked)}
-                    className="w-4 h-4 rounded border-2 border-[#22408F] accent-[#2F6DBB]"
+                    className="w-4 h-4 rounded-[8px] border-2 border-riso-ink accent-riso-p1"
                   />
                   <span>Tâche terminée</span>
                 </label>
@@ -685,7 +685,7 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
             </div>
 
             {/* Trois boutons : Prochaine étape · J'ai encore besoin de temps · Pause */}
-            <div className="pt-2 border-t-2 border-[#DCE2EF] flex flex-col sm:flex-row gap-2.5">
+            <div className="pt-2 border-t-2 border-riso-line flex flex-col sm:flex-row gap-2.5">
               <button
                 type="button"
                 onClick={handleProchaineEtape}
@@ -698,18 +698,18 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
               <button
                 type="button"
                 onClick={handleNeedMoreTime}
-                className="btn-riso-secondary flex-1 text-xs py-2.5 px-3.5 cursor-pointer text-[#C4111C]"
+                className="btn-riso-secondary flex-1 text-xs py-2.5 px-3.5 cursor-pointer text-riso-p4-text"
               >
-                <AlertCircle className="w-4 h-4 text-[#F0505A]" />
+                <AlertCircle className="w-4 h-4 text-riso-p4" />
                 <span>J'ai encore besoin de temps</span>
               </button>
 
               <button
                 type="button"
                 onClick={handlePause}
-                className="btn-riso-secondary flex-1 text-xs py-2.5 px-3.5 cursor-pointer text-[#246C3A]"
+                className="btn-riso-secondary flex-1 text-xs py-2.5 px-3.5 cursor-pointer text-riso-p2-text"
               >
-                <Coffee className="w-4 h-4 text-[#2E8B4A]" />
+                <Coffee className="w-4 h-4 text-riso-p2" />
                 <span>Pause</span>
               </button>
             </div>
@@ -720,18 +720,18 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
         {/* 6. « J'AI ENCORE BESOIN DE TEMPS » = MODE DÉBLOCAGE         */}
         {/* ============================================================ */}
         {step === 'need_time' && (
-          <div className="w-full max-w-xl text-left bg-white p-6 sm:p-7 rounded-2xl border-2 border-[#22408F] shadow-[0_4px_0_#22408F] space-y-4 animate-in fade-in duration-150">
+          <div className="w-full max-w-xl text-left bg-white p-6 sm:p-7 rounded-[16px] border-2 border-riso-ink shadow-riso space-y-4 animate-in fade-in duration-150">
             {/* Minuteur forcé de 5 min pendant lequel j'écris la trace */}
-            <div className="flex items-center justify-between pb-3 border-b-2 border-[#DCE2EF]">
+            <div className="flex items-center justify-between pb-3 border-b-2 border-riso-line">
               <div>
-                <h3 className="font-heading font-bold text-sm text-[#22408F] lowercase">
+                <h3 className="font-heading font-bold text-sm text-riso-ink lowercase">
                   mode déblocage
                 </h3>
-                <p className="text-xs text-[#5A6A94]">
+                <p className="text-xs text-riso-ink-secondary">
                   Prends ces 5 min pour poser ton constat.
                 </p>
               </div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF0F0] border-2 border-[#F0505A] text-xs font-bold text-[#F0505A] tabular-nums">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-riso-p4-light border-2 border-riso-p4 text-xs font-bold text-riso-p4 tabular-nums">
                 <Clock className="w-3.5 h-3.5" />
                 <span>{deblocageDisplay}</span>
               </div>
@@ -739,8 +739,8 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
 
             {/* Justification obligatoire */}
             <div>
-              <label className="block text-xs font-bold text-[#22408F] uppercase tracking-wider mb-1">
-                Pourquoi j'ai encore besoin de temps ? <span className="text-[#F0505A]">*</span>
+              <label className="block text-xs font-bold text-riso-ink uppercase tracking-wider mb-1">
+                Pourquoi j'ai encore besoin de temps ? <span className="text-riso-p4">*</span>
               </label>
               <textarea
                 rows={2}
@@ -749,38 +749,38 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
                 value={needTimeReason}
                 onChange={(e) => setNeedTimeReason(e.target.value)}
                 placeholder="Explique ce qui bloque ou ce qu'il reste à finir…"
-                className="w-full px-3 py-2 bg-[#FBFAF6] border-2 border-[#22408F] rounded-[8px] text-xs text-[#22408F] focus:outline-none focus:ring-2 focus:ring-[#F2D21B]"
+                className="w-full px-3 py-2 bg-riso-paper border-2 border-riso-ink rounded-[8px] text-xs text-riso-ink focus:outline-none focus:ring-2 focus:ring-riso-p3"
               />
             </div>
 
             {/* Trois cases obligatoires */}
             <div className="space-y-2 pt-1">
-              <label className="flex items-start gap-2.5 cursor-pointer text-xs font-medium text-[#22408F]">
+              <label className="flex items-start gap-2.5 cursor-pointer text-xs font-medium text-riso-ink">
                 <input
                   type="checkbox"
                   checked={check1}
                   onChange={(e) => setCheck1(e.target.checked)}
-                  className="mt-0.5 w-4 h-4 rounded border-2 border-[#22408F] accent-[#2F6DBB]"
+                  className="mt-0.5 w-4 h-4 rounded-[8px] border-2 border-riso-ink accent-riso-p1"
                 />
                 <span>Cette action sert le livrable de la phase en cours</span>
               </label>
 
-              <label className="flex items-start gap-2.5 cursor-pointer text-xs font-medium text-[#22408F]">
+              <label className="flex items-start gap-2.5 cursor-pointer text-xs font-medium text-riso-ink">
                 <input
                   type="checkbox"
                   checked={check2}
                   onChange={(e) => setCheck2(e.target.checked)}
-                  className="mt-0.5 w-4 h-4 rounded border-2 border-[#22408F] accent-[#2F6DBB]"
+                  className="mt-0.5 w-4 h-4 rounded-[8px] border-2 border-riso-ink accent-riso-p1"
                 />
                 <span>Je ne suis pas en train de peaufiner un détail secondaire</span>
               </label>
 
-              <label className="flex items-start gap-2.5 cursor-pointer text-xs font-medium text-[#22408F]">
+              <label className="flex items-start gap-2.5 cursor-pointer text-xs font-medium text-riso-ink">
                 <input
                   type="checkbox"
                   checked={check3}
                   onChange={(e) => setCheck3(e.target.checked)}
-                  className="mt-0.5 w-4 h-4 rounded border-2 border-[#22408F] accent-[#2F6DBB]"
+                  className="mt-0.5 w-4 h-4 rounded-[8px] border-2 border-riso-ink accent-riso-p1"
                 />
                 <span>Je ne me suis pas dispersée sur autre chose</span>
               </label>
@@ -788,13 +788,13 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
 
             {/* Message neutre si une case n'est pas cochée */}
             {!isDeblocageValid && (
-              <div className="p-3 bg-[#FBFAF6] border border-[#DCE2EF] rounded-xl text-xs text-[#5A6A94] leading-relaxed">
+              <div className="p-3 bg-riso-paper border border-riso-line rounded-[16px] text-xs text-riso-ink-secondary leading-relaxed">
                 Cette action n'est pas prioritaire : passe à la prochaine étape ou fais une pause.
               </div>
             )}
 
             {/* Actions : Relancer (si tout est coché) OU Passer / Pause */}
-            <div className="pt-2 border-t-2 border-[#DCE2EF] flex flex-wrap items-center justify-between gap-2.5">
+            <div className="pt-2 border-t-2 border-riso-line flex flex-wrap items-center justify-between gap-2.5">
               <div className="flex gap-2">
                 <button
                   type="button"
@@ -826,11 +826,11 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
 
         {/* Écran si déjà prolongé 1 fois : proposer version 5 min ou pause */}
         {step === 'max_prolongation' && (
-          <div className="w-full max-w-md text-center bg-white p-6 sm:p-7 rounded-2xl border-2 border-[#22408F] shadow-[0_4px_0_#22408F] space-y-4 animate-in fade-in duration-150">
-            <h3 className="font-heading font-bold text-base text-[#22408F]">
+          <div className="w-full max-w-md text-center bg-white p-6 sm:p-7 rounded-[16px] border-2 border-riso-ink shadow-riso space-y-4 animate-in fade-in duration-150">
+            <h3 className="font-heading font-bold text-base text-riso-ink">
               Action déjà prolongée
             </h3>
-            <p className="text-xs text-[#5A6A94] leading-relaxed">
+            <p className="text-xs text-riso-ink-secondary leading-relaxed">
               Pour éviter l'hyperfocalisation non productive, termine par une micro-étape de 5 min ou prends une pause.
             </p>
             <div className="flex items-center justify-center gap-3 pt-2">
@@ -857,7 +857,7 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
       </div>
 
       {/* Bas de page discret */}
-      <div className="max-w-4xl w-full mx-auto shrink-0 pt-2 border-t-2 border-[#DCE2EF] text-center text-xs text-[#5A6A94]">
+      <div className="max-w-4xl w-full mx-auto shrink-0 pt-2 border-t-2 border-riso-line text-center text-xs text-riso-ink-secondary">
         <span>StudioPlanner · Vaincre l'inertie en une seule micro-étape</span>
       </div>
     </div>

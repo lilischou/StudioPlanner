@@ -59,16 +59,16 @@ export const DetailedViewModal: React.FC<DetailedViewModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#22408F]/40 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4">
-      <div className="bg-white rounded-2xl max-w-6xl w-full max-h-[90vh] border-2 border-[#22408F] shadow-[0_4px_0_#22408F] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-riso-ink/40 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4">
+      <div className="bg-white rounded-[16px] max-w-6xl w-full max-h-[90vh] border-2 border-riso-ink shadow-riso flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150">
         {/* Top Header */}
-        <div className="px-6 py-3.5 border-b-2 border-[#22408F] bg-[#FBFAF6] flex items-center justify-between shrink-0">
+        <div className="px-6 py-3.5 border-b-2 border-riso-ink bg-riso-paper flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="p-1.5 bg-[#2F6DBB] text-white rounded-[8px] border-2 border-[#22408F]">
+            <div className="p-1.5 bg-riso-p1 text-white rounded-[8px] border-2 border-riso-ink">
               <TableProperties className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="text-sm font-bold text-[#22408F] font-heading">
+              <h2 className="text-sm font-bold text-riso-ink font-heading">
                 Vue détaillée
               </h2>
             </div>
@@ -77,7 +77,7 @@ export const DetailedViewModal: React.FC<DetailedViewModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 text-[#5A6A94] hover:text-[#22408F] rounded-[8px] hover:bg-[#EBF1FF] transition-colors border border-transparent hover:border-[#22408F] cursor-pointer"
+            className="p-1.5 text-riso-ink-secondary hover:text-riso-ink rounded-[8px] hover:bg-riso-p1-light transition-colors border border-transparent hover:border-riso-ink cursor-pointer"
             aria-label="Fermer"
           >
             <X className="w-4 h-4" />
@@ -85,7 +85,7 @@ export const DetailedViewModal: React.FC<DetailedViewModalProps> = ({
         </div>
 
         {/* Sub-tabs toolbar (Style onglet souligné 3px, sans barre bleue épaisse ni contour pastille) */}
-        <div className="px-6 bg-white border-b border-[#DCE2EF] overflow-x-auto no-scrollbar shrink-0">
+        <div className="px-6 bg-white border-b border-riso-line overflow-x-auto no-scrollbar shrink-0">
           <div className="flex items-center gap-2 min-w-max">
             {views.map((v) => (
               <button
@@ -94,8 +94,8 @@ export const DetailedViewModal: React.FC<DetailedViewModalProps> = ({
                 onClick={() => handleTabChange(v.id)}
                 className={`flex items-center gap-1.5 px-4 py-3 text-[13px] border-b-[3px] transition-colors whitespace-nowrap cursor-pointer ${
                   selectedSubTab === v.id
-                    ? 'border-[#2F6DBB] text-[#22408F] font-bold'
-                    : 'border-transparent text-[#5A6A94] hover:text-[#22408F] hover:border-[#DCE2EF] font-semibold'
+                    ? 'border-riso-p1 text-riso-ink font-bold'
+                    : 'border-transparent text-riso-ink-secondary hover:text-riso-ink hover:border-riso-line font-semibold'
                 }`}
               >
                 {v.icon}
@@ -106,7 +106,7 @@ export const DetailedViewModal: React.FC<DetailedViewModalProps> = ({
         </div>
 
         {/* Main Content Area (remonte en haut au changement d'onglet) */}
-        <div ref={contentRef} className="flex-1 overflow-y-auto p-6 bg-[#FBFAF6]">
+        <div ref={contentRef} className="flex-1 overflow-y-auto p-6 bg-riso-paper">
           {selectedSubTab === 'tableau_de_bord' && <DashboardSection />}
           {selectedSubTab === 'retroplanning' && <RetroplanningSection />}
           {selectedSubTab === 'sessions_table' && <SessionsTableSection />}

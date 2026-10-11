@@ -225,24 +225,24 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#22408F]/40 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-150">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-riso-ink/40 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-150">
       <div
-        className="riso-card w-full max-w-2xl bg-white border-2 border-[#22408F] shadow-[0_4px_0_#22408F] rounded-2xl flex flex-col max-h-[90vh] overflow-hidden"
+        className="riso-card w-full max-w-2xl bg-white border-2 border-riso-ink shadow-riso rounded-[16px] flex flex-col max-h-[90vh] overflow-hidden"
         role="dialog"
         aria-label="Assistant de création de projet"
       >
         {/* Header */}
-        <header className="px-6 py-4 border-b-2 border-[#22408F] bg-[#FBFAF6] flex items-center justify-between shrink-0">
+        <header className="px-6 py-4 border-b-2 border-riso-ink bg-riso-paper flex items-center justify-between shrink-0">
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#2F6DBB]" />
-            <h2 className="text-base font-bold text-[#22408F] font-heading">
+            <span className="w-2.5 h-2.5 rounded-full bg-riso-p1" />
+            <h2 className="text-base font-bold text-riso-ink font-heading">
               Nouveau projet · Étape {step} sur 8
             </h2>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-full flex items-center justify-center text-[#5A6A94] hover:text-[#22408F] hover:bg-[#EBF1FF] transition-colors"
+            className="w-8 h-8 rounded-full flex items-center justify-center text-riso-ink-secondary hover:text-riso-ink hover:bg-riso-p1-light transition-colors"
             title="Fermer"
           >
             <X className="w-4 h-4" />
@@ -250,9 +250,9 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
         </header>
 
         {/* Barre de progression discrète */}
-        <div className="w-full h-1 bg-[#EBF1FF]">
+        <div className="w-full h-1 bg-riso-p1-light">
           <div
-            className="h-full bg-[#2F6DBB] transition-all duration-200"
+            className="h-full bg-riso-p1 transition-all duration-200"
             style={{ width: `${(step / 8) * 100}%` }}
           />
         </div>
@@ -265,10 +265,10 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
           {step === 1 && (
             <div className="space-y-4 animate-in fade-in duration-150">
               <div>
-                <h3 className="text-lg font-bold text-[#22408F] font-heading">
+                <h3 className="text-lg font-bold text-riso-ink font-heading">
                   Quel type de projet démarres-tu ?
                 </h3>
-                <p className="text-xs text-[#5A6A94] mt-1">
+                <p className="text-xs text-riso-ink-secondary mt-1">
                   Chaque gabarit pré-remplit les 3 phases (Exploration, Idéation, Finalisation), le rythme des sessions et les livrables types.
                 </p>
               </div>
@@ -286,25 +286,25 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' || e.key === ' ') handleSelectTemplate(tId);
                       }}
-                      className={`p-4 rounded-xl border-2 cursor-pointer transition-all flex flex-col justify-between text-left ${
+                      className={`p-4 rounded-[16px] border-2 cursor-pointer transition-all flex flex-col justify-between text-left ${
                         isSelected
-                          ? 'border-[#22408F] bg-[#EBF1FF] shadow-[0_3px_0_#22408F]'
-                          : 'border-[#22408F]/25 bg-white hover:border-[#22408F] hover:bg-[#FBFAF6]'
+                          ? 'border-riso-ink bg-riso-p1-light shadow-riso'
+                          : 'border-riso-line bg-white hover:border-riso-ink hover:bg-riso-paper'
                       }`}
                     >
                       <div className="space-y-1.5">
                         <div className="flex items-center justify-between">
-                          <h4 className="font-bold text-sm text-[#22408F]">{tpl.name}</h4>
-                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white border border-[#22408F]/30 text-[#22408F]">
+                          <h4 className="font-bold text-sm text-riso-ink">{tpl.name}</h4>
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white border border-riso-line text-riso-ink">
                             {tpl.badge}
                           </span>
                         </div>
-                        <p className="text-xs text-[#5A6A94] leading-relaxed">
+                        <p className="text-xs text-riso-ink-secondary leading-relaxed">
                           {tpl.description}
                         </p>
                       </div>
 
-                      <div className="mt-4 pt-2 border-t border-[#22408F]/15 flex items-center justify-between text-[11px] text-[#22408F] font-semibold">
+                      <div className="mt-4 pt-2 border-t border-riso-line flex items-center justify-between text-[11px] text-riso-ink font-semibold">
                         <span>~{tpl.recommendedHoursPerWeek} h / semaine</span>
                         <span className="underline">Choisir →</span>
                       </div>
@@ -321,35 +321,35 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
           {step === 2 && (
             <div className="space-y-5 animate-in fade-in duration-150">
               <div>
-                <h3 className="text-lg font-bold text-[#22408F] font-heading">
+                <h3 className="text-lg font-bold text-riso-ink font-heading">
                   Donne un nom et un brief à ton projet
                 </h3>
-                <p className="text-xs text-[#5A6A94] mt-1">
+                <p className="text-xs text-riso-ink-secondary mt-1">
                   Tu pourras toujours modifier l’intitulé et le brief plus tard dans les réglages.
                 </p>
               </div>
 
               <div className="space-y-3">
                 <label className="block space-y-1">
-                  <span className="text-xs font-bold text-[#22408F]">Nom du projet *</span>
+                  <span className="text-xs font-bold text-riso-ink">Nom du projet *</span>
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Ex. : Refonte de la consigne urbaine"
                     autoFocus
-                    className="w-full bg-white border-2 border-[#22408F] rounded-lg px-3.5 py-2.5 text-sm text-[#22408F] focus:outline-hidden focus:ring-2 focus:ring-[#2F6DBB]/40"
+                    className="w-full bg-white border-2 border-riso-ink rounded-[8px] px-3.5 py-2.5 text-sm text-riso-ink focus:outline-hidden focus:ring-2 focus:ring-riso-p1/40"
                   />
                 </label>
 
                 <label className="block space-y-1">
-                  <span className="text-xs font-bold text-[#22408F]">Brief synthétique (2 lignes)</span>
+                  <span className="text-xs font-bold text-riso-ink">Brief synthétique (2 lignes)</span>
                   <textarea
                     value={brief}
                     onChange={(e) => setBrief(e.target.value)}
                     placeholder="En quoi consiste le sujet ? Quel est l'enjeu principal et le contexte d'intervention ?"
                     rows={2}
-                    className="w-full bg-white border-2 border-[#22408F] rounded-lg px-3.5 py-2.5 text-sm text-[#22408F] focus:outline-hidden focus:ring-2 focus:ring-[#2F6DBB]/40 resize-none"
+                    className="w-full bg-white border-2 border-riso-ink rounded-[8px] px-3.5 py-2.5 text-sm text-riso-ink focus:outline-hidden focus:ring-2 focus:ring-riso-p1/40 resize-none"
                   />
                 </label>
               </div>
@@ -362,37 +362,37 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
           {step === 3 && (
             <div className="space-y-5 animate-in fade-in duration-150">
               <div>
-                <h3 className="text-lg font-bold text-[#22408F] font-heading">
+                <h3 className="text-lg font-bold text-riso-ink font-heading">
                   Quand démarre le projet et quand a lieu le rendu final ?
                 </h3>
-                <p className="text-xs text-[#5A6A94] mt-1">
+                <p className="text-xs text-riso-ink-secondary mt-1">
                   Durée totale calculée : <strong>{totalWeeks} semaines</strong> ({totalDays} jours).
                 </p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <label className="block space-y-1">
-                  <span className="text-xs font-bold text-[#22408F]">Date de démarrage</span>
+                  <span className="text-xs font-bold text-riso-ink">Date de démarrage</span>
                   <input
                     type="date"
                     value={startDate}
                     onChange={(e) => e.target.value && setStartDate(e.target.value)}
-                    className="w-full bg-white border-2 border-[#22408F] rounded-lg px-3.5 py-2.5 text-sm font-mono text-[#22408F] focus:outline-hidden"
+                    className="w-full bg-white border-2 border-riso-ink rounded-[8px] px-3.5 py-2.5 text-sm font-mono text-riso-ink focus:outline-hidden"
                   />
                 </label>
 
                 <label className="block space-y-1">
-                  <span className="text-xs font-bold text-[#22408F]">Rendu final / Jury</span>
+                  <span className="text-xs font-bold text-riso-ink">Rendu final / Jury</span>
                   <input
                     type="date"
                     value={deadlineDate}
                     onChange={(e) => e.target.value && setDeadlineDate(e.target.value)}
-                    className="w-full bg-white border-2 border-[#22408F] rounded-lg px-3.5 py-2.5 text-sm font-mono text-[#22408F] focus:outline-hidden"
+                    className="w-full bg-white border-2 border-riso-ink rounded-[8px] px-3.5 py-2.5 text-sm font-mono text-riso-ink focus:outline-hidden"
                   />
                 </label>
               </div>
 
-              <div className="p-3 bg-[#FBFAF6] border-2 border-[#22408F]/20 rounded-xl text-xs text-[#5A6A94] space-y-1">
+              <div className="p-3 bg-riso-paper border-2 border-riso-line rounded-[16px] text-xs text-riso-ink-secondary space-y-1">
                 <p>
                   📅 Du <strong>{formatFrenchDateLocal(startDate)}</strong> au{' '}
                   <strong>{formatFrenchDateLocal(deadlineDate)}</strong>.
@@ -410,17 +410,17 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
           {step === 4 && (
             <div className="space-y-5 animate-in fade-in duration-150">
               <div>
-                <h3 className="text-lg font-bold text-[#22408F] font-heading">
+                <h3 className="text-lg font-bold text-riso-ink font-heading">
                   Y a-t-il des rendus intermédiaires imposés ?
                 </h3>
-                <p className="text-xs text-[#5A6A94] mt-1">
+                <p className="text-xs text-riso-ink-secondary mt-1">
                   Ajoute les dates d'étape fixées par l'école ou le client (facultatif).
                 </p>
               </div>
 
               <div className="space-y-2">
                 {intermediateDeadlines.length === 0 ? (
-                  <p className="text-xs text-[#5A6A94] italic p-3 bg-[#FBFAF6] rounded-lg border border-[#22408F]/20">
+                  <p className="text-xs text-riso-ink-secondary italic p-3 bg-riso-paper rounded-[8px] border border-riso-line">
                     Aucun rendu intermédiaire ajouté. Le plan utilisera les objectifs types du gabarit.
                   </p>
                 ) : (
@@ -428,13 +428,13 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
                     {intermediateDeadlines.map((dead) => (
                       <li
                         key={dead.id}
-                        className="flex items-center justify-between p-2.5 bg-white border-2 border-[#22408F] rounded-lg"
+                        className="flex items-center justify-between p-2.5 bg-white border-2 border-riso-ink rounded-[8px]"
                       >
                         <div className="flex items-center gap-2">
-                          <Flag className="w-4 h-4 text-[#2F6DBB]" />
+                          <Flag className="w-4 h-4 text-riso-p1" />
                           <div>
-                            <span className="text-xs font-bold text-[#22408F] block">{dead.name}</span>
-                            <span className="text-[10px] font-mono text-[#5A6A94]">
+                            <span className="text-xs font-bold text-riso-ink block">{dead.name}</span>
+                            <span className="text-[10px] font-mono text-riso-ink-secondary">
                               {formatFrenchDateLocal(dead.date)}
                             </span>
                           </div>
@@ -442,7 +442,7 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
                         <button
                           type="button"
                           onClick={() => handleRemoveIntermediateDeadline(dead.id)}
-                          className="w-7 h-7 rounded-full flex items-center justify-center text-[#5A6A94] hover:text-[#F0505A]"
+                          className="w-7 h-7 rounded-full flex items-center justify-center text-riso-ink-secondary hover:text-riso-p4"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
@@ -453,8 +453,8 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
               </div>
 
               {/* Formulaire d'ajout rapide */}
-              <div className="bg-[#FBFAF6] border-2 border-[#22408F]/30 rounded-xl p-3 space-y-2">
-                <span className="text-xs font-bold text-[#22408F] block">
+              <div className="bg-riso-paper border-2 border-riso-line rounded-[16px] p-3 space-y-2">
+                <span className="text-xs font-bold text-riso-ink block">
                   + Ajouter un rendu intermédiaire
                 </span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -463,13 +463,13 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
                     value={newDeadlineName}
                     onChange={(e) => setNewDeadlineName(e.target.value)}
                     placeholder="Intitulé (ex: Cadrage validé)"
-                    className="bg-white border-2 border-[#22408F] rounded-lg px-2.5 py-1.5 text-xs text-[#22408F]"
+                    className="bg-white border-2 border-riso-ink rounded-[8px] px-2.5 py-1.5 text-xs text-riso-ink"
                   />
                   <input
                     type="date"
                     value={newDeadlineDate}
                     onChange={(e) => setNewDeadlineDate(e.target.value)}
-                    className="bg-white border-2 border-[#22408F] rounded-lg px-2.5 py-1.5 text-xs font-mono text-[#22408F]"
+                    className="bg-white border-2 border-riso-ink rounded-[8px] px-2.5 py-1.5 text-xs font-mono text-riso-ink"
                   />
                 </div>
                 <button
@@ -491,10 +491,10 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
           {step === 5 && (
             <div className="space-y-5 animate-in fade-in duration-150">
               <div>
-                <h3 className="text-lg font-bold text-[#22408F] font-heading">
+                <h3 className="text-lg font-bold text-riso-ink font-heading">
                   Comment sont rythmées les séances encadrées ?
                 </h3>
-                <p className="text-xs text-[#5A6A94] mt-1">
+                <p className="text-xs text-riso-ink-secondary mt-1">
                   Point de suivi avec le professeur, le tuteur ou l'intervenant.
                 </p>
               </div>
@@ -504,39 +504,39 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
                 <button
                   type="button"
                   onClick={() => setSupervisedMode('recurrent')}
-                  className={`p-3 rounded-xl border-2 text-left cursor-pointer transition-all ${
+                  className={`p-3 rounded-[16px] border-2 text-left cursor-pointer transition-all ${
                     supervisedMode === 'recurrent'
-                      ? 'border-[#22408F] bg-[#EBF1FF] shadow-[0_2px_0_#22408F]'
-                      : 'border-[#22408F]/30 bg-white'
+                      ? 'border-riso-ink bg-riso-p1-light shadow-riso-press'
+                      : 'border-riso-line bg-white'
                   }`}
                 >
-                  <span className="text-xs font-bold text-[#22408F] block">Jour récurrent</span>
-                  <span className="text-[11px] text-[#5A6A94]">Ex: Tous les jeudis</span>
+                  <span className="text-xs font-bold text-riso-ink block">Jour récurrent</span>
+                  <span className="text-[11px] text-riso-ink-secondary">Ex: Tous les jeudis</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setSupervisedMode('dates_libres')}
-                  className={`p-3 rounded-xl border-2 text-left cursor-pointer transition-all ${
+                  className={`p-3 rounded-[16px] border-2 text-left cursor-pointer transition-all ${
                     supervisedMode === 'dates_libres'
-                      ? 'border-[#22408F] bg-[#EBF1FF] shadow-[0_2px_0_#22408F]'
-                      : 'border-[#22408F]/30 bg-white'
+                      ? 'border-riso-ink bg-riso-p1-light shadow-riso-press'
+                      : 'border-riso-line bg-white'
                   }`}
                 >
-                  <span className="text-xs font-bold text-[#22408F] block">Dates libres</span>
-                  <span className="text-[11px] text-[#5A6A94]">Points d'étape ponctuels</span>
+                  <span className="text-xs font-bold text-riso-ink block">Dates libres</span>
+                  <span className="text-[11px] text-riso-ink-secondary">Points d'étape ponctuels</span>
                 </button>
               </div>
 
               {supervisedMode === 'recurrent' ? (
-                <div className="space-y-3 bg-[#FBFAF6] p-4 rounded-xl border-2 border-[#22408F]/25">
+                <div className="space-y-3 bg-riso-paper p-4 rounded-[16px] border-2 border-riso-line">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <label className="block space-y-1">
-                      <span className="text-xs font-bold text-[#22408F]">Quel jour ?</span>
+                      <span className="text-xs font-bold text-riso-ink">Quel jour ?</span>
                       <select
                         value={supervisedDayOfWeek}
                         onChange={(e) => setSupervisedDayOfWeek(Number(e.target.value))}
-                        className="w-full bg-white border-2 border-[#22408F] rounded-lg px-3 py-2 text-xs font-bold text-[#22408F]"
+                        className="w-full bg-white border-2 border-riso-ink rounded-[8px] px-3 py-2 text-xs font-bold text-riso-ink"
                       >
                         {[1, 2, 3, 4, 5, 6, 7].map((d) => (
                           <option key={d} value={d}>
@@ -547,20 +547,20 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
                     </label>
 
                     <label className="block space-y-1">
-                      <span className="text-xs font-bold text-[#22408F]">Créneau horaire (facultatif)</span>
+                      <span className="text-xs font-bold text-riso-ink">Créneau horaire (facultatif)</span>
                       <input
                         type="text"
                         value={supervisedTimeSlot}
                         onChange={(e) => setSupervisedTimeSlot(e.target.value)}
                         placeholder="Ex: 09:00 - 12:00"
-                        className="w-full bg-white border-2 border-[#22408F] rounded-lg px-3 py-2 text-xs text-[#22408F]"
+                        className="w-full bg-white border-2 border-riso-ink rounded-[8px] px-3 py-2 text-xs text-riso-ink"
                       />
                     </label>
                   </div>
 
                   {/* Exceptions (vacances / jours fériés) */}
-                  <div className="pt-2 border-t border-[#22408F]/20 space-y-2">
-                    <span className="text-xs font-bold text-[#22408F] block">
+                  <div className="pt-2 border-t border-riso-line space-y-2">
+                    <span className="text-xs font-bold text-riso-ink block">
                       Exceptions (vacances ou séances annulées)
                     </span>
                     {supervisedExceptions.length > 0 && (
@@ -568,13 +568,13 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
                         {supervisedExceptions.map((ex) => (
                           <span
                             key={ex}
-                            className="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-full bg-white border border-[#22408F] text-[#22408F]"
+                            className="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-full bg-white border-2 border-riso-ink text-riso-ink"
                           >
                             <span>{formatFrenchDateLocal(ex, false)}</span>
                             <button
                               type="button"
                               onClick={() => handleRemoveException(ex)}
-                              className="text-[#F0505A] font-bold"
+                              className="text-riso-p4 font-bold"
                             >
                               ×
                             </button>
@@ -587,7 +587,7 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
                         type="date"
                         value={newExceptionDate}
                         onChange={(e) => setNewExceptionDate(e.target.value)}
-                        className="bg-white border-2 border-[#22408F] rounded-lg px-2.5 py-1 text-xs font-mono text-[#22408F]"
+                        className="bg-white border-2 border-riso-ink rounded-[8px] px-2.5 py-1 text-xs font-mono text-riso-ink"
                       />
                       <button
                         type="button"
@@ -601,8 +601,8 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
                   </div>
                 </div>
               ) : (
-                <div className="space-y-3 bg-[#FBFAF6] p-4 rounded-xl border-2 border-[#22408F]/25">
-                  <span className="text-xs font-bold text-[#22408F] block">
+                <div className="space-y-3 bg-riso-paper p-4 rounded-[16px] border-2 border-riso-line">
+                  <span className="text-xs font-bold text-riso-ink block">
                     Dates spécifiques des séances encadrées
                   </span>
                   {specificSupervisedDates.length > 0 && (
@@ -610,13 +610,13 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
                       {specificSupervisedDates.map((sp) => (
                         <span
                           key={sp}
-                          className="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-full bg-white border border-[#22408F] text-[#22408F]"
+                          className="inline-flex items-center gap-1 text-[11px] font-mono px-2 py-0.5 rounded-full bg-white border-2 border-riso-ink text-riso-ink"
                         >
                           <span>{formatFrenchDateLocal(sp, false)}</span>
                           <button
                             type="button"
                             onClick={() => handleRemoveSpecificSupervised(sp)}
-                            className="text-[#F0505A] font-bold"
+                            className="text-riso-p4 font-bold"
                           >
                             ×
                           </button>
@@ -629,7 +629,7 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
                       type="date"
                       value={newSpecificDate}
                       onChange={(e) => setNewSpecificDate(e.target.value)}
-                      className="bg-white border-2 border-[#22408F] rounded-lg px-2.5 py-1 text-xs font-mono text-[#22408F]"
+                      className="bg-white border-2 border-riso-ink rounded-[8px] px-2.5 py-1 text-xs font-mono text-riso-ink"
                     />
                     <button
                       type="button"
@@ -651,7 +651,7 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
           {step === 6 && (
             <div className="space-y-5 animate-in fade-in duration-150">
               <div>
-                <h3 className="text-lg font-bold text-[#22408F] font-heading">
+                <h3 className="text-lg font-bold text-riso-ink font-heading">
                   Ce projet est-il individuel ou collectif ?
                 </h3>
               </div>
@@ -665,16 +665,16 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
                       { id: 'mem_1', name: 'Moi-même (Designer)', role: 'Lead Designer', color: '#2F6DBB' },
                     ]);
                   }}
-                  className={`p-4 rounded-xl border-2 text-left cursor-pointer transition-all flex items-center gap-3 ${
+                  className={`p-4 rounded-[16px] border-2 text-left cursor-pointer transition-all flex items-center gap-3 ${
                     mode === 'individuel'
-                      ? 'border-[#22408F] bg-[#EBF1FF] shadow-[0_2px_0_#22408F]'
-                      : 'border-[#22408F]/30 bg-white'
+                      ? 'border-riso-ink bg-riso-p1-light shadow-riso-press'
+                      : 'border-riso-line bg-white'
                   }`}
                 >
-                  <User className="w-5 h-5 text-[#22408F]" />
+                  <User className="w-5 h-5 text-riso-ink" />
                   <div>
-                    <span className="text-xs font-bold text-[#22408F] block">Individuel</span>
-                    <span className="text-[11px] text-[#5A6A94]">En solo</span>
+                    <span className="text-xs font-bold text-riso-ink block">Individuel</span>
+                    <span className="text-[11px] text-riso-ink-secondary">En solo</span>
                   </div>
                 </button>
 
@@ -689,35 +689,35 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
                       ]);
                     }
                   }}
-                  className={`p-4 rounded-xl border-2 text-left cursor-pointer transition-all flex items-center gap-3 ${
+                  className={`p-4 rounded-[16px] border-2 text-left cursor-pointer transition-all flex items-center gap-3 ${
                     mode === 'groupe'
-                      ? 'border-[#22408F] bg-[#EBF1FF] shadow-[0_2px_0_#22408F]'
-                      : 'border-[#22408F]/30 bg-white'
+                      ? 'border-riso-ink bg-riso-p1-light shadow-riso-press'
+                      : 'border-riso-line bg-white'
                   }`}
                 >
-                  <Users className="w-5 h-5 text-[#22408F]" />
+                  <Users className="w-5 h-5 text-riso-ink" />
                   <div>
-                    <span className="text-xs font-bold text-[#22408F] block">En groupe</span>
-                    <span className="text-[11px] text-[#5A6A94]">Équipe de design</span>
+                    <span className="text-xs font-bold text-riso-ink block">En groupe</span>
+                    <span className="text-[11px] text-riso-ink-secondary">Équipe de design</span>
                   </div>
                 </button>
               </div>
 
               {mode === 'groupe' && (
-                <div className="space-y-3 bg-[#FBFAF6] p-4 rounded-xl border-2 border-[#22408F]/25">
-                  <span className="text-xs font-bold text-[#22408F] block">Membres du groupe</span>
+                <div className="space-y-3 bg-riso-paper p-4 rounded-[16px] border-2 border-riso-line">
+                  <span className="text-xs font-bold text-riso-ink block">Membres du groupe</span>
                   <ul className="space-y-1.5">
                     {teamMembers.map((m) => (
                       <li
                         key={m.id}
-                        className="flex items-center justify-between px-3 py-2 bg-white border border-[#22408F]/40 rounded-lg text-xs"
+                        className="flex items-center justify-between px-3 py-2 bg-white border border-riso-line rounded-[8px] text-xs"
                       >
-                        <span className="font-bold text-[#22408F]">{m.name}</span>
+                        <span className="font-bold text-riso-ink">{m.name}</span>
                         {teamMembers.length > 1 && (
                           <button
                             type="button"
                             onClick={() => handleRemoveTeamMember(m.id)}
-                            className="text-[#5A6A94] hover:text-[#F0505A]"
+                            className="text-riso-ink-secondary hover:text-riso-p4"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
@@ -732,7 +732,7 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
                       value={newMemberName}
                       onChange={(e) => setNewMemberName(e.target.value)}
                       placeholder="Prénom ou nom du membre"
-                      className="flex-1 bg-white border-2 border-[#22408F] rounded-lg px-2.5 py-1.5 text-xs text-[#22408F]"
+                      className="flex-1 bg-white border-2 border-riso-ink rounded-[8px] px-2.5 py-1.5 text-xs text-riso-ink"
                     />
                     <button
                       type="button"
@@ -754,17 +754,17 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
           {step === 7 && (
             <div className="space-y-5 animate-in fade-in duration-150">
               <div>
-                <h3 className="text-lg font-bold text-[#22408F] font-heading">
+                <h3 className="text-lg font-bold text-riso-ink font-heading">
                   Quel est ton temps de travail disponible ?
                 </h3>
-                <p className="text-xs text-[#5A6A94] mt-1">
+                <p className="text-xs text-riso-ink-secondary mt-1">
                   Permet de placer automatiquement des sessions de travail réalistes.
                 </p>
               </div>
 
               <div className="space-y-4">
                 <div className="space-y-1.5">
-                  <div className="flex items-center justify-between text-xs font-bold text-[#22408F]">
+                  <div className="flex items-center justify-between text-xs font-bold text-riso-ink">
                     <span>Volume de travail visé :</span>
                     <span className="font-mono text-sm">{hoursPerWeek} heures / semaine</span>
                   </div>
@@ -775,9 +775,9 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
                     step={1}
                     value={hoursPerWeek}
                     onChange={(e) => setHoursPerWeek(Number(e.target.value))}
-                    className="w-full accent-[#2F6DBB]"
+                    className="w-full accent-riso-p1"
                   />
-                  <div className="flex justify-between text-[10px] text-[#5A6A94] font-mono">
+                  <div className="flex justify-between text-[10px] text-riso-ink-secondary font-mono">
                     <span>2h (Léger)</span>
                     <span>12h (Régulier)</span>
                     <span>25h+ (Intensif)</span>
@@ -785,8 +785,8 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
                 </div>
 
                 {/* Jours préférés Lun-Dim */}
-                <div className="space-y-2 pt-2 border-t border-[#22408F]/20">
-                  <span className="text-xs font-bold text-[#22408F] block">
+                <div className="space-y-2 pt-2 border-t border-riso-line">
+                  <span className="text-xs font-bold text-riso-ink block">
                     Jours d'atelier préférés (du lundi au dimanche) :
                   </span>
                   <div className="grid grid-cols-7 gap-1.5">
@@ -797,10 +797,10 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
                           key={dayIdx}
                           type="button"
                           onClick={() => handleTogglePreferredDay(dayIdx)}
-                          className={`py-2 rounded-lg text-xs font-bold border-2 transition-all cursor-pointer ${
+                          className={`py-2 rounded-[8px] text-xs font-bold border-2 transition-all cursor-pointer ${
                             isSelected
-                              ? 'bg-[#2F6DBB] text-white border-[#22408F] shadow-[0_2px_0_#22408F]'
-                              : 'bg-white text-[#5A6A94] border-[#22408F]/30 hover:border-[#22408F]'
+                              ? 'bg-riso-p1 text-white border-riso-ink shadow-riso-press'
+                              : 'bg-white text-riso-ink-secondary border-riso-line hover:border-riso-ink'
                           }`}
                         >
                           {getDayName(dayIdx, true)}
@@ -808,7 +808,7 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
                       );
                     })}
                   </div>
-                  <p className="text-[11px] text-[#5A6A94]">
+                  <p className="text-[11px] text-riso-ink-secondary">
                     Les sessions autonomes seront réparties en priorité sur ces jours.
                   </p>
                 </div>
@@ -822,23 +822,23 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
           {step === 8 && (
             <div className="space-y-6 animate-in fade-in duration-150">
               <div>
-                <h3 className="text-lg font-bold text-[#22408F] font-heading flex items-center gap-2">
-                  <Sparkles className="w-5 h-5 text-[#2F6DBB]" />
+                <h3 className="text-lg font-bold text-riso-ink font-heading flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-riso-p1" />
                   Aperçu du plan pour « {name || 'Mon projet'} »
                 </h3>
-                <p className="text-xs text-[#5A6A94] mt-1">
+                <p className="text-xs text-riso-ink-secondary mt-1">
                   Vérifie la frise des phases, les dates et le volume de sessions avant de valider.
                 </p>
               </div>
 
               {/* Frise des phases */}
-              <div className="space-y-3 bg-[#FBFAF6] p-4 rounded-xl border-2 border-[#22408F]">
-                <div className="flex items-center justify-between text-xs font-bold text-[#22408F]">
+              <div className="space-y-3 bg-riso-paper p-4 rounded-[16px] border-2 border-riso-ink">
+                <div className="flex items-center justify-between text-xs font-bold text-riso-ink">
                   <span>Frise des 3 phases (Exploration, Idéation, Finalisation)</span>
                 </div>
 
                 {/* Barre multi-segments */}
-                <div className="w-full h-8 rounded-lg border-2 border-[#22408F] overflow-hidden flex shadow-2xs">
+                <div className="w-full h-8 rounded-[8px] border-2 border-riso-ink overflow-hidden flex shadow-2xs">
                   {calculatedPhases.map((ph) => {
                     const color = getPhaseColor(ph, calculatedPhases);
                     return (
@@ -849,7 +849,7 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
                           backgroundColor: color.hex,
                         }}
                         className={`h-full flex items-center justify-center text-[11px] font-bold truncate px-2 transition-all ${
-                          color.key === 'yellow' ? 'text-[#22408F]' : 'text-white'
+                          color.key === 'yellow' ? 'text-riso-ink' : 'text-white'
                         }`}
                         title={`${ph.nom || ph.shortName || ph.name} (${formatFrenchDateLocal(ph.calculatedStartDate || '', false)} au ${formatFrenchDateLocal(ph.calculatedEndDate || '', false)})`}
                       >
@@ -867,27 +867,27 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
                     return (
                       <div
                         key={ph.id}
-                        className="p-3 bg-white rounded-lg border-2 border-[#22408F]/30 text-xs flex flex-col justify-between space-y-2 shadow-2xs"
+                        className="p-3 bg-white rounded-[8px] border-2 border-riso-line text-xs flex flex-col justify-between space-y-2 shadow-2xs"
                       >
                         <div>
                           <div className="flex items-center gap-2">
                             <span
-                              className="w-3 h-3 rounded-full shrink-0 border border-[#22408F]/40"
+                              className="w-3 h-3 rounded-full shrink-0 border border-riso-line"
                               style={{ backgroundColor: color.hex }}
                             />
-                            <span className="font-bold text-sm text-[#22408F] truncate">
+                            <span className="font-bold text-sm text-riso-ink truncate">
                               {ph.nom || ph.name || ph.shortName}
                             </span>
                           </div>
-                          <span className="text-[11px] text-[#5A6A94] block mt-1.5 font-medium">
+                          <span className="text-[11px] text-riso-ink-secondary block mt-1.5 font-medium">
                             Du {formatFrenchDateLocal(ph.calculatedStartDate || '', false)} au{' '}
                             {formatFrenchDateLocal(ph.calculatedEndDate || '', false)}
                           </span>
                         </div>
 
-                        <div className="pt-2 border-t border-[#22408F]/15 flex items-center justify-between text-xs">
-                          <span className="text-[#5A6A94] font-medium">Durée</span>
-                          <span className="font-bold text-[#22408F] font-mono">
+                        <div className="pt-2 border-t border-riso-line flex items-center justify-between text-xs">
+                          <span className="text-riso-ink-secondary font-medium">Durée</span>
+                          <span className="font-bold text-riso-ink font-mono">
                             {days} jours
                           </span>
                         </div>
@@ -899,9 +899,9 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
 
               {/* Résumé des sessions et objectifs */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                <div className="p-3.5 bg-white border-2 border-[#22408F] rounded-xl space-y-1">
-                  <span className="font-bold text-[#22408F] block">Rythme</span>
-                  <p className="text-[#5A6A94]">
+                <div className="p-3.5 bg-white border-2 border-riso-ink rounded-[16px] space-y-1">
+                  <span className="font-bold text-riso-ink block">Rythme</span>
+                  <p className="text-riso-ink-secondary">
                     • Séances encadrées :{' '}
                     <strong>
                       {supervisedMode === 'recurrent'
@@ -909,18 +909,18 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
                         : `${specificSupervisedDates.length} séances`}
                     </strong>
                   </p>
-                  <p className="text-[#5A6A94]">
+                  <p className="text-riso-ink-secondary">
                     • Disponibilité : <strong>{hoursPerWeek} h / semaine</strong> sur{' '}
                     <strong>{preferredDays.map((d) => getDayName(d, true)).join(', ')}</strong>
                   </p>
                 </div>
 
-                <div className="p-3.5 bg-white border-2 border-[#22408F] rounded-xl space-y-1">
-                  <span className="font-bold text-[#22408F] block">Objectifs</span>
-                  <p className="text-[#5A6A94]">
+                <div className="p-3.5 bg-white border-2 border-riso-ink rounded-[16px] space-y-1">
+                  <span className="font-bold text-riso-ink block">Objectifs</span>
+                  <p className="text-riso-ink-secondary">
                     • Rendus intermédiaires : <strong>{intermediateDeadlines.length} planifié(s)</strong>
                   </p>
-                  <p className="text-[#5A6A94]">
+                  <p className="text-riso-ink-secondary">
                     • Rendu final : <strong>{formatFrenchDateLocal(deadlineDate)}</strong>
                   </p>
                 </div>
@@ -930,7 +930,7 @@ export const ProjectCreationWizardModal: React.FC<ProjectCreationWizardModalProp
         </div>
 
         {/* Footer avec boutons Retour / Continuer */}
-        <footer className="px-6 py-4 border-t-2 border-[#22408F] bg-[#FBFAF6] flex items-center justify-between shrink-0">
+        <footer className="px-6 py-4 border-t-2 border-riso-ink bg-riso-paper flex items-center justify-between shrink-0">
           {step > 1 ? (
             <button
               type="button"

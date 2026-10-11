@@ -62,18 +62,18 @@ export const RoadmapSection: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Visual Timeline Bar */}
-      <div className="bg-white border-2 border-[#22408F] rounded-xl p-5 shadow-[0_4px_0_#22408F] space-y-3">
+      <div className="bg-white border-2 border-riso-ink rounded-[16px] p-5 shadow-riso space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-          <span className="font-bold text-[#22408F] uppercase tracking-wider font-heading">
+          <span className="font-bold text-riso-ink uppercase tracking-wider font-heading">
             Frise temporelle des phases
           </span>
-          <span className="text-[#22408F] font-mono text-[11px] font-medium">
+          <span className="text-riso-ink font-mono text-[11px] font-medium">
             {formatFrenchDate(settings.startDate)} → {formatFrenchDate(settings.deadlineDate)}
           </span>
         </div>
 
         {/* Proportional Segment Bar (Couleurs configurées des phases, 100% largeur) */}
-        <div className="w-full flex h-10 rounded-lg overflow-hidden border-2 border-[#22408F] font-mono text-[11px]">
+        <div className="w-full flex h-10 rounded-[8px] overflow-hidden border-2 border-riso-ink font-mono text-[11px]">
           {(() => {
             const totalDurationDays = phases.reduce((acc, p) => acc + (p.durationDays || 0), 0);
             const allPhasesHaveDates =
@@ -97,8 +97,8 @@ export const RoadmapSection: React.FC = () => {
                     backgroundColor: pColor.hex,
                     minWidth: 0,
                   }}
-                  className={`flex flex-col items-center justify-center cursor-pointer transition-all border-r-2 border-[#22408F] last:border-r-0 truncate px-1.5 hover:brightness-95 ${
-                    isYellow ? 'text-[#22408F]' : 'text-white'
+                  className={`flex flex-col items-center justify-center cursor-pointer transition-all border-r-2 border-riso-ink last:border-r-0 truncate px-1.5 hover:brightness-95 ${
+                    isYellow ? 'text-riso-ink' : 'text-white'
                   }`}
                   title={`${idx + 1}. ${phase.nom || phase.name} (${phase.durationDays || '—'}j)`}
                 >
@@ -117,7 +117,7 @@ export const RoadmapSection: React.FC = () => {
 
       {/* Header with Add Phase Button */}
       <div className="flex items-center justify-between">
-        <h2 className="font-bold text-sm text-[#22408F] uppercase tracking-wider font-heading">
+        <h2 className="font-bold text-sm text-riso-ink uppercase tracking-wider font-heading">
           Configuration des phases ({phases.length})
         </h2>
         <button
@@ -145,20 +145,20 @@ export const RoadmapSection: React.FC = () => {
           return (
             <div
               key={phase.id}
-              className={`bg-white border-2 rounded-xl overflow-hidden transition-all ${
+              className={`bg-white border-2 rounded-[16px] overflow-hidden transition-all ${
                 hasInvalidFixedDate
-                  ? 'border-dashed !border-[#F0505A]'
-                  : 'border-[#22408F]'
+                  ? 'border-dashed !border-riso-p4'
+                  : 'border-riso-ink'
               } ${
-                isExpanded ? 'shadow-[0_4px_0_#22408F]' : 'hover:-translate-y-0.5'
+                isExpanded ? 'shadow-riso' : 'hover:-translate-y-0.5'
               }`}
             >
               {/* Header row */}
               <div className="p-4 flex flex-wrap items-center justify-between gap-3 bg-white">
                 <div className="flex items-center gap-3 min-w-0 flex-1">
                   <span
-                    className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs shrink-0 border-2 border-[#22408F] shadow-[0_2px_0_#22408F] ${
-                      isYellow ? 'text-[#22408F]' : 'text-white'
+                    className={`w-8 h-8 rounded-[8px] flex items-center justify-center font-bold text-xs shrink-0 border-2 border-riso-ink shadow-riso-press ${
+                      isYellow ? 'text-riso-ink' : 'text-white'
                     }`}
                     style={{ backgroundColor: pColor.hex }}
                   >
@@ -172,13 +172,13 @@ export const RoadmapSection: React.FC = () => {
                       value={phase.nom || phase.name || ''}
                       onChange={(e) => updatePhase(phase.id, { nom: e.target.value })}
                       placeholder="Nom de la phase"
-                      className="w-full font-bold text-sm text-[#22408F] font-heading bg-[#FBFAF6] border-2 border-[#22408F]/20 hover:border-[#22408F] focus:border-[#22408F] rounded-lg px-2.5 py-1 focus:ring-0 transition-colors"
+                      className="w-full font-bold text-sm text-riso-ink font-heading bg-riso-paper border-2 border-riso-line hover:border-riso-ink focus:border-riso-ink rounded-[8px] px-2.5 py-1 focus:ring-0 transition-colors"
                       title="Renommer la phase"
                     />
                   </div>
 
                   {/* Sélecteur des 6 encres Riso */}
-                  <div className="flex items-center gap-1.5 p-1 bg-[#FBFAF6] border-2 border-[#22408F]/20 rounded-lg">
+                  <div className="flex items-center gap-1.5 p-1 bg-riso-paper border-2 border-riso-line rounded-[8px]">
                     {paletteEntries.map((entry) => {
                       const isSelected = pColor.key === entry.key;
                       return (
@@ -188,16 +188,16 @@ export const RoadmapSection: React.FC = () => {
                           onClick={() => updatePhase(phase.id, { couleur: entry.key })}
                           style={{ backgroundColor: entry.hex }}
                           title={`Couleur : ${entry.label}`}
-                          className={`w-5 h-5 rounded-full border-2 border-[#22408F] transition-transform flex items-center justify-center cursor-pointer ${
+                          className={`w-5 h-5 rounded-full border-2 border-riso-ink transition-transform flex items-center justify-center cursor-pointer ${
                             isSelected
-                              ? 'scale-110 shadow-[0_2px_0_#22408F] ring-2 ring-[#22408F]/30'
+                              ? 'scale-110 shadow-riso-press ring-2 ring-riso-ink/30'
                               : 'opacity-85 hover:opacity-100 hover:scale-105'
                           }`}
                         >
                           {isSelected && (
                             <Check
                               className={`w-3 h-3 stroke-[3] ${
-                                entry.key === 'yellow' ? 'text-[#22408F]' : 'text-white'
+                                entry.key === 'yellow' ? 'text-riso-ink' : 'text-white'
                               }`}
                             />
                           )}
@@ -209,21 +209,21 @@ export const RoadmapSection: React.FC = () => {
 
                 {/* Right controls: Dates, Delete, Expand */}
                 <div className="flex items-center gap-2 shrink-0 text-xs">
-                  <div className="hidden sm:flex items-center gap-2 bg-[#FBFAF6] border-2 border-[#22408F]/30 px-2.5 py-1 rounded-lg font-mono text-[11px] text-[#22408F]">
+                  <div className="hidden sm:flex items-center gap-2 bg-riso-paper border-2 border-riso-line px-2.5 py-1 rounded-[8px] font-mono text-[11px] text-riso-ink">
                     <span>
                       {formatFrenchDate(phase.debut || phase.calculatedStartDate || '', false)} →{' '}
                       {formatFrenchDate(phase.fin || phase.calculatedEndDate || '', false)}
                     </span>
                     {phase.durationDays && (
                       <>
-                        <span className="text-[#5A6A94]">·</span>
-                        <span className="font-bold text-[#22408F]">{phase.durationDays} j</span>
+                        <span className="text-riso-ink-secondary">·</span>
+                        <span className="font-bold text-riso-ink">{phase.durationDays} j</span>
                       </>
                     )}
                   </div>
 
                   {hasInvalidFixedDate && (
-                    <span className="px-2.5 py-1 text-[11px] font-bold text-[#F0505A] bg-[#FDEEEF] border border-[#F0505A] rounded-lg">
+                    <span className="px-2.5 py-1 text-[11px] font-bold text-riso-p4 bg-riso-p4-light border border-riso-p4 rounded-[8px]">
                       dates à vérifier
                     </span>
                   )}
@@ -232,7 +232,7 @@ export const RoadmapSection: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => handleDelete(phase.id)}
-                    className="p-1.5 text-[#5A6A94] hover:text-[#F0505A] hover:bg-[#FDEEEF] rounded-lg border border-transparent hover:border-[#F0505A]/40 transition-colors cursor-pointer"
+                    className="p-1.5 text-riso-ink-secondary hover:text-riso-p4 hover:bg-riso-p4-light rounded-[8px] border border-transparent hover:border-riso-p4/40 transition-colors cursor-pointer"
                     title="Supprimer cette phase"
                     aria-label={`Supprimer la phase ${phase.nom || phase.name}`}
                   >
@@ -243,13 +243,13 @@ export const RoadmapSection: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setExpandedPhaseId(isExpanded ? '' : phase.id)}
-                    className="p-1 text-[#22408F] hover:bg-[#EBF1FF] rounded-lg transition-colors cursor-pointer"
+                    className="p-1 text-riso-ink hover:bg-riso-p1-light rounded-[8px] transition-colors cursor-pointer"
                     title={isExpanded ? 'Replier' : 'Déplier'}
                   >
                     {isExpanded ? (
-                      <ChevronUp className="w-5 h-5 text-[#22408F]" />
+                      <ChevronUp className="w-5 h-5 text-riso-ink" />
                     ) : (
-                      <ChevronDown className="w-5 h-5 text-[#22408F]" />
+                      <ChevronDown className="w-5 h-5 text-riso-ink" />
                     )}
                   </button>
                 </div>
@@ -257,18 +257,18 @@ export const RoadmapSection: React.FC = () => {
 
               {/* Message d'erreur court en cas de refus de suppression */}
               {hasError && (
-                <div className="px-4 py-2.5 bg-[#FDEEEF] border-t-2 border-b-2 border-[#F0505A] text-xs font-bold text-[#F0505A] flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 shrink-0 text-[#F0505A]" />
+                <div className="px-4 py-2.5 bg-riso-p4-light border-t-2 border-b-2 border-riso-p4 text-xs font-bold text-riso-p4 flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 shrink-0 text-riso-p4" />
                   <span>{deleteError.message}</span>
                 </div>
               )}
 
               {/* Collapsible Body */}
               {isExpanded && (
-                <div className="p-5 border-t-2 border-[#22408F] bg-[#FBFAF6] space-y-4 text-xs">
+                <div className="p-5 border-t-2 border-riso-ink bg-riso-paper space-y-4 text-xs">
                   {/* Objectif de phase */}
                   <div>
-                    <label className="block font-bold text-[#22408F] uppercase tracking-wider text-[11px] font-heading mb-1">
+                    <label className="block font-bold text-riso-ink uppercase tracking-wider text-[11px] font-heading mb-1">
                       Objectif
                     </label>
                     <input
@@ -276,20 +276,20 @@ export const RoadmapSection: React.FC = () => {
                       value={phase.objective || ''}
                       onChange={(e) => updatePhase(phase.id, { objective: e.target.value })}
                       placeholder="Objectif principal de la phase"
-                      className="w-full px-3 py-1.5 bg-white border-2 border-[#22408F]/30 rounded-lg text-xs text-[#22408F] focus:border-[#22408F]"
+                      className="w-full px-3 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs text-riso-ink focus:border-riso-ink"
                     />
                   </div>
 
                   {/* Fixed end date override control */}
-                  <div className="flex flex-wrap items-center justify-between gap-2 p-3 bg-white border-2 border-[#22408F] rounded-lg">
-                    <div className="flex items-center gap-2 text-[#22408F]">
+                  <div className="flex flex-wrap items-center justify-between gap-2 p-3 bg-white border-2 border-riso-ink rounded-[8px]">
+                    <div className="flex items-center gap-2 text-riso-ink">
                       <button
                         type="button"
                         onClick={() => handleFixedDateToggle(phase)}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold border-2 transition-all cursor-pointer ${
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-[8px] text-xs font-bold border-2 transition-all cursor-pointer ${
                           phase.fixedEndDate
-                            ? 'bg-[#2F6DBB] text-white border-[#22408F] shadow-[0_2px_0_#22408F]'
-                            : 'bg-white text-[#22408F] border-[#22408F] hover:bg-[#EBF1FF]'
+                            ? 'bg-riso-p1 text-white border-riso-ink shadow-riso-press'
+                            : 'bg-white text-riso-ink border-riso-ink hover:bg-riso-p1-light'
                         }`}
                       >
                         {phase.fixedEndDate ? (
@@ -303,7 +303,7 @@ export const RoadmapSection: React.FC = () => {
 
                     {phase.fixedEndDate && (
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-[#22408F]">Fin obligatoire :</span>
+                        <span className="font-bold text-riso-ink">Fin obligatoire :</span>
                         <input
                           type="date"
                           value={phase.fixedEndDate}
@@ -315,8 +315,8 @@ export const RoadmapSection: React.FC = () => {
                             }
                             updatePhaseFixedEndDate(phase.id, val);
                           }}
-                          className={`px-2.5 py-1 bg-white border-2 rounded-lg font-mono text-xs text-[#22408F] ${
-                            hasInvalidFixedDate ? 'border-dashed border-[#F0505A]' : 'border-[#22408F]'
+                          className={`px-2.5 py-1 bg-white border-2 rounded-[8px] font-mono text-xs text-riso-ink ${
+                            hasInvalidFixedDate ? 'border-dashed border-riso-p4' : 'border-riso-ink'
                           }`}
                         />
                       </div>
@@ -325,48 +325,48 @@ export const RoadmapSection: React.FC = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {/* Questions clés */}
-                    <div className="riso-info-box p-3.5 rounded-lg space-y-2">
-                      <span className="font-bold text-[#22408F] block uppercase tracking-wider text-[11px] font-heading">
+                    <div className="riso-info-box p-3.5 rounded-[8px] space-y-2">
+                      <span className="font-bold text-riso-ink block uppercase tracking-wider text-[11px] font-heading">
                         Questions directrices
                       </span>
                       {phase.keyQuestions && phase.keyQuestions.length > 0 ? (
-                        <ul className="space-y-1.5 text-[#5A6A94] list-disc list-inside leading-relaxed">
+                        <ul className="space-y-1.5 text-riso-ink-secondary list-disc list-inside leading-relaxed">
                           {phase.keyQuestions.map((q, qIdx) => (
                             <li key={qIdx}>{q}</li>
                           ))}
                         </ul>
                       ) : (
-                        <p className="text-[#5A6A94] italic text-[11px]">Aucune question spécifiée</p>
+                        <p className="text-riso-ink-secondary italic text-[11px]">Aucune question spécifiée</p>
                       )}
                     </div>
 
                     {/* Méthodes recommandées */}
-                    <div className="riso-info-box p-3.5 rounded-lg space-y-2">
-                      <span className="font-bold text-[#22408F] block uppercase tracking-wider text-[11px] font-heading">
+                    <div className="riso-info-box p-3.5 rounded-[8px] space-y-2">
+                      <span className="font-bold text-riso-ink block uppercase tracking-wider text-[11px] font-heading">
                         Méthodes recommandées
                       </span>
                       {phase.methods && phase.methods.length > 0 ? (
-                        <ul className="space-y-1.5 text-[#5A6A94] list-disc list-inside leading-relaxed">
+                        <ul className="space-y-1.5 text-riso-ink-secondary list-disc list-inside leading-relaxed">
                           {phase.methods.map((m, mIdx) => (
                             <li key={mIdx}>{m}</li>
                           ))}
                         </ul>
                       ) : (
-                        <p className="text-[#5A6A94] italic text-[11px]">Aucune méthode spécifiée</p>
+                        <p className="text-riso-ink-secondary italic text-[11px]">Aucune méthode spécifiée</p>
                       )}
                     </div>
 
                     {/* Livrable de phase attendu */}
-                    <div className="riso-info-box p-3.5 rounded-lg space-y-2">
-                      <span className="font-bold text-[#22408F] block uppercase tracking-wider text-[11px] font-heading">
+                    <div className="riso-info-box p-3.5 rounded-[8px] space-y-2">
+                      <span className="font-bold text-riso-ink block uppercase tracking-wider text-[11px] font-heading">
                         Livrable clé de phase
                       </span>
                       {phase.deliverableSummary || phase.livrableAttendu ? (
-                        <p className="text-[#22408F] font-medium leading-relaxed">
+                        <p className="text-riso-ink font-medium leading-relaxed">
                           {phase.deliverableSummary || phase.livrableAttendu}
                         </p>
                       ) : (
-                        <p className="text-[#5A6A94] italic font-normal leading-relaxed">
+                        <p className="text-riso-ink-secondary italic font-normal leading-relaxed">
                           Livrable attendu
                         </p>
                       )}

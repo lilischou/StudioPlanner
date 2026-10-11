@@ -27,13 +27,13 @@ export const Button: React.FC<ButtonProps> = ({
   // Transition : 150ms ease-out
   const variantClasses = {
     primary:
-      'bg-[#2F6DBB] text-white border-2 border-[#22408F] shadow-[0_4px_0_#F0505A] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#F0505A] active:translate-y-[2px] active:shadow-[0_2px_0_#F0505A]',
+      'bg-riso-p1 text-white border-2 border-riso-ink shadow-riso-primary hover:-translate-y-0.5 hover:shadow-riso-primary active:translate-y-[2px] active:shadow-riso-primary',
     secondary:
-      'bg-white text-[#22408F] border-2 border-[#22408F] shadow-[0_4px_0_#22408F] hover:bg-[#D3E0F2]/30 hover:-translate-y-0.5 hover:shadow-[0_6px_0_#22408F] active:translate-y-[2px] active:shadow-[0_2px_0_#22408F]',
+      'bg-white text-riso-ink border-2 border-riso-ink shadow-riso hover:bg-riso-p1-tint/30 hover:-translate-y-0.5 hover:shadow-riso active:translate-y-[2px] active:shadow-riso-press',
     danger:
-      'bg-white text-[#C4111C] border-2 border-[#F0505A] shadow-[0_4px_0_#F0505A] hover:bg-[#FAD7DA]/30 hover:-translate-y-0.5 hover:shadow-[0_6px_0_#F0505A] active:translate-y-[2px] active:shadow-[0_2px_0_#F0505A]',
+      'bg-white text-riso-p4-text border-2 border-riso-p4 shadow-riso-primary hover:bg-riso-p4-tint/30 hover:-translate-y-0.5 hover:shadow-riso-primary active:translate-y-[2px] active:shadow-riso-primary',
     ghost:
-      'bg-transparent text-[#22408F] border-2 border-transparent hover:bg-[#D3E0F2]/40 active:translate-y-[1px]',
+      'bg-transparent text-riso-ink border-2 border-transparent hover:bg-riso-p1-tint/40 active:translate-y-[1px]',
   }[variant];
 
   const disabledClasses = disabled
@@ -43,7 +43,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <button
       disabled={disabled}
-      className={`inline-flex items-center justify-center gap-2 rounded-[999px] font-bold font-heading lowercase tracking-tight transition-all duration-150 ease-out select-none focus-visible:outline-3 focus-visible:outline-[#F2D21B] focus-visible:outline-offset-2 ${sizeClasses} ${variantClasses} ${disabledClasses} ${
+      className={`inline-flex items-center justify-center gap-2 rounded-[999px] font-bold font-heading lowercase tracking-tight transition-all duration-150 ease-out select-none focus-visible:outline-3 focus-visible:outline-riso-p3 focus-visible:outline-offset-2 ${sizeClasses} ${variantClasses} ${disabledClasses} ${
         fullWidth ? 'w-full' : ''
       } ${className}`}
       {...props}

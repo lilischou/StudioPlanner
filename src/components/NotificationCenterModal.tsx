@@ -34,19 +34,19 @@ export const NotificationCenterModal: React.FC<NotificationCenterModalProps> = (
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#22408F]/40 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="bg-white rounded-[8px] max-w-xl w-full border-2 border-[#22408F] shadow-[0_4px_0_#22408F] max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150 text-[#22408F]">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-riso-ink/40 backdrop-blur-xs flex items-center justify-center p-4">
+      <div className="bg-white rounded-[8px] max-w-xl w-full border-2 border-riso-ink shadow-riso max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150 text-riso-ink">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b-2 border-[#22408F] bg-[#FBFAF6] shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 border-b-2 border-riso-ink bg-riso-paper shrink-0">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 bg-[#EBF1FF] text-[#22408F] rounded-[8px] border-2 border-[#22408F]">
-              <Bell className="w-4 h-4 text-[#22408F]" />
+            <div className="p-2 bg-riso-p1-light text-riso-ink rounded-[8px] border-2 border-riso-ink">
+              <Bell className="w-4 h-4 text-riso-ink" />
             </div>
             <div>
-              <h2 className="text-sm font-bold text-[#22408F] flex items-center gap-2 font-heading">
+              <h2 className="text-sm font-bold text-riso-ink flex items-center gap-2 font-heading">
                 Rappels
                 {reminderCount > 0 && (
-                  <span className="text-xs px-2 py-0.5 rounded-[999px] bg-[#F0505A] text-white border-2 border-[#22408F] font-bold tabular-nums">
+                  <span className="text-xs px-2 py-0.5 rounded-[999px] bg-riso-p4 text-white border-2 border-riso-ink font-bold tabular-nums">
                     {reminderCount}
                   </span>
                 )}
@@ -69,7 +69,7 @@ export const NotificationCenterModal: React.FC<NotificationCenterModalProps> = (
             <button
               type="button"
               onClick={onClose}
-              className="p-1.5 text-[#5A6A94] hover:text-[#22408F] rounded-[8px] hover:bg-[#EBF1FF] transition-colors border border-transparent hover:border-[#22408F] cursor-pointer"
+              className="p-1.5 text-riso-ink-secondary hover:text-riso-ink rounded-[8px] hover:bg-riso-p1-light transition-colors border border-transparent hover:border-riso-ink cursor-pointer"
               aria-label="Fermer"
               title="Fermer la fenêtre"
             >
@@ -79,62 +79,62 @@ export const NotificationCenterModal: React.FC<NotificationCenterModalProps> = (
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto text-[13px] bg-[#FBFAF6]">
+        <div className="flex-1 overflow-y-auto text-[13px] bg-riso-paper">
           {reminderCount === 0 ? (
             <div className="p-12 text-center space-y-2">
-              <CheckCircle2 className="w-10 h-10 mx-auto text-[#2E8B4A]" />
-              <p className="font-bold text-base text-[#22408F] font-heading">
+              <CheckCircle2 className="w-10 h-10 mx-auto text-riso-p2" />
+              <p className="font-bold text-base text-riso-ink font-heading">
                 Rien d'urgent.
               </p>
-              <p className="text-xs text-[#5A6A94]">
+              <p className="text-xs text-riso-ink-secondary">
                 Aucune tâche en retard, aucune échéance dans les 48 h et aucun rendu dans les 7 prochains jours.
               </p>
             </div>
           ) : (
-            <div className="divide-y-2 divide-[#22408F]/15 bg-white">
+            <div className="divide-y-2 divide-riso-ink/15 bg-white">
               {reminders.map((rem) => (
                 <div
                   key={rem.id}
                   onClick={() => handleReminderClick(rem)}
-                  className="p-4 hover:bg-[#EBF1FF]/60 transition-colors cursor-pointer flex items-start gap-3.5"
+                  className="p-4 hover:bg-riso-p1-light/60 transition-colors cursor-pointer flex items-start gap-3.5"
                 >
                   <div className="shrink-0 mt-0.5">
                     {rem.type === 'task_overdue' && (
-                      <div className="w-8 h-8 rounded-[8px] bg-[#FDEEEF] text-[#F0505A] border-2 border-[#22408F] flex items-center justify-center">
-                        <Clock className="w-4 h-4 text-[#F0505A]" />
+                      <div className="w-8 h-8 rounded-[8px] bg-riso-p4-light text-riso-p4 border-2 border-riso-ink flex items-center justify-center">
+                        <Clock className="w-4 h-4 text-riso-p4" />
                       </div>
                     )}
                     {rem.type === 'deadline_48h' && (
-                      <div className="w-8 h-8 rounded-[8px] bg-[#FEFCE8] text-[#22408F] border-2 border-[#22408F] flex items-center justify-center">
-                        <AlertTriangle className="w-4 h-4 text-[#22408F]" />
+                      <div className="w-8 h-8 rounded-[8px] bg-riso-p3-light text-riso-ink border-2 border-riso-ink flex items-center justify-center">
+                        <AlertTriangle className="w-4 h-4 text-riso-ink" />
                       </div>
                     )}
                     {rem.type === 'rendu_7d' && (
-                      <div className="w-8 h-8 rounded-[8px] bg-[#EBF1FF] text-[#2F6DBB] border-2 border-[#22408F] flex items-center justify-center">
-                        <Calendar className="w-4 h-4 text-[#2F6DBB]" />
+                      <div className="w-8 h-8 rounded-[8px] bg-riso-p1-light text-riso-p1 border-2 border-riso-ink flex items-center justify-center">
+                        <Calendar className="w-4 h-4 text-riso-p1" />
                       </div>
                     )}
                   </div>
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-2">
-                      <h4 className="text-xs font-bold text-[#22408F] truncate">
+                      <h4 className="text-xs font-bold text-riso-ink truncate">
                         {rem.title}
                       </h4>
                       <span
                         className={`text-[10px] font-bold px-2 py-0.5 rounded-[999px] border shrink-0 ${
                           rem.badgeStyle === 'error'
-                            ? 'bg-[#FDEEEF] text-[#F0505A] border-[#F0505A]'
+                            ? 'bg-riso-p4-light text-riso-p4 border-riso-p4'
                             : rem.badgeStyle === 'warning'
-                            ? 'bg-[#FEFCE8] text-[#22408F] border-[#22408F]'
-                            : 'bg-[#EBF1FF] text-[#2F6DBB] border-[#2F6DBB]'
+                            ? 'bg-riso-p3-light text-riso-ink border-riso-ink'
+                            : 'bg-riso-p1-light text-riso-p1 border-riso-p1'
                         }`}
                       >
                         {rem.badgeLabel}
                       </span>
                     </div>
 
-                    <p className="text-xs text-[#5A6A94] mt-1 leading-snug">
+                    <p className="text-xs text-riso-ink-secondary mt-1 leading-snug">
                       {rem.message}
                     </p>
 
@@ -158,8 +158,8 @@ export const NotificationCenterModal: React.FC<NotificationCenterModalProps> = (
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-3.5 bg-[#FBFAF6] border-t-2 border-[#22408F] flex justify-between items-center text-xs shrink-0">
-          <span className="text-[#5A6A94] tabular-nums font-bold">
+        <div className="px-6 py-3.5 bg-riso-paper border-t-2 border-riso-ink flex justify-between items-center text-xs shrink-0">
+          <span className="text-riso-ink-secondary tabular-nums font-bold">
             {reminderCount > 0
               ? `${reminderCount} rappel${reminderCount > 1 ? 's' : ''}`
               : ''}

@@ -79,7 +79,7 @@ export const DocList: React.FC<DocListProps> = ({
   const [previewId, setPreviewId] = useState<string | null>(null);
 
   if (docs.length === 0) {
-    return <p className="text-xs text-[#5A6A94] italic">{emptyText}</p>;
+    return <p className="text-xs text-riso-ink-secondary italic">{emptyText}</p>;
   }
 
   const open = (d: TraceDoc) => {
@@ -97,9 +97,9 @@ export const DocList: React.FC<DocListProps> = ({
         const preview = d.kind === 'link' && d.url ? getPreviewUrl(d.url, d.docType) : null;
         const isPreviewing = previewId === d.id && !!preview;
         return (
-          <li key={d.id} className="bg-white border border-[#DCE2EF] rounded-lg">
+          <li key={d.id} className="bg-white border border-riso-line rounded-[8px]">
             <div className="flex items-center gap-2 px-2.5 py-2">
-              <span className="w-7 h-7 rounded-md bg-[#EBF1FF] text-[#22408F] flex items-center justify-center shrink-0">
+              <span className="w-7 h-7 rounded-[8px] bg-riso-p1-light text-riso-ink flex items-center justify-center shrink-0">
                 <DocTypeIcon type={d.docType} />
               </span>
 
@@ -107,7 +107,7 @@ export const DocList: React.FC<DocListProps> = ({
                 <input
                   value={d.name}
                   onChange={(e) => onRename?.(d.id, e.target.value)}
-                  className="flex-1 min-w-0 bg-white border border-[#22408F]/40 rounded-md px-2 py-1 text-xs text-[#22408F] focus:outline-hidden focus:border-[#22408F]"
+                  className="flex-1 min-w-0 bg-white border border-riso-line rounded-[8px] px-2 py-1 text-xs text-riso-ink focus:outline-hidden focus:border-riso-ink"
                   aria-label="Nom du document"
                 />
               ) : (
@@ -117,10 +117,10 @@ export const DocList: React.FC<DocListProps> = ({
                   className="flex-1 min-w-0 text-left cursor-pointer bg-transparent border-none p-0"
                   title={d.kind === 'link' ? d.url : d.name}
                 >
-                  <span className="block text-xs font-bold text-[#22408F] truncate underline underline-offset-2">
+                  <span className="block text-xs font-bold text-riso-ink truncate underline underline-offset-2">
                     {d.name || DOC_TYPE_LABELS[d.docType]}
                   </span>
-                  <span className="block text-[10px] text-[#5A6A94] truncate">
+                  <span className="block text-[10px] text-riso-ink-secondary truncate">
                     {DOC_TYPE_LABELS[d.docType]}
                     {d.kind === 'link' && d.url ? ` · ${domainOf(d.url)}` : ' · fichier'}
                   </span>
@@ -131,7 +131,7 @@ export const DocList: React.FC<DocListProps> = ({
                 <button
                   type="button"
                   onClick={() => open(d)}
-                  className="text-[11px] font-semibold text-[#22408F] underline underline-offset-2 shrink-0"
+                  className="text-[11px] font-semibold text-riso-ink underline underline-offset-2 shrink-0"
                 >
                   Ouvrir
                 </button>
@@ -141,7 +141,7 @@ export const DocList: React.FC<DocListProps> = ({
                 <button
                   type="button"
                   onClick={() => setPreviewId(isPreviewing ? null : d.id)}
-                  className="text-[11px] font-semibold text-[#22408F] underline underline-offset-2 shrink-0 inline-flex items-center gap-1"
+                  className="text-[11px] font-semibold text-riso-ink underline underline-offset-2 shrink-0 inline-flex items-center gap-1"
                   aria-expanded={isPreviewing}
                 >
                   <Eye className="w-3 h-3" />
@@ -153,7 +153,7 @@ export const DocList: React.FC<DocListProps> = ({
                 <button
                   type="button"
                   onClick={() => onRemove?.(d.id)}
-                  className="w-6 h-6 rounded-full flex items-center justify-center text-[#5A6A94] hover:text-[#F0505A] shrink-0"
+                  className="w-6 h-6 rounded-full flex items-center justify-center text-riso-ink-secondary hover:text-riso-p4 shrink-0"
                   title="Retirer ce document"
                   aria-label="Retirer ce document"
                 >
@@ -164,11 +164,11 @@ export const DocList: React.FC<DocListProps> = ({
 
             {/* Aperçu : l'iframe n'existe dans le DOM (et ne charge rien) qu'après le clic */}
             {isPreviewing && preview && (
-              <div className="border-t border-[#DCE2EF] p-2">
+              <div className="border-t border-riso-line p-2">
                 <iframe
                   src={preview}
                   title={`Aperçu : ${d.name}`}
-                  className="w-full h-64 rounded-md border border-[#DCE2EF] bg-white"
+                  className="w-full h-64 rounded-[8px] border border-riso-line bg-white"
                   sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
                   allowFullScreen
                 />
@@ -269,13 +269,13 @@ export const DocAdder: React.FC<DocAdderProps> = ({ onAdd }) => {
   }
 
   return (
-    <div className="bg-white border-2 border-[#22408F] rounded-lg p-3 space-y-2.5">
+    <div className="bg-white border-2 border-riso-ink rounded-[8px] p-3 space-y-2.5">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-bold text-[#22408F]">Ajouter un lien ou un fichier</span>
+        <span className="text-xs font-bold text-riso-ink">Ajouter un lien ou un fichier</span>
         <button
           type="button"
           onClick={reset}
-          className="w-6 h-6 rounded-full flex items-center justify-center text-[#5A6A94] hover:text-[#22408F]"
+          className="w-6 h-6 rounded-full flex items-center justify-center text-riso-ink-secondary hover:text-riso-ink"
           aria-label="Annuler"
         >
           <X className="w-4 h-4" />
@@ -303,7 +303,7 @@ export const DocAdder: React.FC<DocAdderProps> = ({ onAdd }) => {
           aria-label="Adresse du lien"
         />
         {parsed && (
-          <div className="flex items-center gap-1.5 text-[11px] font-bold text-[#22408F]">
+          <div className="flex items-center gap-1.5 text-[11px] font-bold text-riso-ink">
             <DocTypeIcon type={type} className="w-3.5 h-3.5" />
             <span>{DOC_TYPE_LABELS[type]} détecté</span>
           </div>
@@ -325,7 +325,7 @@ export const DocAdder: React.FC<DocAdderProps> = ({ onAdd }) => {
       )}
 
       {error && (
-        <p role="alert" className="text-xs font-bold text-[#F0505A]">
+        <p role="alert" className="text-xs font-bold text-riso-p4">
           {error}
         </p>
       )}
@@ -347,7 +347,7 @@ export const DocAdder: React.FC<DocAdderProps> = ({ onAdd }) => {
             type="button"
             onClick={() => fileRef.current?.click()}
             disabled={busy}
-            className="text-xs font-semibold text-[#22408F] underline underline-offset-2"
+            className="text-xs font-semibold text-riso-ink underline underline-offset-2"
           >
             {busy ? 'Envoi…' : 'ou choisir un fichier (10 Mo max)'}
           </button>

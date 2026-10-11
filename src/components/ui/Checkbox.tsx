@@ -34,7 +34,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         onClick={() => !disabled && onChange(!checked)}
         className={`w-6 h-6 rounded-full border-2 border-[var(--riso-ink)] flex items-center justify-center transition-all duration-150 ease-out focus-visible:outline-3 focus-visible:outline-[var(--riso-p3)] focus-visible:outline-offset-2 shrink-0 cursor-pointer ${
           checked
-            ? 'bg-[var(--riso-ink)] text-white shadow-[0_2px_0_var(--riso-ink)]'
+            ? 'bg-[var(--riso-ink)] text-white shadow-riso-press'
             : 'bg-white hover:bg-[var(--riso-p1-tint)]/40 shadow-none'
         }`}
       >

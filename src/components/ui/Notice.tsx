@@ -18,7 +18,7 @@ export const Notice: React.FC<NoticeProps> = ({
   return (
     <div
       role="status"
-      className={`bg-[var(--riso-p5-tint)] border-2 border-[var(--riso-ink)] shadow-[0_4px_0_var(--riso-ink)] rounded-[16px] px-4 py-2.5 flex items-center justify-between gap-3 text-sm text-[var(--riso-ink)] min-h-[44px] ${className}`}
+      className={`bg-[var(--riso-p5-tint)] border-2 border-[var(--riso-ink)] shadow-riso rounded-[16px] px-4 py-2.5 flex items-center justify-between gap-3 text-sm text-[var(--riso-ink)] min-h-[44px] ${className}`}
       {...props}
     >
       <div className="flex items-center gap-2.5 min-w-0">

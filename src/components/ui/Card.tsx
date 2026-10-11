@@ -8,12 +8,12 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const TINT_BG: Record<string, string> = {
-  p1: '#D3E0F2',
-  p2: '#D3E8DA',
-  p3: '#FCF3C4',
-  p4: '#FAD7DA',
-  p5: '#FCDCCB',
-  p6: '#E2D8EE',
+  p1: 'var(--riso-p1-tint)',
+  p2: 'var(--riso-p2-tint)',
+  p3: 'var(--riso-p3-tint)',
+  p4: 'var(--riso-p4-tint)',
+  p5: 'var(--riso-p5-tint)',
+  p6: 'var(--riso-p6-tint)',
 };
 
 export const Card: React.FC<CardProps> = ({
@@ -38,15 +38,15 @@ export const Card: React.FC<CardProps> = ({
   if (variant === 'highlight') {
     // fond teinte de phase + ombre jaune 4px 4px 0 #F2D21B
     variantStyle = {
-      backgroundColor: TINT_BG[tint] || '#FAD7DA',
-      boxShadow: '4px 4px 0 #F2D21B',
+      backgroundColor: TINT_BG[tint] || 'var(--riso-p4-tint)',
+      boxShadow: '4px 4px 0 var(--riso-p3)',
     };
-    variantClass = 'border-2 border-[#22408F]';
+    variantClass = 'border-2 border-riso-ink';
   } else if (variant === 'flat') {
-    variantClass = 'bg-white border-2 border-[#22408F] shadow-none';
+    variantClass = 'bg-white border-2 border-riso-ink shadow-none';
   } else {
     // default
-    variantClass = 'bg-white border-2 border-[#22408F] shadow-[0_4px_0_#22408F]';
+    variantClass = 'bg-white border-2 border-riso-ink shadow-riso';
   }
 
   const interactiveClass = interactive
@@ -55,7 +55,7 @@ export const Card: React.FC<CardProps> = ({
 
   return (
     <div
-      className={`p-5 text-[#22408F] relative overflow-hidden ${radiusClass} ${variantClass} ${interactiveClass} ${className}`}
+      className={`p-5 text-riso-ink relative overflow-hidden ${radiusClass} ${variantClass} ${interactiveClass} ${className}`}
       style={{ ...variantStyle, ...style }}
       {...props}
     >

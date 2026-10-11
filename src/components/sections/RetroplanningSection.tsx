@@ -116,13 +116,13 @@ export const RetroplanningSection: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Milestones Table */}
-      <div className="bg-white border-2 border-[#22408F] rounded-xl overflow-hidden shadow-[0_4px_0_#22408F]">
-        <div className="px-5 py-3.5 border-b-2 border-[#22408F] bg-[#FBFAF6] flex items-center justify-between">
-          <h3 className="font-bold text-xs text-[#22408F] uppercase tracking-wider flex items-center gap-2 font-heading">
-            <Calendar className="w-4 h-4 text-[#22408F]" />
+      <div className="bg-white border-2 border-riso-ink rounded-[16px] overflow-hidden shadow-riso">
+        <div className="px-5 py-3.5 border-b-2 border-riso-ink bg-riso-paper flex items-center justify-between">
+          <h3 className="font-bold text-xs text-riso-ink uppercase tracking-wider flex items-center gap-2 font-heading">
+            <Calendar className="w-4 h-4 text-riso-ink" />
             Objectifs
           </h3>
-          <span className="text-xs text-[#5A6A94] font-mono font-bold">
+          <span className="text-xs text-riso-ink-secondary font-mono font-bold">
             {milestones.filter((m) => m.completed).length}/{milestones.length} validés
           </span>
         </div>
@@ -130,7 +130,7 @@ export const RetroplanningSection: React.FC = () => {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs table-auto">
             <thead>
-              <tr className="bg-[#FBFAF6] text-[#22408F] border-b-2 border-[#22408F]">
+              <tr className="bg-riso-paper text-riso-ink border-b-2 border-riso-ink">
                 <th className="py-2.5 px-3 font-bold w-12 text-center">Fait</th>
                 <th className="py-2.5 px-3 font-bold">Objectif</th>
                 <th className="py-2.5 px-3 font-bold w-32">Phase</th>
@@ -140,7 +140,7 @@ export const RetroplanningSection: React.FC = () => {
                 <th className="py-2.5 px-3 font-bold w-20 text-center">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#22408F]/15">
+            <tbody className="divide-y divide-riso-ink/15">
               {milestones.map((m) => {
                 const phase = phases.find((p) => p.id === m.phaseId);
                 const isOverdue = !m.completed && m.calculatedDate < todayISO;
@@ -151,12 +151,12 @@ export const RetroplanningSection: React.FC = () => {
                 const isEditing = editingMilestoneId === m.id;
 
                 const rowClass = m.completed
-                  ? 'bg-[#EAF6EE]/60 text-[#5A6A94]'
+                  ? 'bg-riso-p2-light/60 text-riso-ink-secondary'
                   : isOverdue
-                  ? 'bg-[#FDEEEF]/70 text-[#22408F]'
+                  ? 'bg-riso-p4-light/70 text-riso-ink'
                   : isUrgent
-                  ? 'bg-[#FEF0E9]/70 text-[#22408F]'
-                  : 'hover:bg-[#EBF1FF]/40 text-[#22408F]';
+                  ? 'bg-riso-p5-light/70 text-riso-ink'
+                  : 'hover:bg-riso-p1-light/40 text-riso-ink';
 
                 return (
                   <tr key={m.id} className={`transition-colors ${rowClass}`}>
@@ -165,7 +165,7 @@ export const RetroplanningSection: React.FC = () => {
                         type="checkbox"
                         checked={m.completed}
                         onChange={(e) => updateMilestone(m.id, { completed: e.target.checked })}
-                        className="w-4 h-4 rounded border-2 border-[#22408F] text-[#2F6DBB] focus:ring-[#F2D21B] cursor-pointer"
+                        className="w-4 h-4 rounded-[8px] border-2 border-riso-ink text-riso-p1 focus:ring-riso-p3 cursor-pointer"
                         title="Marquer comme validé"
                         aria-label={`Valider l'objectif ${m.title}`}
                       />
@@ -178,14 +178,14 @@ export const RetroplanningSection: React.FC = () => {
                           type="text"
                           value={m.title}
                           onChange={(e) => updateMilestone(m.id, { title: e.target.value })}
-                          className="w-full bg-white border-2 border-[#22408F] rounded px-2 py-1 text-xs font-semibold text-[#22408F] focus:outline-none focus:ring-2 focus:ring-[#F2D21B]"
+                          className="w-full bg-white border-2 border-riso-ink rounded-[8px] px-2 py-1 text-xs font-semibold text-riso-ink focus:outline-none focus:ring-2 focus:ring-riso-p3"
                           autoFocus
                         />
                       ) : (
                         <span
                           onClick={() => setEditingMilestoneId(m.id)}
                           className={`font-semibold cursor-pointer hover:underline ${
-                            m.completed ? 'line-through text-[#5A6A94]' : 'text-[#22408F]'
+                            m.completed ? 'line-through text-riso-ink-secondary' : 'text-riso-ink'
                           }`}
                           title="Cliquer pour modifier"
                         >
@@ -200,7 +200,7 @@ export const RetroplanningSection: React.FC = () => {
                         <select
                           value={m.phaseId}
                           onChange={(e) => updateMilestone(m.id, { phaseId: e.target.value })}
-                          className="bg-white border-2 border-[#22408F] rounded px-2 py-1 text-xs text-[#22408F]"
+                          className="bg-white border-2 border-riso-ink rounded-[8px] px-2 py-1 text-xs text-riso-ink"
                         >
                           {phases.map((p) => (
                             <option key={p.id} value={p.id}>
@@ -210,15 +210,15 @@ export const RetroplanningSection: React.FC = () => {
                         </select>
                       ) : (
                         <span
-                          className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-bold border border-[#22408F]/30"
+                          className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-bold border border-riso-line"
                           style={{
-                            backgroundColor: phase ? `${getPhaseColor(phase, phases).hex}20` : '#EBF1FF',
-                            color: '#22408F',
+                            backgroundColor: phase ? `${getPhaseColor(phase, phases).hex}20` : 'var(--riso-p1-light)',
+                            color: 'var(--riso-ink)',
                           }}
                         >
                           <span
                             className="w-2 h-2 rounded-full"
-                            style={{ backgroundColor: phase ? getPhaseColor(phase, phases).hex : '#22408F' }}
+                            style={{ backgroundColor: phase ? getPhaseColor(phase, phases).hex : 'var(--riso-ink)' }}
                           />
                           {phase ? (phase.shortName || phase.nom || phase.name) : m.phaseId}
                         </span>
@@ -229,7 +229,7 @@ export const RetroplanningSection: React.FC = () => {
                     <td className="py-2.5 px-3">
                       {isEditing ? (
                         <div className="flex items-center gap-1">
-                          <span className="font-mono font-bold text-[#22408F]">J-</span>
+                          <span className="font-mono font-bold text-riso-ink">J-</span>
                           <input
                             type="number"
                             min={0}
@@ -238,14 +238,14 @@ export const RetroplanningSection: React.FC = () => {
                             onChange={(e) =>
                               updateMilestone(m.id, { daysBeforeDeadline: Number(e.target.value) })
                             }
-                            className="w-16 px-2 py-1 bg-white border-2 border-[#22408F] rounded font-mono font-bold text-[#22408F] text-xs text-center"
+                            className="w-16 px-2 py-1 bg-white border-2 border-riso-ink rounded-[8px] font-mono font-bold text-riso-ink text-xs text-center"
                           />
-                          <span className="text-[11px] text-[#5A6A94]">j</span>
+                          <span className="text-[11px] text-riso-ink-secondary">j</span>
                         </div>
                       ) : (
                         <span
                           onClick={() => setEditingMilestoneId(m.id)}
-                          className="font-mono font-bold text-[#22408F] bg-[#FBFAF6] px-2 py-0.5 rounded border border-[#22408F]/20 cursor-pointer"
+                          className="font-mono font-bold text-riso-ink bg-riso-paper px-2 py-0.5 rounded-[8px] border border-riso-line cursor-pointer"
                         >
                           J-{m.daysBeforeDeadline} j
                         </span>
@@ -254,10 +254,10 @@ export const RetroplanningSection: React.FC = () => {
 
                     {/* Date calculée */}
                     <td className="py-2.5 px-3">
-                      <div className="flex items-center gap-1.5 font-mono text-[11px] text-[#22408F]">
+                      <div className="flex items-center gap-1.5 font-mono text-[11px] text-riso-ink">
                         <span className="font-semibold">{formatFrenchDate(m.calculatedDate, false)}</span>
                         {m.daysBeforeDeadline === 0 && (
-                          <span className="text-[10px] text-[#F0505A] font-bold bg-[#FDEEEF] px-1.5 py-0.5 rounded border border-[#F0505A]">
+                          <span className="text-[10px] text-riso-p4 font-bold bg-riso-p4-light px-1.5 py-0.5 rounded-[8px] border border-riso-p4">
                             Rendu
                           </span>
                         )}
@@ -272,14 +272,14 @@ export const RetroplanningSection: React.FC = () => {
                           value={m.notes || ''}
                           onChange={(e) => updateMilestone(m.id, { notes: e.target.value })}
                           placeholder="Attendus, notes, critères..."
-                          className="w-full bg-white border-2 border-[#22408F] rounded px-2 py-1 text-xs text-[#22408F]"
+                          className="w-full bg-white border-2 border-riso-ink rounded-[8px] px-2 py-1 text-xs text-riso-ink"
                         />
                       ) : (
                         <span
                           onClick={() => setEditingMilestoneId(m.id)}
-                          className="cursor-pointer text-[#5A6A94] hover:text-[#22408F]"
+                          className="cursor-pointer text-riso-ink-secondary hover:text-riso-ink"
                         >
-                          {m.notes || <span className="text-[#5A6A94]/60 italic">—</span>}
+                          {m.notes || <span className="text-riso-ink-secondary/60 italic">—</span>}
                         </span>
                       )}
                     </td>
@@ -291,7 +291,7 @@ export const RetroplanningSection: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => setEditingMilestoneId(null)}
-                            className="p-1 text-[#22408F] hover:bg-[#EBF1FF] rounded transition-colors"
+                            className="p-1 text-riso-ink hover:bg-riso-p1-light rounded-[8px] transition-colors"
                             title="Valider la modification"
                             aria-label="Valider la modification"
                           >
@@ -301,7 +301,7 @@ export const RetroplanningSection: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => setEditingMilestoneId(m.id)}
-                            className="p-1 text-[#5A6A94] hover:text-[#22408F] rounded transition-colors"
+                            className="p-1 text-riso-ink-secondary hover:text-riso-ink rounded-[8px] transition-colors"
                             title="Modifier cet objectif"
                             aria-label={`Modifier l'objectif ${m.title}`}
                           >
@@ -311,7 +311,7 @@ export const RetroplanningSection: React.FC = () => {
                         <button
                           type="button"
                           onClick={() => deleteMilestone(m.id)}
-                          className="p-1 text-[#5A6A94] hover:text-[#F0505A] rounded transition-colors"
+                          className="p-1 text-riso-ink-secondary hover:text-riso-p4 rounded-[8px] transition-colors"
                           title="Supprimer cet objectif"
                           aria-label={`Supprimer l'objectif ${m.title}`}
                         >
@@ -329,20 +329,20 @@ export const RetroplanningSection: React.FC = () => {
         {/* Add Milestone Form */}
         <form
           onSubmit={handleAddMilestone}
-          className="p-3.5 bg-[#FBFAF6] border-t-2 border-[#22408F] flex flex-wrap items-center gap-2.5 text-xs"
+          className="p-3.5 bg-riso-paper border-t-2 border-riso-ink flex flex-wrap items-center gap-2.5 text-xs"
         >
-          <span className="font-bold text-[#22408F] font-heading">+ Nouvel objectif :</span>
+          <span className="font-bold text-riso-ink font-heading">+ Nouvel objectif :</span>
           <input
             type="text"
             placeholder="Intitulé de l'objectif (ex: Validation du prototype papier)"
             value={newTitle}
             onChange={(e) => setNewTitle(e.target.value)}
-            className="flex-1 min-w-[200px] px-2.5 py-1.5 bg-white border-2 border-[#22408F]/40 rounded-lg text-xs text-[#22408F] focus:border-[#22408F]"
+            className="flex-1 min-w-[200px] px-2.5 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs text-riso-ink focus:border-riso-ink"
           />
           <select
             value={newPhaseId}
             onChange={(e) => setNewPhaseId(e.target.value)}
-            className="px-2.5 py-1.5 bg-white border-2 border-[#22408F]/40 rounded-lg text-xs font-medium text-[#22408F]"
+            className="px-2.5 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs font-medium text-riso-ink"
           >
             {phases.map((p) => (
               <option key={p.id} value={p.id}>
@@ -351,17 +351,17 @@ export const RetroplanningSection: React.FC = () => {
             ))}
           </select>
           <div className="flex items-center gap-1 font-mono">
-            <span className="font-bold text-[#22408F]">J-</span>
+            <span className="font-bold text-riso-ink">J-</span>
             <input
               type="number"
               min={0}
               max={365}
               value={newDaysBefore}
               onChange={(e) => setNewDaysBefore(Number(e.target.value))}
-              className="w-16 px-2 py-1.5 bg-white border-2 border-[#22408F]/40 rounded-lg text-xs text-center font-bold text-[#22408F]"
+              className="w-16 px-2 py-1.5 bg-white border-2 border-riso-line rounded-[8px] text-xs text-center font-bold text-riso-ink"
               title="Jours avant le rendu final"
             />
-            <span className="text-[#5A6A94] text-[10px]">j</span>
+            <span className="text-riso-ink-secondary text-[10px]">j</span>
           </div>
           <button
             type="submit"
@@ -374,17 +374,17 @@ export const RetroplanningSection: React.FC = () => {
       </div>
 
       {/* Automatic Weekly Timeline */}
-      <div className="bg-white border-2 border-[#22408F] rounded-xl p-5 shadow-[0_4px_0_#22408F] space-y-4">
-        <div className="flex items-center justify-between border-b-2 border-[#22408F]/20 pb-3">
+      <div className="bg-white border-2 border-riso-ink rounded-[16px] p-5 shadow-riso space-y-4">
+        <div className="flex items-center justify-between border-b-2 border-riso-line pb-3">
           <div>
-            <h3 className="font-bold text-sm text-[#22408F] flex items-center gap-2 font-heading">
-              <Sparkles className="w-4 h-4 text-[#22408F]" />
+            <h3 className="font-bold text-sm text-riso-ink flex items-center gap-2 font-heading">
+              <Sparkles className="w-4 h-4 text-riso-ink" />
               Planning
             </h3>
           </div>
-          <div className="flex items-center gap-3 text-[11px] font-mono text-[#22408F]">
+          <div className="flex items-center gap-3 text-[11px] font-mono text-riso-ink">
             <span className="flex items-center gap-1 font-bold">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#2F6DBB]"></span> Semaine en cours
+              <span className="w-2.5 h-2.5 rounded-full bg-riso-p1"></span> Semaine en cours
             </span>
           </div>
         </div>
@@ -394,30 +394,30 @@ export const RetroplanningSection: React.FC = () => {
           {weeksList.map((week) => (
             <div
               key={week.index}
-              className={`p-3.5 rounded-xl border-2 transition-all text-xs cursor-pointer ${
+              className={`p-3.5 rounded-[16px] border-2 transition-all text-xs cursor-pointer ${
                 week.isCurrentWeek
-                  ? 'bg-[#EBF1FF] border-[#22408F] shadow-[0_4px_0_#22408F]'
+                  ? 'bg-riso-p1-light border-riso-ink shadow-riso'
                   : week.isPastWeek
-                  ? 'bg-[#FBFAF6] border-[#22408F]/40 opacity-85 hover:bg-[#EBF1FF]/30'
-                  : 'bg-white border-[#22408F] hover:bg-[#EBF1FF]/20'
+                  ? 'bg-riso-paper border-riso-line opacity-85 hover:bg-riso-p1-light/30'
+                  : 'bg-white border-riso-ink hover:bg-riso-p1-light/20'
               }`}
             >
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#22408F]/20 pb-2">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-riso-line pb-2">
                 <div className="flex items-center gap-2">
                   <span
-                    className={`px-2.5 py-0.5 rounded font-mono font-bold text-xs border ${
+                    className={`px-2.5 py-0.5 rounded-[8px] font-mono font-bold text-xs border ${
                       week.isCurrentWeek
-                        ? 'bg-[#2F6DBB] text-white border-[#22408F]'
-                        : 'bg-[#FBFAF6] text-[#22408F] border-[#22408F]/40'
+                        ? 'bg-riso-p1 text-white border-riso-ink'
+                        : 'bg-riso-paper text-riso-ink border-riso-line'
                     }`}
                   >
                     Semaine {week.index}
                   </span>
-                  <span className="text-[#22408F] font-mono text-[11px] font-medium">
+                  <span className="text-riso-ink font-mono text-[11px] font-medium">
                     {formatFrenchDate(week.start, false)} → {formatFrenchDate(week.end, false)}
                   </span>
                   {week.isCurrentWeek && (
-                    <span className="text-[10px] font-bold text-white bg-[#F0505A] px-2 py-0.5 rounded-full shadow-sm">
+                    <span className="text-[10px] font-bold text-white bg-riso-p4 px-2 py-0.5 rounded-full shadow-sm">
                       EN COURS
                     </span>
                   )}
@@ -428,10 +428,10 @@ export const RetroplanningSection: React.FC = () => {
                   {week.phases.map((p) => (
                     <span
                       key={p.id}
-                      className="px-2 py-0.5 rounded font-medium text-[11px] border border-[#22408F]/30"
+                      className="px-2 py-0.5 rounded-[8px] font-medium text-[11px] border border-riso-line"
                       style={{
                         backgroundColor: `${getPhaseColor(p, phases).hex}20`,
-                        color: '#22408F',
+                        color: 'var(--riso-ink)',
                       }}
                     >
                       P{p.number} : {p.shortName}
@@ -444,23 +444,23 @@ export const RetroplanningSection: React.FC = () => {
               <div className="pt-2 grid grid-cols-1 md:grid-cols-3 gap-3">
                 {/* Milestones this week */}
                 <div className="space-y-1.5">
-                  <span className="font-bold text-[#5A6A94] text-[10px] uppercase tracking-wider block font-heading">
+                  <span className="font-bold text-riso-ink-secondary text-[10px] uppercase tracking-wider block font-heading">
                     Objectifs clés ({week.milestones.length})
                   </span>
                   {week.milestones.length === 0 ? (
-                    <span className="text-[#5A6A94]/60 text-[11px]">—</span>
+                    <span className="text-riso-ink-secondary/60 text-[11px]">—</span>
                   ) : (
                     week.milestones.map((m) => (
                       <div
                         key={m.id}
-                        className={`p-2 rounded-lg border-2 text-[11px] font-medium flex items-start justify-between gap-2 ${
+                        className={`p-2 rounded-[8px] border-2 text-[11px] font-medium flex items-start justify-between gap-2 ${
                           m.completed
-                            ? 'bg-[#EAF6EE] text-[#5A6A94] border-[#22408F]/30 line-through'
-                            : 'bg-white text-[#22408F] border-[#22408F]'
+                            ? 'bg-riso-p2-light text-riso-ink-secondary border-riso-line line-through'
+                            : 'bg-white text-riso-ink border-riso-ink'
                         }`}
                       >
                         <span className="leading-snug break-words flex-1">{m.title}</span>
-                        <span className="font-mono text-[10px] shrink-0 font-bold bg-[#FBFAF6] px-1.5 py-0.5 rounded border border-[#22408F]/30">
+                        <span className="font-mono text-[10px] shrink-0 font-bold bg-riso-paper px-1.5 py-0.5 rounded-[8px] border border-riso-line">
                           J-{m.daysBeforeDeadline}
                         </span>
                       </div>
@@ -470,21 +470,21 @@ export const RetroplanningSection: React.FC = () => {
 
                 {/* Sessions this week */}
                 <div className="space-y-1.5">
-                  <span className="font-bold text-[#5A6A94] text-[10px] uppercase tracking-wider block font-heading">
+                  <span className="font-bold text-riso-ink-secondary text-[10px] uppercase tracking-wider block font-heading">
                     Sessions planifiées ({week.sessions.length})
                   </span>
                   {week.sessions.length === 0 ? (
-                    <span className="text-[#5A6A94]/60 text-[11px]">—</span>
+                    <span className="text-riso-ink-secondary/60 text-[11px]">—</span>
                   ) : (
                     week.sessions.map((s) => (
                       <div
                         key={s.id}
-                        className="p-2 rounded-lg border-2 border-[#22408F] bg-white text-[11px] text-[#22408F] flex items-start justify-between gap-2"
+                        className="p-2 rounded-[8px] border-2 border-riso-ink bg-white text-[11px] text-riso-ink flex items-start justify-between gap-2"
                       >
                         <span className="leading-snug break-words flex-1">
                           <strong className="font-mono">{formatFrenchDate(s.date, false)}</strong> : {s.objective}
                         </span>
-                        <span className="font-mono text-[10px] font-bold shrink-0 bg-[#EBF1FF] px-1.5 py-0.5 rounded border border-[#22408F]">
+                        <span className="font-mono text-[10px] font-bold shrink-0 bg-riso-p1-light px-1.5 py-0.5 rounded-[8px] border-2 border-riso-ink">
                           {s.plannedDurationHours}h
                         </span>
                       </div>
@@ -494,25 +494,25 @@ export const RetroplanningSection: React.FC = () => {
 
                 {/* Tasks deadlines this week */}
                 <div className="space-y-1.5">
-                  <span className="font-bold text-[#5A6A94] text-[10px] uppercase tracking-wider block font-heading">
+                  <span className="font-bold text-riso-ink-secondary text-[10px] uppercase tracking-wider block font-heading">
                     Échéances de tâches ({week.tasks.length})
                   </span>
                   {week.tasks.length === 0 ? (
-                    <span className="text-[#5A6A94]/60 text-[11px]">—</span>
+                    <span className="text-riso-ink-secondary/60 text-[11px]">—</span>
                   ) : (
                     week.tasks.map((t) => (
                       <div
                         key={t.id}
-                        className={`p-2 rounded-lg border text-[11px] flex items-start justify-between gap-2 ${
+                        className={`p-2 rounded-[8px] border text-[11px] flex items-start justify-between gap-2 ${
                           t.status === 'fait'
-                            ? 'bg-[#FBFAF6] text-[#5A6A94] border-[#22408F]/30 line-through'
-                            : 'bg-white border-2 border-[#22408F] text-[#22408F]'
+                            ? 'bg-riso-paper text-riso-ink-secondary border-riso-line line-through'
+                            : 'bg-white border-2 border-riso-ink text-riso-ink'
                         }`}
                       >
                         <span className="leading-snug break-words flex-1">
                           <strong className="font-mono">{t.code}</strong> — {t.title}
                         </span>
-                        <span className="font-mono text-[10px] font-medium shrink-0 text-[#5A6A94]">
+                        <span className="font-mono text-[10px] font-medium shrink-0 text-riso-ink-secondary">
                           {formatFrenchDate(t.deadline, false)}
                         </span>
                       </div>

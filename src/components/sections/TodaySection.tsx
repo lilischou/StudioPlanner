@@ -271,7 +271,7 @@ export const TodaySection: React.FC = () => {
           {/* Compteur mis en avant si présent */}
           {nextIntermediate && (
             <div
-              className="bg-[var(--riso-p1-light)] text-[var(--riso-ink)] border-2 border-[var(--riso-ink)] shadow-[var(--shadow-press)] px-3 py-1.5 rounded-[999px] text-xs font-bold flex items-center gap-1.5 truncate"
+              className="bg-[var(--riso-p1-light)] text-[var(--riso-ink)] border-2 border-[var(--riso-ink)] shadow-riso-press px-3 py-1.5 rounded-[999px] text-xs font-bold flex items-center gap-1.5 truncate"
               title={`Rendu intermédiaire : ${nextIntermediate.name}`}
             >
               <span className="w-2 h-2 rounded-full bg-[var(--riso-p1)] shrink-0"></span>
@@ -298,7 +298,7 @@ export const TodaySection: React.FC = () => {
               size="lg"
               fullWidth
               onClick={() => setIsInertiaOpen(true)}
-              className="shadow-[var(--shadow-primary)]"
+              className="shadow-riso-primary"
             >
               <Play className="w-5 h-5 fill-current" />
               <span>je m'y mets</span>
@@ -484,7 +484,7 @@ export const TodaySection: React.FC = () => {
             {/* Mis en avant : Prochain Rendu intermédiaire si présent */}
             {nextIntermediate && (
               <div
-                className="bg-[var(--riso-p1-light)] text-[var(--riso-ink)] border-2 border-[var(--riso-ink)] shadow-[var(--shadow-press)] px-3.5 py-1.5 rounded-[999px] text-xs font-bold flex items-center gap-2"
+                className="bg-[var(--riso-p1-light)] text-[var(--riso-ink)] border-2 border-[var(--riso-ink)] shadow-riso-press px-3.5 py-1.5 rounded-[999px] text-xs font-bold flex items-center gap-2"
                 title={`Rendu intermédiaire : ${nextIntermediate.name}`}
               >
                 <span className="w-2 h-2 rounded-full bg-[var(--riso-p1)] shrink-0"></span>
@@ -520,7 +520,7 @@ export const TodaySection: React.FC = () => {
             size="lg"
             fullWidth
             onClick={() => setIsInertiaOpen(true)}
-            className="shadow-[var(--shadow-primary)] min-h-[52px]"
+            className="shadow-riso-primary min-h-[52px]"
           >
             <Play className="w-5 h-5 fill-current" />
             <span className="font-heading">je m'y mets</span>
@@ -814,7 +814,7 @@ export const TodaySection: React.FC = () => {
           onClick={() => setIsAddIntermediateOpen(false)}
         >
           <div
-            className="bg-white rounded-[16px] max-w-md w-full border-2 border-[var(--riso-ink)] shadow-[var(--shadow)] max-h-[90vh] flex flex-col overflow-hidden"
+            className="bg-white rounded-[16px] max-w-md w-full border-2 border-[var(--riso-ink)] shadow-riso max-h-[90vh] flex flex-col overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="px-6 py-4 bg-[var(--riso-paper)] border-b-2 border-[var(--riso-ink)] flex items-center justify-between shrink-0">

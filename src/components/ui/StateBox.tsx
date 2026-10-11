@@ -17,7 +17,7 @@ export const StateBox: React.FC<StateBoxProps> = ({
   let stateClasses = '';
 
   if (state === 'done') {
-    stateClasses = 'bg-white border-2 border-[var(--riso-ink)] shadow-[0_4px_0_var(--riso-ink)]';
+    stateClasses = 'bg-white border-2 border-[var(--riso-ink)] shadow-riso';
   } else if (state === 'late') {
     stateClasses = 'bg-white border-2 border-dashed border-[var(--riso-ink)] shadow-none';
   } else {

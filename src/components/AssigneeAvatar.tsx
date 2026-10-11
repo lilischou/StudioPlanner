@@ -76,9 +76,9 @@ export const AssigneeAvatar: React.FC<AssigneeAvatarProps> = ({
           height: size,
           minWidth: size,
           minHeight: size,
-          backgroundColor: '#D1DFF0',
+          backgroundColor: 'var(--riso-p1-tint)',
         }}
-        className={`rounded-full border-2 border-[#22408F] flex items-center justify-center text-[#22408F] shrink-0 ${className}`}
+        className={`rounded-full border-2 border-riso-ink flex items-center justify-center text-riso-ink shrink-0 ${className}`}
       >
         <IconGroupe size={iconSize} />
       </div>
@@ -87,7 +87,7 @@ export const AssigneeAvatar: React.FC<AssigneeAvatarProps> = ({
 
   const bgColor = resolveColor(cleanName, color);
   const light = isLightColor(bgColor);
-  const textColor = light ? '#22408F' : '#FFFFFF';
+  const textColor = light ? 'var(--riso-ink)' : 'var(--riso-card)';
   const initial = cleanName.charAt(0).toUpperCase();
 
   return (
@@ -103,7 +103,7 @@ export const AssigneeAvatar: React.FC<AssigneeAvatarProps> = ({
         backgroundColor: bgColor,
         color: textColor,
       }}
-      className={`rounded-full border-2 border-[#22408F] flex items-center justify-center font-bold font-heading shrink-0 text-center select-none ${className}`}
+      className={`rounded-full border-2 border-riso-ink flex items-center justify-center font-bold font-heading shrink-0 text-center select-none ${className}`}
     >
       <span
         style={{
