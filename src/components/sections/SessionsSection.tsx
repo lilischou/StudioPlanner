@@ -736,37 +736,18 @@ export const SessionsSection: React.FC = () => {
                           ></div>
 
                           <div className="pl-1">
-                            <div className="flex items-center justify-between text-[11px] text-riso-ink-secondary mb-1 tabular-nums font-bold">
-                              <span className="font-bold text-riso-ink truncate max-w-[80px]">
-                                {phase?.shortName || 'Phase'}
+                            <div className="flex items-center gap-1.5 text-[11px] mb-1 tabular-nums font-bold">
+                              <span className="min-w-0 flex-1 truncate font-bold text-riso-ink" title={phase?.name || phase?.shortName}>
+                                {phase?.shortName || phase?.name || 'Phase'}
                               </span>
-                              <div className="flex items-center gap-1">
-                                <a
-                                  href={buildGoogleCalendarUrl({
-                                    title: session.objective,
-                                    durationMinutes: Math.round(duration * 60),
-                                    date: session.date,
-                                    projectName: activeProject.settings.name,
-                                    phaseName: phase?.shortName || phase?.name,
-                                  })}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  title="Ajouter à l'Agenda"
-                                  aria-label="Ajouter à l'Agenda"
-                                  onClick={(e) => e.stopPropagation()}
-                                  className="w-5 h-5 flex items-center justify-center rounded-[8px] border-2 border-riso-ink bg-white text-riso-ink hover:bg-riso-p1-light transition-all cursor-pointer"
-                                >
-                                  <CalendarIcon className="w-3 h-3" />
-                                </a>
-                                <span className="bg-riso-paper border-2 border-riso-ink px-1 py-0.2 rounded-[8px] text-riso-ink">
-                                  {duration} h
-                                </span>
-                              </div>
+                              <span className="shrink-0 whitespace-nowrap bg-riso-paper border-2 border-riso-ink px-1.5 rounded-[999px] text-riso-ink">
+                                {duration} h
+                              </span>
                             </div>
 
                             {/* Objectif sur 3 lignes */}
                             <h4
-                              className={`text-xs font-bold text-riso-ink leading-snug line-clamp-3 ${
+                              className={`text-xs font-bold text-riso-ink leading-snug line-clamp-3 break-words hyphens-auto ${
                                 isDone ? 'line-through text-riso-ink-secondary' : ''
                               }`}
                             >
@@ -789,6 +770,23 @@ export const SessionsSection: React.FC = () => {
                               </span>
                             </span>
 
+                            <a
+                                  href={buildGoogleCalendarUrl({
+                                    title: session.objective,
+                                    durationMinutes: Math.round(duration * 60),
+                                    date: session.date,
+                                    projectName: activeProject.settings.name,
+                                    phaseName: phase?.shortName || phase?.name,
+                                  })}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  title="Ajouter à l'Agenda"
+                                  aria-label="Ajouter à l'Agenda"
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="shrink-0 w-6 h-6 ml-auto flex items-center justify-center rounded-[8px] border-2 border-riso-ink bg-white text-riso-ink hover:bg-riso-p1-light transition-all cursor-pointer"
+                                >
+                                  <CalendarIcon className="w-3.5 h-3.5" />
+                                </a>
                             {isDone && (
                               <span className="bg-riso-p2 text-white font-bold px-1.5 py-0.5 rounded-[999px] text-[10px] flex items-center gap-0.5">
                                 <Check className="w-2.5 h-2.5 stroke-[3]" />
