@@ -10,6 +10,7 @@ import {
   FolderKanban,
   ChevronDown,
   Plus,
+  Settings,
 } from 'lucide-react';
 
 interface DesktopSidebarProps {
@@ -209,7 +210,7 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
         })}
       </nav>
 
-      {/* 4. Bottom Utility Area: Vue détaillée et Aide */}
+      {/* 4. Bottom Utility Area: Vue détaillée, Réglages et Aide */}
       <div className="p-2 xl:p-3 border-t-2 border-[#22408F] space-y-2 bg-[#FBFAF6] shrink-0">
         <button
           type="button"
@@ -220,6 +221,21 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
         >
           <TableProperties className="w-4 h-4 text-[#22408F] shrink-0 mx-auto xl:mx-0" />
           <span className="hidden xl:inline truncate text-left flex-1 font-bold">Vue détaillée</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab('parametres')}
+          title="Réglages"
+          aria-label="Réglages"
+          className={`w-full flex items-center justify-center xl:justify-start gap-2 p-2 rounded-[8px] text-xs font-bold transition-all cursor-pointer ${
+            activeTab === 'parametres'
+              ? 'bg-[#EBF1FF] text-[#22408F] border-2 border-[#22408F] shadow-[0_2px_0_#22408F]'
+              : 'text-[#5A6A94] hover:text-[#22408F] hover:bg-white border-2 border-transparent'
+          }`}
+        >
+          <Settings className="w-4 h-4 text-[#22408F] shrink-0 mx-auto xl:mx-0" />
+          <span className="hidden xl:inline truncate flex-1 text-left font-bold">Réglages</span>
         </button>
 
         <button

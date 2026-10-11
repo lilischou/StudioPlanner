@@ -14,6 +14,7 @@ import {
 import { proposerAction, simplifierAction, isAiEnabled } from '../../ai/gemini';
 import { formatISODate } from '../../utils/dateCalculations';
 import { toLocalYMD } from '../../utils/localDate';
+import { buildGoogleCalendarUrl } from '../../utils/calendarLink';
 
 interface InertiaActionModalProps {
   isOpen: boolean;
@@ -408,17 +409,14 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
     onClose();
   };
 
-  // Lien Google Agenda existant (action=TEMPLATE)
+  // Lien Google Agenda existant (action=TEMPLATE via calendarLink)
   const getGoogleCalendarUrl = () => {
-    const now = new Date();
-    const end = new Date(now.getTime() + dureeMinutes * 60 * 1000);
-    const pad = (n: number) => String(n).padStart(2, '0');
-    const formatGCal = (d: Date) =>
-      `${d.getUTCFullYear()}${pad(d.getUTCMonth() + 1)}${pad(d.getUTCDate())}T${pad(d.getUTCHours())}${pad(d.getUTCMinutes())}${pad(d.getUTCSeconds())}Z`;
-    const text = encodeURIComponent(actionText || "Séance d'action");
-    const dates = `${formatGCal(now)}/${formatGCal(end)}`;
-    const details = encodeURIComponent('StudioPlanner · Passer à l\'action');
-    return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${text}&dates=${dates}&details=${details}`;
+    return buildGoogleCalendarUrl({
+      title: actionText || "Séance d'action",
+      durationMinutes: dureeMinutes,
+      projectName: activeProject?.settings?.name,
+      phaseName: currentPhase?.nom || currentPhase?.name,
+    });
   };
 
   // Rendu de l'arc Time Timer

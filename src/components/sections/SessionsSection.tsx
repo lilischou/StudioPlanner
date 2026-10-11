@@ -21,6 +21,7 @@ import {
   formatISODate,
 } from '../../utils/dateCalculations';
 import { PHASE_COLORS, RISO_THEME, getPhaseColor, getSessionTypeLabel } from '../../utils/theme';
+import { buildGoogleCalendarUrl } from '../../utils/calendarLink';
 
 export const SessionsSection: React.FC = () => {
   const {
@@ -384,8 +385,26 @@ export const SessionsSection: React.FC = () => {
                             </div>
                           </div>
 
-                          {/* Statut - reste strictement à l'intérieur */}
-                          <div className="shrink-0 flex items-center">
+                          {/* Statut & Agenda - reste strictement à l'intérieur */}
+                          <div className="shrink-0 flex items-center gap-1.5">
+                            <a
+                              href={buildGoogleCalendarUrl({
+                                title: session.objective,
+                                durationMinutes: Math.round((session.plannedDurationHours || 2) * 60),
+                                date: session.date,
+                                projectName: activeProject.settings.name,
+                                phaseName: phase?.shortName || phase?.name,
+                              })}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              title="Ajouter à l'Agenda"
+                              aria-label="Ajouter à l'Agenda"
+                              onClick={(e) => e.stopPropagation()}
+                              className="w-7 h-7 flex items-center justify-center rounded-[8px] border-2 border-[#22408F] bg-white text-[#22408F] shadow-[0_2px_0_#22408F] hover:-translate-y-0.5 hover:shadow-[0_4px_0_#22408F] active:translate-y-0.5 active:shadow-none transition-all cursor-pointer"
+                            >
+                              <CalendarIcon className="w-3.5 h-3.5" />
+                            </a>
+
                             {isDone ? (
                               <span className="text-xs text-[#2E8B4A] font-bold riso-pill bg-white">
                                 Fait
@@ -511,6 +530,22 @@ export const SessionsSection: React.FC = () => {
                   <BookOpen className="w-4 h-4 text-[#22408F]" />
                   <span>Consigner au journal de bord</span>
                 </button>
+
+                <a
+                  href={buildGoogleCalendarUrl({
+                    title: selectedSession.objective,
+                    durationMinutes: Math.round((selectedSession.plannedDurationHours || 2) * 60),
+                    date: selectedSession.date,
+                    projectName: activeProject.settings.name,
+                    phaseName: phases.find((p) => p.id === selectedSession.phaseId)?.shortName || phases.find((p) => p.id === selectedSession.phaseId)?.name,
+                  })}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-riso-secondary w-full text-xs justify-center flex items-center gap-2"
+                >
+                  <CalendarIcon className="w-4 h-4 text-[#22408F]" />
+                  <span>Ajouter à l'Agenda</span>
+                </a>
               </div>
             </div>
           </div>
@@ -651,9 +686,28 @@ export const SessionsSection: React.FC = () => {
                               <span className="font-bold text-[#22408F] truncate max-w-[80px]">
                                 {phase?.shortName || 'Phase'}
                               </span>
-                              <span className="bg-[#FBFAF6] border border-[#22408F] px-1 py-0.2 rounded-[4px] text-[#22408F]">
-                                {duration} h
-                              </span>
+                              <div className="flex items-center gap-1">
+                                <a
+                                  href={buildGoogleCalendarUrl({
+                                    title: session.objective,
+                                    durationMinutes: Math.round(duration * 60),
+                                    date: session.date,
+                                    projectName: activeProject.settings.name,
+                                    phaseName: phase?.shortName || phase?.name,
+                                  })}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  title="Ajouter à l'Agenda"
+                                  aria-label="Ajouter à l'Agenda"
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="w-5 h-5 flex items-center justify-center rounded-[4px] border border-[#22408F] bg-white text-[#22408F] hover:bg-[#EBF1FF] transition-all cursor-pointer"
+                                >
+                                  <CalendarIcon className="w-3 h-3" />
+                                </a>
+                                <span className="bg-[#FBFAF6] border border-[#22408F] px-1 py-0.2 rounded-[4px] text-[#22408F]">
+                                  {duration} h
+                                </span>
+                              </div>
                             </div>
 
                             {/* Objectif sur 3 lignes */}
@@ -796,6 +850,22 @@ export const SessionsSection: React.FC = () => {
                   <BookOpen className="w-4 h-4 text-[#22408F]" />
                   <span>Consigner au journal de bord</span>
                 </button>
+
+                <a
+                  href={buildGoogleCalendarUrl({
+                    title: selectedSession.objective,
+                    durationMinutes: Math.round((selectedSession.plannedDurationHours || 2) * 60),
+                    date: selectedSession.date,
+                    projectName: activeProject.settings.name,
+                    phaseName: phases.find((p) => p.id === selectedSession.phaseId)?.shortName || phases.find((p) => p.id === selectedSession.phaseId)?.name,
+                  })}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-riso-secondary w-full text-xs justify-center flex items-center gap-2"
+                >
+                  <CalendarIcon className="w-4 h-4 text-[#22408F]" />
+                  <span>Ajouter à l'Agenda</span>
+                </a>
 
                 <div className="pt-2 border-t-2 border-[#22408F]/20 text-right">
                   <button

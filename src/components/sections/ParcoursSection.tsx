@@ -12,6 +12,7 @@ import {
   Plus,
   MoreVertical,
   Trash2,
+  Calendar,
 } from 'lucide-react';
 import {
   diffInDays,
@@ -21,6 +22,7 @@ import {
 } from '../../utils/dateCalculations';
 import { getPhaseColor } from '../../utils/theme';
 import { isAiEnabled, suggestTasksForPhase, ProposedTask } from '../../ai/gemini';
+import { buildGoogleCalendarUrl } from '../../utils/calendarLink';
 
 interface PhaseDetailPanelProps {
   phase: Phase;
@@ -608,6 +610,23 @@ const PhaseDetailPanel: React.FC<PhaseDetailPanelProps> = ({
                       )}
                     </div>
                   </div>
+
+                  <a
+                    href={buildGoogleCalendarUrl({
+                      title: task.title,
+                      durationMinutes: task.durationMinutes || 25,
+                      date: task.deadline,
+                      projectName: settings.name,
+                      phaseName: phase.nom || phase.name,
+                    })}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Ajouter à l'Agenda"
+                    aria-label="Ajouter à l'Agenda"
+                    className="w-7 h-7 shrink-0 flex items-center justify-center rounded-[8px] border-2 border-[#22408F] bg-white text-[#22408F] shadow-[0_2px_0_#22408F] hover:-translate-y-0.5 hover:shadow-[0_4px_0_#22408F] active:translate-y-0.5 active:shadow-none transition-all cursor-pointer"
+                  >
+                    <Calendar className="w-3.5 h-3.5" />
+                  </a>
                 </div>
               );
             })

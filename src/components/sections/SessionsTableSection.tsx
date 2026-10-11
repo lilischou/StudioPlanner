@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { formatFrenchDate, formatISODate } from '../../utils/dateCalculations';
 import { PHASE_COLORS, getPhaseColor, getSessionTypeLabel } from '../../utils/theme';
+import { buildGoogleCalendarUrl } from '../../utils/calendarLink';
 
 export const SessionsTableSection: React.FC = () => {
   const {
@@ -356,6 +357,23 @@ export const SessionsTableSection: React.FC = () => {
                     {/* Actions edit / delete */}
                     <td className="py-2.5 px-3 text-center">
                       <div className="flex items-center justify-center gap-1">
+                        <a
+                          href={buildGoogleCalendarUrl({
+                            title: s.objective,
+                            durationMinutes: Math.round((s.plannedDurationHours || 2) * 60),
+                            date: s.date,
+                            projectName: activeProject.settings.name,
+                            phaseName: phase ? (phase.shortName || phase.nom || phase.name) : s.phaseId,
+                          })}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-1 text-[#22408F] hover:bg-[#EBF1FF] rounded transition-colors"
+                          title="Ajouter à l'Agenda"
+                          aria-label="Ajouter à l'Agenda"
+                        >
+                          <Calendar className="w-3.5 h-3.5" />
+                        </a>
+
                         {isEditing ? (
                           <button
                             type="button"

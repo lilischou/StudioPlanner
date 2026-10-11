@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useProject } from '../../context/ProjectContext';
 import {
   TeamMember,
@@ -24,12 +24,16 @@ import {
   Flag,
   ShieldCheck,
   RotateCcw,
+  HardDrive,
+  Download,
+  Upload,
 } from 'lucide-react';
 import {
   formatFrenchDateLocal,
   getDayName,
   getDaysDifference,
 } from '../../utils/localDate';
+import { formatISODate } from '../../utils/dateCalculations';
 import {
   calculatePlanDiff,
   calculatePhaseDates,
@@ -39,6 +43,7 @@ import { getAiDailyUsage, setAiEnabled } from '../../ai/gemini';
 
 export const SettingsSection: React.FC = () => {
   const {
+    projects,
     activeProject,
     updateSettings,
     applyPlanDiffToActiveProject,
@@ -116,6 +121,177 @@ export const SettingsSection: React.FC = () => {
     const next = !aiUsage.enabled;
     setAiEnabled(next);
     setAiUsage(getAiDailyUsage());
+  };
+
+  // Export et Import pour Google Drive
+  const [importError, setImportError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleExportForDrive = () => {
+    setImportError(null);
+    const todayISO = formatISODate(new Date());
+
+    // 1. JSON backup : tout le contenu de localStorage préfixé studioplanner_
+    const backupData: Record<string, any> = {};
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith('studioplanner_')) {
+        const raw = localStorage.getItem(key);
+        if (raw !== null) {
+          try {
+            backupData[key] = JSON.parse(raw);
+          } catch {
+            backupData[key] = raw;
+          }
+        }
+      }
+    }
+    const jsonString = JSON.stringify(backupData, null, 2);
+
+    // 2. Markdown état des projets
+    const projectsMd = projects
+      .map((p) => {
+        let currentPhase = p.phases.find((ph) => {
+          if (ph.calculatedStartDate && ph.calculatedEndDate) {
+            return todayISO >= ph.calculatedStartDate && todayISO <= ph.calculatedEndDate;
+          }
+          return false;
+        });
+        if (!currentPhase) {
+          currentPhase = p.phases.find((ph) => {
+            const phTasks = (p.tasks || []).filter((t) => t.phaseId === ph.id);
+            return phTasks.some((t) => t.status !== 'fait');
+          });
+        }
+        if (!currentPhase) {
+          currentPhase = p.phases[p.phases.length - 1] || p.phases[0];
+        }
+        const phaseName = currentPhase?.nom || currentPhase?.name || 'Non spécifiée';
+
+        const currentDeliverable = (p.deliverables || []).find(
+          (d) => d.phaseId === currentPhase?.id && d.status !== 'valide'
+        );
+        const livrable =
+          currentDeliverable?.title ||
+          currentPhase?.livrableAttendu ||
+          currentPhase?.deliverableSummary ||
+          'Non spécifié';
+
+        const pendingTasks = (p.tasks || []).filter((t) => t.status !== 'fait').slice(0, 5);
+        const tasksLines =
+          pendingTasks.length > 0
+            ? pendingTasks
+                .map(
+                  (t, idx) =>
+                    `${idx + 1}. ${t.title} (${t.durationMinutes} min${
+                      t.deadline ? ` — échéance : ${t.deadline}` : ''
+                    })`
+                )
+                .join('\n')
+            : '_Aucune tâche non faite_';
+
+        const traces = [...(p.logbook || [])].reverse().slice(0, 5);
+        const tracesLines =
+          traces.length > 0
+            ? traces
+                .map((tr, idx) => {
+                  const detail =
+                    tr.observed || tr.whatWeNoticed || tr.whatWeDid || tr.done || '';
+                  return `${idx + 1}. [${tr.date || ''}] ${tr.title || 'Sans titre'}${
+                    detail ? ` : ${detail}` : ''
+                  }`;
+                })
+                .join('\n')
+            : '_Aucune trace enregistrée_';
+
+        const nextStep =
+          (p.id === activeProject.id
+            ? localStorage.getItem('studioplanner_next_step')
+            : null) ||
+          (p.logbook?.slice().reverse().find((t) => (t as Record<string, any>).nextStep) as Record<string, any> | undefined)?.nextStep ||
+          p.logbook?.slice().reverse().find((t) => t.decided || t.whatWeDecided)?.decided ||
+          p.logbook?.slice().reverse().find((t) => t.whatWeDecided)?.whatWeDecided ||
+          'Non définie';
+
+        return `## Projet : ${p.settings.name || 'Sans titre'}
+- **Phase en cours :** ${phaseName}
+- **Livrable attendu :** ${livrable}
+- **Échéance :** ${p.settings.deadlineDate || 'Non définie'}
+- **Prochaine petite étape :** ${nextStep}
+
+### 5 prochaines tâches non faites
+${tasksLines}
+
+### 5 dernières traces du journal
+${tracesLines}
+`;
+      })
+      .join('\n---\n\n');
+
+    const mdString = `# StudioPlanner — État des projets (${todayISO})
+
+${projectsMd}
+`;
+
+    const downloadBlob = (filename: string, content: string, mime: string) => {
+      const blob = new Blob([content], { type: mime });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    };
+
+    downloadBlob(`StudioPlanner-sauvegarde-${todayISO}.json`, jsonString, 'application/json');
+    setTimeout(() => {
+      downloadBlob(
+        `StudioPlanner-etat-${todayISO}.md`,
+        mdString,
+        'text/markdown;charset=utf-8'
+      );
+    }, 150);
+  };
+
+  const handleImportBackup = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setImportError(null);
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const text = event.target?.result as string;
+        const parsed = JSON.parse(text);
+
+        if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+          setImportError('Fichier invalide : format de sauvegarde non reconnu.');
+          return;
+        }
+
+        const keys = Object.keys(parsed).filter((k) => k.startsWith('studioplanner_'));
+        if (keys.length === 0) {
+          setImportError('Fichier invalide : aucune donnée StudioPlanner trouvée.');
+          return;
+        }
+
+        const confirmed = window.confirm('Remplacer toutes les données actuelles ?');
+        if (confirmed) {
+          keys.forEach((k) => {
+            const val = parsed[k];
+            const toStore = typeof val === 'string' ? val : JSON.stringify(val);
+            localStorage.setItem(k, toStore);
+          });
+          window.location.reload();
+        }
+      } catch {
+        setImportError('Fichier invalide : impossible de lire le fichier JSON.');
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
   };
 
   // Vérifie si des réglages de planification sont en attente d'application
@@ -821,6 +997,53 @@ export const SettingsSection: React.FC = () => {
               <span className="font-bold text-[#22408F] tabular-nums font-mono">
                 {aiUsage.count} appel{aiUsage.count > 1 ? 's' : ''} aujourd'hui sur 30
               </span>
+            </div>
+          </div>
+
+          {/* Bloc Données */}
+          <div className="bg-white border-2 border-[#22408F] rounded-2xl p-5 shadow-[0_4px_0_#22408F] space-y-4">
+            <h3 className="font-bold text-sm text-[#22408F] flex items-center gap-2 font-heading">
+              <HardDrive className="w-4 h-4 text-[#22408F]" />
+              Données
+            </h3>
+
+            <div className="space-y-3">
+              <div className="flex flex-col sm:flex-row gap-2">
+                <button
+                  type="button"
+                  onClick={handleExportForDrive}
+                  className="btn-riso-secondary flex-1 py-2 px-3 text-xs justify-center flex items-center gap-1.5"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Exporter pour Drive</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="btn-riso-secondary flex-1 py-2 px-3 text-xs justify-center flex items-center gap-1.5"
+                >
+                  <Upload className="w-3.5 h-3.5" />
+                  <span>Importer une sauvegarde</span>
+                </button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".json,application/json"
+                  className="hidden"
+                  onChange={handleImportBackup}
+                />
+              </div>
+
+              {importError && (
+                <div className="p-2.5 bg-[#FDEEEF] border border-[#22408F] rounded-[8px] text-xs text-[#C4111C]">
+                  {importError}
+                </div>
+              )}
+
+              <p className="text-xs text-[#5A6A94]">
+                Dépose ces fichiers dans ton dossier Drive StudioPlanner.
+              </p>
             </div>
           </div>
         </div>
