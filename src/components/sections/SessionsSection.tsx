@@ -756,8 +756,8 @@ export const SessionsSection: React.FC = () => {
                           </div>
 
                           {/* Bottom tags avec étiquette 'Fait' qui reste à l'intérieur */}
-                          <div className="pl-1 pt-1.5 flex flex-wrap items-center justify-between gap-1 text-[11px] text-riso-ink-secondary border-t border-riso-line mt-2">
-                            <span className="inline-flex items-center gap-1 font-bold text-riso-ink">
+                          <div className="pl-1 pt-1.5 flex items-center gap-1 text-[11px] text-riso-ink-secondary border-t border-riso-line mt-2">
+                            <span className="min-w-0 inline-flex items-center gap-1 font-bold text-riso-ink truncate">
                               {(session.type === 'individuelle' || (session.type as string) === 'solo') && <User className="w-3 h-3 text-riso-ink" />}
                               {session.type === 'groupe' && settings.mode === 'groupe' && (
                                 <Users className="w-3 h-3 text-riso-ink" />
