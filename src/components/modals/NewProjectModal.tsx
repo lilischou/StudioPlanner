@@ -9,6 +9,7 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import { getTodayLocalDateStr, addDays } from '../../utils/localDate';
+import { RISO_PROJECT_COLORS, DEFAULT_PROJECT_COLOR } from '../../utils/theme';
 
 interface NewProjectModalProps {
   isOpen: boolean;
@@ -28,6 +29,7 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({
   const [startDate, setStartDate] = useState(getTodayLocalDateStr());
   const [deadlineDate, setDeadlineDate] = useState(addDays(getTodayLocalDateStr(), 56));
   const [mode, setMode] = useState<'individuel' | 'groupe'>('individuel');
+  const [color, setColor] = useState<string>(DEFAULT_PROJECT_COLOR);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -38,6 +40,7 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({
       setStartDate(today);
       setDeadlineDate(addDays(today, 56));
       setMode('individuel');
+      setColor(DEFAULT_PROJECT_COLOR);
       setError(null);
     }
   }, [isOpen]);
@@ -60,7 +63,7 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({
       return;
     }
 
-    createNewProject(name.trim(), mode, startDate, deadlineDate);
+    createNewProject(name.trim(), mode, startDate, deadlineDate, undefined, color);
     onClose();
   };
 
@@ -164,6 +167,35 @@ export const NewProjectModal: React.FC<NewProjectModalProps> = ({
                     className="w-full px-3 py-2 bg-white border-2 border-[#22408F] rounded-lg text-xs text-[#22408F] font-medium focus:outline-none focus:ring-2 focus:ring-[#F2D21B]"
                     autoFocus
                   />
+                </div>
+
+                {/* Couleur du projet */}
+                <div>
+                  <label className="block text-[#22408F] font-bold text-xs uppercase tracking-wider mb-1.5">
+                    Couleur du projet
+                  </label>
+                  <div className="flex items-center gap-2.5 flex-wrap">
+                    {RISO_PROJECT_COLORS.map((c) => {
+                      const isSelected = color === c.hex;
+                      return (
+                        <button
+                          key={c.id}
+                          type="button"
+                          onClick={() => setColor(c.hex)}
+                          className={`w-7 h-7 rounded-full border-2 transition-all flex items-center justify-center cursor-pointer ${
+                            isSelected
+                              ? 'border-[#22408F] shadow-[0_2px_0_#22408F] scale-110'
+                              : 'border-transparent hover:scale-105'
+                          }`}
+                          style={{ backgroundColor: c.hex }}
+                          title={c.name}
+                          aria-label={`Couleur ${c.name}`}
+                        >
+                          {isSelected && <span className="text-white text-[10px] font-bold">✓</span>}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
 
                 {/* Dates */}

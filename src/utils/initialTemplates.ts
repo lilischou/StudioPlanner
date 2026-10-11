@@ -446,6 +446,7 @@ export function createBlankProject(
     settings: {
       name,
       description: 'Démarche de projet en design.',
+      color: '#2F6DBB',
       templateId: 'vierge',
       startDate: start,
       deadlineDate: end,

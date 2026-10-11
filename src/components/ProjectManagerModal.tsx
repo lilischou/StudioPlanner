@@ -8,6 +8,8 @@ import {
   Trash2,
 } from 'lucide-react';
 import { formatFrenchDate } from '../utils/dateCalculations';
+import { ImportProjectsModal } from './modals/ImportProjectsModal';
+import { extractProjectsListFromJSON, RawProjectInput } from '../utils/projectImporter';
 
 interface ProjectManagerModalProps {
   isOpen: boolean;
@@ -25,9 +27,11 @@ export const ProjectManagerModal: React.FC<ProjectManagerModalProps> = ({
     deleteProject,
     exportProjectJSON,
     importProjectJSON,
+    importProjectsList,
   } = useProject();
 
   const [importError, setImportError] = useState<string | null>(null);
+  const [pendingProjects, setPendingProjects] = useState<RawProjectInput[] | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   if (!isOpen) return null;
@@ -40,6 +44,15 @@ export const ProjectManagerModal: React.FC<ProjectManagerModalProps> = ({
     reader.onload = (event) => {
       try {
         const text = event.target?.result as string;
+        const parsed = JSON.parse(text);
+
+        // Détection d'une liste "projets"
+        const projectsList = extractProjectsListFromJSON(parsed);
+        if (projectsList && projectsList.length > 0) {
+          setPendingProjects(projectsList);
+          return;
+        }
+
         const success = importProjectJSON(text);
         if (success) {
           setImportError(null);
@@ -52,6 +65,7 @@ export const ProjectManagerModal: React.FC<ProjectManagerModalProps> = ({
       }
     };
     reader.readAsText(file);
+    e.target.value = '';
   };
 
   return (
@@ -209,6 +223,18 @@ export const ProjectManagerModal: React.FC<ProjectManagerModalProps> = ({
           </button>
         </div>
       </div>
+
+      {/* Modal de sélection et import des projets */}
+      <ImportProjectsModal
+        isOpen={!!pendingProjects}
+        rawProjects={pendingProjects || []}
+        onClose={() => setPendingProjects(null)}
+        onConfirmImport={(selected) => {
+          importProjectsList(selected);
+          setPendingProjects(null);
+          onClose();
+        }}
+      />
     </div>
   );
 };

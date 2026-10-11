@@ -104,6 +104,7 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
   // Formulaire de trace (Étape 5)
   const [whatIDid, setWhatIDid] = useState('');
   const [nextStep, setNextStep] = useState('');
+  const [isTaskCompleted, setIsTaskCompleted] = useState(false);
   const [recordError, setRecordError] = useState('');
 
   // Mode déblocage (Étape 6)
@@ -123,6 +124,24 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
     return 25;
   };
 
+  // Échap ferme l'écran « Je m'y mets »
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    const handleCustomEscape = () => {
+      if (isOpen) onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('studioplanner:escape', handleCustomEscape);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('studioplanner:escape', handleCustomEscape);
+    };
+  }, [isOpen, onClose]);
+
   // Initialisation à l'ouverture de la modale
   useEffect(() => {
     if (isOpen) {
@@ -131,6 +150,7 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
       setProlongationCount(0);
       setWhatIDid('');
       setNextStep('');
+      setIsTaskCompleted(false);
       setRecordError('');
       setP2TaskIndex(0);
       resolveAction('p1', 0);
@@ -142,9 +162,16 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
 
   // Résolution de l'action selon les 3 priorités
   const resolveAction = async (targetPriority: 'p1' | 'p2' | 'p3', p2Idx = 0) => {
-    // P1 : La « prochaine petite étape » notée à la fin de la dernière séance
+    // P1 : La « prochaine petite étape » notée pour le projet actif
     if (targetPriority === 'p1') {
-      const saved = localStorage.getItem('studioplanner_next_step');
+      const projectKey = `studioplanner_next_step_${activeProject.id}`;
+      let saved = localStorage.getItem(projectKey);
+      if (!saved || !saved.trim()) {
+        const lastTraceWithNext = [...logbook]
+          .reverse()
+          .find((tr) => (tr.nextStep && tr.nextStep.trim().length > 0) || (tr.decided && tr.decided.trim().length > 0));
+        saved = lastTraceWithNext?.nextStep || lastTraceWithNext?.decided || localStorage.getItem('studioplanner_next_step');
+      }
       if (saved && saved.trim().length > 0) {
         setActionText(saved.trim().slice(0, 90));
         setDureeMinutes(25);
@@ -335,7 +362,7 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
   }, [step]);
 
   // Enregistrement de la trace finale dans le journal
-  const saveRecord = () => {
+  const saveRecord = (isPause = false) => {
     if (!whatIDid.trim()) {
       setRecordError('Veuillez remplir le champ « Ce que j\'ai fait ».');
       return false;
@@ -358,16 +385,21 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
       done: whatIDid.trim(),
       observed: needTimeReason.trim() ? `Déblocage : ${needTimeReason.trim()}` : '',
       decided: nextStep.trim() || '',
+      nextStep: nextStep.trim() || undefined,
       tags: ['seance', 'je-m-y-mets'],
     });
 
-    if (matchedTaskId) {
+    // Seule cette case passe la tâche en « fait », et Pause n'enregistre jamais la tâche faite
+    if (!isPause && isTaskCompleted && matchedTaskId) {
       updateTask(matchedTaskId, { status: 'fait' });
     }
 
+    const nextStepKey = `studioplanner_next_step_${activeProject.id}`;
     if (nextStep.trim().length > 0) {
+      localStorage.setItem(nextStepKey, nextStep.trim());
       localStorage.setItem('studioplanner_next_step', nextStep.trim());
     } else {
+      localStorage.removeItem(nextStepKey);
       localStorage.removeItem('studioplanner_next_step');
     }
 
@@ -376,9 +408,10 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
 
   // 1. Bouton « Prochaine étape »
   const handleProchaineEtape = () => {
-    if (!saveRecord()) return;
+    if (!saveRecord(false)) return;
     setWhatIDid('');
     setNextStep('');
+    setIsTaskCompleted(false);
     setRecordError('');
     setProlongationCount(0);
     setStep('propose');
@@ -408,9 +441,9 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
     setStep('timer');
   };
 
-  // 3. Bouton « Pause »
+  // 3. Bouton « Pause » (enregistre la trace SANS marquer la tâche faite)
   const handlePause = () => {
-    if (!saveRecord()) return;
+    if (!saveRecord(true)) return;
     onClose();
   };
 
@@ -638,6 +671,18 @@ export const InertiaActionModal: React.FC<InertiaActionModalProps> = ({ isOpen, 
                   placeholder="La prochaine micro-action concrète à lancer"
                   className="w-full px-3 py-2 bg-[#FBFAF6] border-2 border-[#22408F] rounded-[8px] text-xs font-bold text-[#22408F] focus:outline-none focus:ring-2 focus:ring-[#F2D21B]"
                 />
+              </div>
+
+              <div>
+                <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-[#22408F] pt-1 select-none">
+                  <input
+                    type="checkbox"
+                    checked={isTaskCompleted}
+                    onChange={(e) => setIsTaskCompleted(e.target.checked)}
+                    className="w-4 h-4 rounded border-2 border-[#22408F] accent-[#2F6DBB]"
+                  />
+                  <span>Tâche terminée</span>
+                </label>
               </div>
             </div>
 

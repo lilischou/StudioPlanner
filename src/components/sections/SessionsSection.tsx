@@ -14,6 +14,7 @@ import {
   Check,
   X,
   BookOpen,
+  Trash2,
 } from 'lucide-react';
 import {
   diffInDays,
@@ -443,11 +444,17 @@ export const SessionsSection: React.FC = () => {
 
         {/* Bottom Sheet Mobile pour session sélectionnée */}
         {selectedSession && (
-          <div className="fixed inset-0 z-50 bg-[#22408F]/40 backdrop-blur-xs flex md:hidden items-end justify-center">
-            <div className="bg-white w-full max-w-lg rounded-t-[16px] border-t-2 border-x-2 border-[#22408F] shadow-[0_-4px_0_#22408F] p-6 space-y-5 animate-in slide-in-from-bottom duration-200">
-              <div className="w-12 h-1 bg-[#22408F]/30 rounded-[999px] mx-auto -mt-2 mb-2"></div>
+          <div
+            className="fixed inset-0 z-50 bg-[#22408F]/40 backdrop-blur-xs flex md:hidden items-end justify-center"
+            onClick={() => setSelectedSession(null)}
+          >
+            <div
+              className="bg-white w-full max-w-lg rounded-t-[16px] border-t-2 border-x-2 border-[#22408F] shadow-[0_-4px_0_#22408F] max-h-[85vh] flex flex-col p-6 pb-28 sm:pb-8 overflow-y-auto space-y-5 animate-in slide-in-from-bottom duration-200"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="w-12 h-1 bg-[#22408F]/30 rounded-[999px] mx-auto -mt-2 mb-2 shrink-0"></div>
 
-              <div className="flex items-start justify-between">
+              <div className="flex items-start justify-between shrink-0">
                 <div>
                   <span className="text-xs font-bold text-[#5A6A94] uppercase tracking-wider block">
                     Session {getSessionTypeLabel(selectedSession.type)} · {selectedSession.plannedDurationHours} h
@@ -460,6 +467,7 @@ export const SessionsSection: React.FC = () => {
                   type="button"
                   onClick={() => setSelectedSession(null)}
                   className="p-1 text-[#5A6A94] hover:text-[#22408F] rounded-[8px]"
+                  aria-label="Fermer"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -546,6 +554,22 @@ export const SessionsSection: React.FC = () => {
                   <CalendarIcon className="w-4 h-4 text-[#22408F]" />
                   <span>Ajouter à l'Agenda</span>
                 </a>
+
+                <div className="pt-2 border-t-2 border-[#22408F]/20">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (window.confirm('Supprimer cette session de travail ?')) {
+                        deleteSession(selectedSession.id);
+                        setSelectedSession(null);
+                      }
+                    }}
+                    className="w-full py-2 px-3 text-xs font-bold text-[#F0505A] hover:bg-[#FDEEEF] rounded-[8px] border-2 border-transparent hover:border-[#F0505A] flex items-center justify-center gap-2 transition-all cursor-pointer"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>Supprimer cette séance</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>

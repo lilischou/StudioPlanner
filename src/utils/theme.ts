@@ -60,6 +60,18 @@ export const RISO_THEME = {
   accentOrange: '#F2661F',
   accentPurple: '#7A4A9E',
 
+  // 8 couleurs riso pour les projets
+  projectColors: [
+    { id: 'blue', name: 'Bleu', hex: '#2F6DBB' },
+    { id: 'ink', name: 'Encre', hex: '#22408F' },
+    { id: 'green', name: 'Vert', hex: '#2E8B4A' },
+    { id: 'yellow', name: 'Jaune', hex: '#F2D21B' },
+    { id: 'pink', name: 'Rose', hex: '#F0505A' },
+    { id: 'orange', name: 'Orange', hex: '#F2661F' },
+    { id: 'purple', name: 'Violet', hex: '#7A4A9E' },
+    { id: 'slate', name: 'Ardoise', hex: '#5A6A94' },
+  ],
+
   // Style de bordures et ombres
   border: '2px solid #22408F',
   borderWidth: '2px',
@@ -372,3 +384,6 @@ export function getPhaseTheme(phaseId?: string): PhaseTheme {
   }
   return RISO_THEME.phases.p1;
 }
+
+export const RISO_PROJECT_COLORS = RISO_THEME.projectColors;
+export const DEFAULT_PROJECT_COLOR = '#2F6DBB';

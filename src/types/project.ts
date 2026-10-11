@@ -53,6 +53,7 @@ export interface ProjectAvailability {
 export interface ProjectSettings {
   name: string;
   description: string;
+  color?: string; // Couleur Riso du projet (pastille et liseré)
   brief?: string; // Brief synthétique du projet (2 lignes)
   templateId?: ProjectTemplateId;
   startDate: string; // format YYYY-MM-DD
@@ -261,6 +262,7 @@ export interface LogbookEntry {
   done?: string; // Ce que j'ai fait
   observed?: string; // Ce que je constate
   decided?: string; // Ce que je décide
+  nextStep?: string; // Prochaine petite étape
   workDocs?: TraceDoc[]; // Documents de travail
   results?: { text: string; docs: TraceDoc[] }; // Ce que j'ai produit
 }

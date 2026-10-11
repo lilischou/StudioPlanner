@@ -20,6 +20,11 @@ import {
   createBlankProject,
 } from '../utils/initialTemplates';
 import {
+  RawProjectInput,
+  buildProjectFromRawInput,
+  extractProjectsListFromJSON,
+} from '../utils/projectImporter';
+import {
   GeneratePlanParams,
   generateFullProject,
   applyPlanDiff,
@@ -83,12 +88,14 @@ interface ProjectContextType {
     mode?: 'individuel' | 'groupe',
     startDate?: string,
     deadlineDate?: string,
-    teamMembers?: TeamMember[]
+    teamMembers?: TeamMember[],
+    color?: string
   ) => void;
   cloneCurrentProject: (newName?: string) => void;
   deleteProject: (id: string) => void;
   exportProjectJSON: () => void;
   importProjectJSON: (jsonString: string) => boolean;
+  importProjectsList: (rawProjects: RawProjectInput[]) => number;
   // Settings & recalculation
   updateSettings: (newSettings: Partial<ProjectSettings>) => void;
   // Phases
@@ -672,9 +679,13 @@ export const ProjectProvider: React.FC<{ children: ReactNode }> = ({ children })
     mode: 'individuel' | 'groupe' = 'individuel',
     startDate?: string,
     deadlineDate?: string,
-    teamMembers?: TeamMember[]
+    teamMembers?: TeamMember[],
+    color?: string
   ) => {
     const newProj = createBlankProject(name, mode, startDate, deadlineDate);
+    if (color) {
+      newProj.settings.color = color;
+    }
     if (teamMembers && teamMembers.length > 0) {
       newProj.settings.team = teamMembers;
     }
@@ -725,9 +736,25 @@ export const ProjectProvider: React.FC<{ children: ReactNode }> = ({ children })
     downloadAnchor.remove();
   };
 
+  const importProjectsList = (rawProjects: RawProjectInput[]): number => {
+    if (!rawProjects || rawProjects.length === 0) return 0;
+    const newProjects = rawProjects.map(buildProjectFromRawInput);
+    // Crée un NOUVEAU projet pour chaque projet coché sans jamais modifier les projets existants
+    setProjects((prev) => [...newProjects, ...prev]);
+    setActiveProjectId(newProjects[0].id);
+    setActiveTab('aujourdhui');
+    logActivity('Projets', `${newProjects.length} nouveau(x) projet(s) créé(s) depuis l'import`, 'settings');
+    return newProjects.length;
+  };
+
   const importProjectJSON = (jsonString: string): boolean => {
     try {
-      const parsed = JSON.parse(jsonString) as ProjectData;
+      const parsed = JSON.parse(jsonString);
+      const list = extractProjectsListFromJSON(parsed);
+      if (list && list.length > 0) {
+        importProjectsList(list);
+        return true;
+      }
       if (parsed.settings && Array.isArray(parsed.phases) && Array.isArray(parsed.tasks)) {
         const importedProject: ProjectData = {
           ...parsed,
@@ -1320,6 +1347,7 @@ export const ProjectProvider: React.FC<{ children: ReactNode }> = ({ children })
         deleteProject,
         exportProjectJSON,
         importProjectJSON,
+        importProjectsList,
         updateSettings,
         updatePhases,
         updatePhasePercentage,

@@ -108,6 +108,8 @@ const MainAppContent: React.FC = () => {
       <Header
         onOpenNotifications={() => setIsNotificationsOpen(true)}
         onOpenDetailedView={() => handleOpenDetailedWithTab('tableau_de_bord')}
+        onOpenNewProject={() => setIsNewProjectOpen(true)}
+        onOpenHelp={() => setIsLegendOpen(true)}
       />
 
       {/* Main Viewport Container */}

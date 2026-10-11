@@ -39,6 +39,9 @@ import {
   calculatePhaseDates,
 } from '../../utils/planGenerator';
 import { PlanDiffModal } from '../modals/PlanDiffModal';
+import { ImportProjectsModal } from '../modals/ImportProjectsModal';
+import { extractProjectsListFromJSON, RawProjectInput } from '../../utils/projectImporter';
+import { RISO_PROJECT_COLORS } from '../../utils/theme';
 import { getAiDailyUsage, setAiEnabled } from '../../ai/gemini';
 
 export const SettingsSection: React.FC = () => {
@@ -47,8 +50,11 @@ export const SettingsSection: React.FC = () => {
     activeProject,
     updateSettings,
     applyPlanDiffToActiveProject,
+    importProjectsList,
   } = useProject();
   const { settings, phases, sessions } = activeProject;
+
+  const [pendingProjectsToImport, setPendingProjectsToImport] = useState<RawProjectInput[] | null>(null);
 
   const totalPlannedHours = (sessions || []).reduce(
     (sum, s) => sum + (s.plannedDurationHours || 0),
@@ -205,6 +211,7 @@ export const SettingsSection: React.FC = () => {
             : '_Aucune trace enregistrée_';
 
         const nextStep =
+          localStorage.getItem(`studioplanner_next_step_${p.id}`) ||
           (p.id === activeProject.id
             ? localStorage.getItem('studioplanner_next_step')
             : null) ||
@@ -266,6 +273,14 @@ ${projectsMd}
         const text = event.target?.result as string;
         const parsed = JSON.parse(text);
 
+        // 1. Détection d'une liste "projets"
+        const projectsList = extractProjectsListFromJSON(parsed);
+        if (projectsList && projectsList.length > 0) {
+          setPendingProjectsToImport(projectsList);
+          return;
+        }
+
+        // 2. Détection d'une sauvegarde complète du localStorage
         if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
           setImportError('Fichier invalide : format de sauvegarde non reconnu.');
           return;
@@ -478,6 +493,35 @@ ${projectsMd}
                   className="w-full px-3 py-2 bg-white border-2 border-[#22408F]/30 rounded-lg text-[#22408F] focus:border-[#22408F] focus:outline-none transition-all text-xs leading-relaxed resize-none"
                   placeholder="Enjeux, intentions de design, public visé..."
                 />
+              </div>
+
+              {/* Couleur du projet */}
+              <div>
+                <label className="block font-bold text-[#22408F] mb-1.5 font-heading">
+                  Couleur du projet
+                </label>
+                <div className="flex items-center gap-2.5 flex-wrap">
+                  {RISO_PROJECT_COLORS.map((c) => {
+                    const isSelected = (settings.color || '#2F6DBB') === c.hex;
+                    return (
+                      <button
+                        key={c.id}
+                        type="button"
+                        onClick={() => updateSettings({ color: c.hex })}
+                        className={`w-7 h-7 rounded-full border-2 transition-all flex items-center justify-center cursor-pointer ${
+                          isSelected
+                            ? 'border-[#22408F] shadow-[0_2px_0_#22408F] scale-110'
+                            : 'border-transparent hover:scale-105'
+                        }`}
+                        style={{ backgroundColor: c.hex }}
+                        title={c.name}
+                        aria-label={`Couleur ${c.name}`}
+                      >
+                        {isSelected && <span className="text-white text-[10px] font-bold">✓</span>}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
               {/* Mode switch (Solo vs Groupe) */}
@@ -1055,6 +1099,17 @@ ${projectsMd}
         diff={calculatedDiff}
         onConfirm={handleConfirmDiff}
         onCancel={() => setIsDiffModalOpen(false)}
+      />
+
+      {/* Modal d'import d'une liste de projets */}
+      <ImportProjectsModal
+        isOpen={!!pendingProjectsToImport}
+        rawProjects={pendingProjectsToImport || []}
+        onClose={() => setPendingProjectsToImport(null)}
+        onConfirmImport={(selected) => {
+          importProjectsList(selected);
+          setPendingProjectsToImport(null);
+        }}
       />
     </div>
   );

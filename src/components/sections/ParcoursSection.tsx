@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useProject } from '../../context/ProjectContext';
-import { Phase, Task, Milestone, ProjectSettings } from '../../types/project';
+import { Phase, Task, Milestone, ProjectSettings, TaskStatus } from '../../types/project';
 import {
   Check,
   Flag,
@@ -40,6 +40,7 @@ interface PhaseDetailPanelProps {
   onNavigateToTasks: (phaseId: string) => void;
   onUpdateTask: (taskId: string, updates: Partial<Task>) => void;
   onAddTask: (task: Omit<Task, 'id'>) => void;
+  onSelectTask?: (task: Task) => void;
 }
 
 const PhaseDetailPanel: React.FC<PhaseDetailPanelProps> = ({
@@ -58,6 +59,7 @@ const PhaseDetailPanel: React.FC<PhaseDetailPanelProps> = ({
   onNavigateToTasks,
   onUpdateTask,
   onAddTask,
+  onSelectTask,
 }) => {
   const phaseColor = getPhaseColor(phase, phases);
   const phaseTasks = tasks.filter((t) => t.phaseId === phase.id);
@@ -582,9 +584,13 @@ const PhaseDetailPanel: React.FC<PhaseDetailPanelProps> = ({
                     </div>
                   </button>
 
-                  <div className="flex-1 min-w-0 pr-1">
+                  <div
+                    className="flex-1 min-w-0 pr-1 cursor-pointer group/task"
+                    onClick={() => onSelectTask?.(task)}
+                    title="Modifier cette tâche"
+                  >
                     <h4
-                      className={`text-xs font-bold leading-snug truncate ${
+                      className={`text-xs font-bold leading-snug truncate group-hover/task:underline ${
                         isTaskDone ? 'line-through text-[#5A6A94]' : 'text-[#22408F]'
                       }`}
                     >
@@ -637,11 +643,211 @@ const PhaseDetailPanel: React.FC<PhaseDetailPanelProps> = ({
   );
 };
 
+interface TaskDetailPanelProps {
+  task: Task;
+  phases: Phase[];
+  onClose: () => void;
+  onUpdate: (updates: Partial<Task>) => void;
+  onDelete: (taskId: string) => void;
+}
+
+const TaskDetailPanel: React.FC<TaskDetailPanelProps> = ({
+  task,
+  phases,
+  onClose,
+  onUpdate,
+  onDelete,
+}) => {
+  const [durationError, setDurationError] = useState<string | null>(null);
+
+  const handleDurationChange = (val: number) => {
+    if (isNaN(val) || val < 5 || val > 240) {
+      setDurationError('La durée doit être comprise entre 5 et 240 minutes.');
+    } else if (val % 5 !== 0) {
+      setDurationError('La durée doit être un multiple de 5 minutes (ex: 25, 45, 60).');
+    } else {
+      setDurationError(null);
+      onUpdate({ durationMinutes: val });
+    }
+  };
+
+  const content = (
+    <div className="space-y-4">
+      <div className="flex items-start justify-between pb-3 border-b-2 border-[#22408F]/20">
+        <div>
+          <span className="text-[11px] font-bold text-[#5A6A94] uppercase tracking-wider block">
+            Édition de la tâche
+          </span>
+          <h3 className="text-base font-bold text-[#22408F] font-heading mt-0.5">
+            {task.code ? `${task.code} · ` : ''}{task.title || 'Sans titre'}
+          </h3>
+        </div>
+        <button
+          type="button"
+          onClick={onClose}
+          className="p-1 text-[#5A6A94] hover:text-[#22408F] rounded-[8px]"
+          aria-label="Fermer"
+        >
+          <X className="w-5 h-5" />
+        </button>
+      </div>
+
+      {/* Titre */}
+      <div className="space-y-1">
+        <label className="text-xs font-bold text-[#22408F] block">Titre</label>
+        <input
+          type="text"
+          value={task.title}
+          onChange={(e) => onUpdate({ title: e.target.value })}
+          className="w-full px-3 py-2 bg-white border-2 border-[#22408F] rounded-[8px] text-xs font-medium text-[#22408F]"
+        />
+      </div>
+
+      {/* Description */}
+      <div className="space-y-1">
+        <label className="text-xs font-bold text-[#22408F] block">Description / Notes</label>
+        <textarea
+          value={(task as any).description || ''}
+          onChange={(e) => onUpdate({ description: e.target.value } as any)}
+          rows={3}
+          placeholder="Détails, liens ou critères de réussite..."
+          className="w-full px-3 py-2 bg-white border-2 border-[#22408F] rounded-[8px] text-xs font-medium text-[#22408F]"
+        />
+      </div>
+
+      {/* Phase & Statut */}
+      <div className="grid grid-cols-2 gap-3">
+        <div className="space-y-1">
+          <label className="text-xs font-bold text-[#22408F] block">Phase</label>
+          <select
+            value={task.phaseId}
+            onChange={(e) => onUpdate({ phaseId: e.target.value })}
+            className="w-full px-2.5 py-1.5 bg-white border-2 border-[#22408F] rounded-[8px] text-xs font-bold text-[#22408F]"
+          >
+            {phases.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.shortName || p.nom || p.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="space-y-1">
+          <label className="text-xs font-bold text-[#22408F] block">Statut</label>
+          <select
+            value={task.status}
+            onChange={(e) => onUpdate({ status: e.target.value as TaskStatus })}
+            className="w-full px-2.5 py-1.5 bg-white border-2 border-[#22408F] rounded-[8px] text-xs font-bold text-[#22408F]"
+          >
+            <option value="a_faire">À faire</option>
+            <option value="en_cours">En cours</option>
+            <option value="fait">Fait</option>
+            <option value="bloque">Bloqué</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Durée */}
+      <div className="space-y-1">
+        <label className="text-xs font-bold text-[#22408F] block">Durée estimée (minutes)</label>
+        <div className="flex items-center gap-2">
+          <input
+            type="number"
+            min={5}
+            max={240}
+            step={5}
+            defaultValue={task.durationMinutes}
+            onChange={(e) => handleDurationChange(Number(e.target.value))}
+            className="w-24 px-2.5 py-1.5 bg-white border-2 border-[#22408F] rounded-[8px] text-xs font-mono font-bold text-center text-[#22408F]"
+          />
+          <span className="text-xs text-[#5A6A94] font-medium">min (5 à 240, multiple de 5)</span>
+        </div>
+        {durationError && (
+          <span className="text-[11px] text-[#C4111C] font-bold block mt-1">
+            {durationError}
+          </span>
+        )}
+      </div>
+
+      {/* Date prévue et Échéance */}
+      <div className="grid grid-cols-2 gap-3">
+        <div className="space-y-1">
+          <label className="text-xs font-bold text-[#22408F] block">Date prévue</label>
+          <input
+            type="date"
+            value={(task as any).scheduledDate || ''}
+            onChange={(e) => onUpdate({ scheduledDate: e.target.value } as any)}
+            className="w-full px-2.5 py-1.5 bg-white border-2 border-[#22408F] rounded-[8px] text-xs font-mono font-bold text-[#22408F]"
+          />
+        </div>
+
+        <div className="space-y-1">
+          <label className="text-xs font-bold text-[#22408F] block">Échéance</label>
+          <input
+            type="date"
+            value={task.deadline || ''}
+            onChange={(e) => onUpdate({ deadline: e.target.value })}
+            className="w-full px-2.5 py-1.5 bg-white border-2 border-[#22408F] rounded-[8px] text-xs font-mono font-bold text-[#22408F]"
+          />
+        </div>
+      </div>
+
+      {/* Bouton Supprimer */}
+      <div className="pt-4 border-t-2 border-[#22408F]/20">
+        <button
+          type="button"
+          onClick={() => {
+            if (window.confirm('Supprimer cette tâche ?')) {
+              onDelete(task.id);
+            }
+          }}
+          className="w-full py-2.5 px-3 text-xs font-bold text-[#F0505A] hover:bg-[#FDEEEF] rounded-[8px] border-2 border-transparent hover:border-[#F0505A] flex items-center justify-center gap-2 transition-all cursor-pointer"
+        >
+          <Trash2 className="w-4 h-4" />
+          <span>Supprimer cette tâche</span>
+        </button>
+      </div>
+    </div>
+  );
+
+  return (
+    <>
+      {/* Mobile bottom sheet */}
+      <div
+        className="fixed inset-0 z-50 bg-[#22408F]/40 backdrop-blur-xs flex md:hidden items-end justify-center"
+        onClick={onClose}
+      >
+        <div
+          className="bg-white w-full max-w-lg rounded-t-[16px] border-t-2 border-x-2 border-[#22408F] shadow-[0_-4px_0_#22408F] max-h-[85vh] flex flex-col p-6 pb-28 sm:pb-8 overflow-y-auto animate-in slide-in-from-bottom duration-200"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="w-12 h-1 bg-[#22408F]/30 rounded-[999px] mx-auto -mt-2 mb-3 shrink-0"></div>
+          {content}
+        </div>
+      </div>
+
+      {/* Desktop side drawer */}
+      <div
+        className="fixed inset-0 z-50 bg-[#22408F]/40 backdrop-blur-2xs hidden md:flex justify-end"
+        onClick={onClose}
+      >
+        <div
+          className="w-[420px] max-w-full h-full bg-white shadow-2xl p-7 border-l-2 border-[#22408F] overflow-y-auto animate-in slide-in-from-right duration-200"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {content}
+        </div>
+      </div>
+    </>
+  );
+};
+
 export const ParcoursSection: React.FC = () => {
   const {
     activeProject,
     addTask,
     updateTask,
+    deleteTask,
     updatePhase,
     addPhase,
     deletePhase,
@@ -654,7 +860,18 @@ export const ParcoursSection: React.FC = () => {
 
   const currentPhaseRef = useRef<HTMLDivElement>(null);
   const [selectedPhase, setSelectedPhase] = useState<Phase | null>(null);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
+
+  // Échap ferme tout panneau ouvert
+  useEffect(() => {
+    const handleEscape = () => {
+      setSelectedPhase(null);
+      setSelectedTask(null);
+    };
+    window.addEventListener('studioplanner:escape', handleEscape);
+    return () => window.removeEventListener('studioplanner:escape', handleEscape);
+  }, []);
 
   // Determine current active phase:
   // Rule B.2 : En cours = contient la date du jour
@@ -956,11 +1173,17 @@ export const ParcoursSection: React.FC = () => {
 
         {/* Bottom Sheet Mobile : Détail d'une phase */}
         {selectedPhase && (
-          <div className="fixed inset-0 z-50 bg-[#22408F]/40 backdrop-blur-xs flex items-end justify-center">
-            <div className="bg-white w-full max-w-lg rounded-t-[16px] border-t-2 border-x-2 border-[#22408F] shadow-[0_-4px_0_#22408F] max-h-[85vh] flex flex-col animate-in slide-in-from-bottom duration-200">
+          <div
+            className="fixed inset-0 z-50 bg-[#22408F]/40 backdrop-blur-xs flex items-end justify-center"
+            onClick={() => setSelectedPhase(null)}
+          >
+            <div
+              className="bg-white w-full max-w-lg rounded-t-[16px] border-t-2 border-x-2 border-[#22408F] shadow-[0_-4px_0_#22408F] max-h-[85vh] flex flex-col animate-in slide-in-from-bottom duration-200"
+              onClick={(e) => e.stopPropagation()}
+            >
               <div className="w-12 h-1 bg-[#22408F]/30 rounded-[999px] mx-auto mt-3 shrink-0"></div>
 
-              <div className="p-6 overflow-y-auto">
+              <div className="p-6 overflow-y-auto pb-28 sm:pb-8 flex-1">
                 <PhaseDetailPanel
                   phase={selectedPhase}
                   phases={phases}
@@ -977,6 +1200,7 @@ export const ParcoursSection: React.FC = () => {
                   onNavigateToTasks={handleNavigateToTasks}
                   onUpdateTask={updateTask}
                   onAddTask={addTask}
+                  onSelectTask={setSelectedTask}
                 />
               </div>
             </div>
@@ -1201,10 +1425,25 @@ export const ParcoursSection: React.FC = () => {
               onNavigateToTasks={handleNavigateToTasks}
               onUpdateTask={updateTask}
               onAddTask={addTask}
+              onSelectTask={setSelectedTask}
             />
           </div>
         </div>
       </div>
+
+      {/* Panneau d'édition de la tâche sélectionnée (Mobile bottom sheet + Desktop drawer) */}
+      {selectedTask && (
+        <TaskDetailPanel
+          task={selectedTask}
+          phases={phases}
+          onClose={() => setSelectedTask(null)}
+          onUpdate={(updates) => updateTask(selectedTask.id, updates)}
+          onDelete={(taskId) => {
+            deleteTask(taskId);
+            setSelectedTask(null);
+          }}
+        />
+      )}
     </>
   );
 };

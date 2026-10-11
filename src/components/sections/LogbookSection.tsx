@@ -281,17 +281,6 @@ export const LogbookSection: React.FC = () => {
             <span className="hidden sm:inline">Exporter</span>
             <span className="sm:hidden">Export</span>
           </button>
-
-          {/* Nouvelle trace */}
-          <button
-            type="button"
-            onClick={handleOpenAddModal}
-            className="btn-riso-primary text-xs px-2.5 py-1.5"
-            title="Nouvelle trace"
-          >
-            <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
-            <span className="hidden sm:inline">Nouvelle trace</span>
-          </button>
         </div>
       </div>
 
@@ -420,19 +409,9 @@ export const LogbookSection: React.FC = () => {
               Ton carnet est vide.
             </h3>
             <p className="text-xs text-neutral-500 leading-relaxed">
-              Ajoute ta première trace après ta prochaine session.
+              Ajoute ta première trace après ta prochaine session en cliquant sur le bouton « + » ci-dessous.
             </p>
           </div>
-          <button
-            type="button"
-            onClick={handleOpenAddModal}
-            className="btn-riso-primary text-xs mt-2"
-            title="Nouvelle trace"
-            aria-label="Nouvelle trace"
-          >
-            <Plus className="w-4 h-4 stroke-[2.5]" />
-            <span>Nouvelle trace</span>
-          </button>
         </div>
       ) : viewMode === 'list' ? (
         /* Vue 1 : LISTE CHRONOLOGIQUE GROUPÉE PAR MOIS */
@@ -508,8 +487,8 @@ export const LogbookSection: React.FC = () => {
         </div>
       )}
 
-      {/* 4. Bouton rond flottant « + » en bas à droite (Toujours facile à toucher - Mobile uniquement) */}
-      <div className="fixed bottom-20 right-6 z-20 md:hidden">
+      {/* 4. Bouton rond flottant « + » (Unique bouton « Nouvelle trace » du Journal) */}
+      <div className="fixed bottom-20 right-6 md:bottom-8 md:right-8 z-30">
         <button
           type="button"
           onClick={handleOpenAddModal}
@@ -570,18 +549,6 @@ export const LogbookSection: React.FC = () => {
             >
               <Printer className="w-3.5 h-3.5" />
               <span>Exporter</span>
-            </button>
-
-            {/* Bouton texte Nouvelle trace (Style principal Riso) */}
-            <button
-              type="button"
-              onClick={handleOpenAddModal}
-              className="btn-riso-primary text-xs"
-              title="Nouvelle trace"
-              aria-label="Nouvelle trace"
-            >
-              <Plus className="w-4 h-4 stroke-[2.5]" />
-              <span>Nouvelle trace</span>
             </button>
           </div>
         </div>
@@ -749,19 +716,9 @@ export const LogbookSection: React.FC = () => {
                     Ton carnet est vide.
                   </h3>
                   <p className="text-xs text-neutral-500 leading-relaxed">
-                    Ajoute ta première trace après ta prochaine session.
+                    Ajoute ta première trace après ta prochaine session en cliquant sur le bouton « + » en bas à droite.
                   </p>
                 </div>
-                <button
-                  type="button"
-                  onClick={handleOpenAddModal}
-                  className="btn-riso-primary text-xs mt-2"
-                  title="Nouvelle trace"
-                  aria-label="Nouvelle trace"
-                >
-                  <Plus className="w-4 h-4 stroke-[2.5]" />
-                  <span>Nouvelle trace</span>
-                </button>
               </div>
             ) : viewMode === 'list' ? (
               /* Vue Liste Desktop */

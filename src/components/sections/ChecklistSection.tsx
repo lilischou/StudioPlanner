@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useProject } from '../../context/ProjectContext';
 import { Task, TaskStatus } from '../../types/project';
 import {
@@ -104,26 +104,48 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
   const [newDeadline, setNewDeadline] = useState(
     phases[0]?.calculatedEndDate || todayISO
   );
-  const [newDuration, setNewDuration] = useState(120);
+  const [newDuration, setNewDuration] = useState(60);
   const [newPredecessorId, setNewPredecessorId] = useState('');
+  const [durationError, setDurationError] = useState<string | null>(null);
+  const [rowDurationErrors, setRowDurationErrors] = useState<Record<string, string>>({});
+
+  // Escape shortcut to close editing
+  useEffect(() => {
+    const handleEscape = () => {
+      setEditingTaskId(null);
+    };
+    window.addEventListener('studioplanner:escape', handleEscape);
+    return () => window.removeEventListener('studioplanner:escape', handleEscape);
+  }, []);
 
   // Handle new task submission
   const handleAddTask = (e: React.FormEvent) => {
     e.preventDefault();
+    setDurationError(null);
     if (!newTitle.trim()) return;
+
+    if (isNaN(newDuration) || newDuration < 5 || newDuration > 240) {
+      setDurationError('La durée doit être comprise entre 5 et 240 minutes.');
+      return;
+    }
+    if (newDuration % 5 !== 0) {
+      setDurationError('La durée doit être un multiple de 5 minutes (ex: 25, 45, 60).');
+      return;
+    }
 
     addTask({
       title: newTitle.trim(),
       phaseId: newPhaseId,
       assignee: newAssignee,
       deadline: newDeadline,
-      durationMinutes: Math.min(240, Math.max(15, newDuration)),
+      durationMinutes: newDuration,
       status: 'a_faire',
       dependsOn: newPredecessorId ? [newPredecessorId] : [],
     });
 
     setNewTitle('');
     setNewPredecessorId('');
+    setDurationError(null);
   };
 
   // Filter tasks
@@ -364,6 +386,108 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
     );
   };
 
+  const renderAddTaskForm = () => (
+    <form onSubmit={handleAddTask} className="p-3.5 bg-[#FBFAF6] flex flex-wrap items-center gap-2.5 text-xs">
+      <span className="font-bold text-[#22408F]">+ Nouvelle action :</span>
+
+      <input
+        type="text"
+        placeholder="Nom de l'action (ex: Cartographier les personas)"
+        value={newTitle}
+        onChange={(e) => setNewTitle(e.target.value)}
+        className="flex-1 min-w-[200px] px-2.5 py-1.5 bg-white border-2 border-[#22408F]/40 focus:border-[#22408F] rounded-lg text-xs font-medium"
+      />
+
+      <select
+        value={newPhaseId}
+        onChange={(e) => setNewPhaseId(e.target.value)}
+        className="px-2.5 py-1.5 bg-white border-2 border-[#22408F]/40 rounded-lg text-xs font-medium text-[#22408F]"
+      >
+        {phases.map((p) => (
+          <option key={p.id} value={p.id}>
+            {p.shortName || p.nom || p.name}
+          </option>
+        ))}
+      </select>
+
+      {settings.mode === 'groupe' && (
+        <select
+          value={newAssignee}
+          onChange={(e) => setNewAssignee(e.target.value)}
+          className="px-2.5 py-1.5 bg-white border-2 border-[#22408F]/40 rounded-lg text-xs font-medium text-[#22408F]"
+        >
+          {settings.team.map((m) => (
+            <option key={m.id} value={m.name}>
+              {m.name}
+            </option>
+          ))}
+          <option value="Tous">Tous (Équipe)</option>
+        </select>
+      )}
+
+      <input
+        type="date"
+        value={newDeadline}
+        onChange={(e) => setNewDeadline(e.target.value)}
+        className="px-2.5 py-1.5 bg-white border-2 border-[#22408F]/40 rounded-lg font-mono text-xs text-[#22408F]"
+      />
+
+      <div className="flex flex-col">
+        <div className="flex items-center gap-1 font-mono">
+          <input
+            type="number"
+            min={5}
+            max={240}
+            step={5}
+            value={newDuration}
+            onChange={(e) => {
+              const val = Number(e.target.value);
+              setNewDuration(val);
+              if (isNaN(val) || val < 5 || val > 240) {
+                setDurationError('Durée refusée : entre 5 et 240 min');
+              } else if (val % 5 !== 0) {
+                setDurationError('Durée refusée : multiple de 5 min');
+              } else {
+                setDurationError(null);
+              }
+            }}
+            className={`w-16 px-2 py-1.5 bg-white border-2 rounded-lg text-xs text-center font-bold ${
+              durationError ? 'border-[#F0505A] text-[#C4111C]' : 'border-[#22408F]/40 text-[#22408F]'
+            }`}
+            title="Durée en minutes (5 à 240, multiple de 5)"
+          />
+          <span className="text-[#5A6A94] text-[10px]">min</span>
+        </div>
+        {durationError && (
+          <span className="text-[11px] text-[#C4111C] font-bold mt-1">
+            {durationError}
+          </span>
+        )}
+      </div>
+
+      <select
+        value={newPredecessorId}
+        onChange={(e) => setNewPredecessorId(e.target.value)}
+        className="px-2.5 py-1.5 bg-white border-2 border-[#22408F]/40 rounded-lg text-xs text-[#5A6A94]"
+      >
+        <option value="">(Sans prérequis)</option>
+        {tasks.map((t) => (
+          <option key={t.id} value={t.id}>
+            Prérequis : {t.code} - {t.title}
+          </option>
+        ))}
+      </select>
+
+      <button
+        type="submit"
+        disabled={!newTitle.trim()}
+        className="btn-riso-primary py-1.5 px-3.5 text-xs"
+      >
+        Ajouter
+      </button>
+    </form>
+  );
+
   return (
     <div className="space-y-6">
       {/* Contrôle segmenté affiché uniquement hors vue détaillée modale */}
@@ -489,6 +613,11 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
               )}
             </div>
           )}
+
+          {/* Formulaire + Nouvelle action affiché aussi en Vue Essentiel */}
+          <div className="bg-white border-2 border-[#22408F] rounded-xl shadow-[0_4px_0_#22408F] overflow-hidden">
+            {renderAddTaskForm()}
+          </div>
         </div>
       ) : (
         /* Sinon : Vue détaillée complète (graphe ou tableau complet inchangé) */
@@ -1051,17 +1180,46 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
                         {/* Durée (min) */}
                         <td className="py-2.5 px-3 font-mono whitespace-nowrap text-xs">
                           {isEditing ? (
-                            <input
-                              type="number"
-                              min={15}
-                              max={240}
-                              step={15}
-                              value={task.durationMinutes}
-                              onChange={(e) =>
-                                updateTask(task.id, { durationMinutes: Number(e.target.value) })
-                              }
-                              className="w-14 bg-white border border-[#22408F] rounded px-1 py-0.5 text-xs font-mono text-center"
-                            />
+                            <div className="flex flex-col gap-0.5">
+                              <input
+                                type="number"
+                                min={5}
+                                max={240}
+                                step={5}
+                                value={task.durationMinutes}
+                                onChange={(e) => {
+                                  const val = Number(e.target.value);
+                                  if (isNaN(val) || val < 5 || val > 240) {
+                                    setRowDurationErrors((prev) => ({
+                                      ...prev,
+                                      [task.id]: '5 à 240 min',
+                                    }));
+                                  } else if (val % 5 !== 0) {
+                                    setRowDurationErrors((prev) => ({
+                                      ...prev,
+                                      [task.id]: 'pas de 5 min',
+                                    }));
+                                  } else {
+                                    setRowDurationErrors((prev) => {
+                                      const next = { ...prev };
+                                      delete next[task.id];
+                                      return next;
+                                    });
+                                    updateTask(task.id, { durationMinutes: val });
+                                  }
+                                }}
+                                className={`w-16 bg-white border rounded px-1 py-0.5 text-xs font-mono text-center font-bold ${
+                                  rowDurationErrors[task.id]
+                                    ? 'border-[#F0505A] text-[#C4111C]'
+                                    : 'border-[#22408F]'
+                                }`}
+                              />
+                              {rowDurationErrors[task.id] && (
+                                <span className="text-[10px] text-[#C4111C] font-bold">
+                                  {rowDurationErrors[task.id]}
+                                </span>
+                              )}
+                            </div>
                           ) : (
                             <span className="text-[#5A6A94]">
                               {task.durationMinutes} min
@@ -1128,86 +1286,9 @@ export const ChecklistSection: React.FC<ChecklistSectionProps> = ({
             </table>
 
             {/* Add Task Form (Fonds neutres épurés, sans jaune tableur) */}
-            <form onSubmit={handleAddTask} className="p-3.5 bg-[#FBFAF6] border-t-2 border-[#22408F] flex flex-wrap items-center gap-2.5 text-xs">
-              <span className="font-bold text-[#22408F]">+ Nouvelle action :</span>
-
-              <input
-                type="text"
-                placeholder="Nom de l'action (ex: Cartographier les personas)"
-                value={newTitle}
-                onChange={(e) => setNewTitle(e.target.value)}
-                className="flex-1 min-w-[200px] px-2.5 py-1.5 bg-white border-2 border-[#22408F]/40 focus:border-[#22408F] rounded-lg text-xs font-medium"
-              />
-
-              <select
-                value={newPhaseId}
-                onChange={(e) => setNewPhaseId(e.target.value)}
-                className="px-2.5 py-1.5 bg-white border-2 border-[#22408F]/40 rounded-lg text-xs font-medium text-[#22408F]"
-              >
-                {phases.map((p) => (
-                  <option key={p.id} value={p.id}>
-                    {p.shortName || p.nom || p.name}
-                  </option>
-                ))}
-              </select>
-
-              {settings.mode === 'groupe' && (
-                <select
-                  value={newAssignee}
-                  onChange={(e) => setNewAssignee(e.target.value)}
-                  className="px-2.5 py-1.5 bg-white border-2 border-[#22408F]/40 rounded-lg text-xs font-medium text-[#22408F]"
-                >
-                  {settings.team.map((m) => (
-                    <option key={m.id} value={m.name}>
-                      {m.name}
-                    </option>
-                  ))}
-                  <option value="Tous">Tous (Équipe)</option>
-                </select>
-              )}
-
-              <input
-                type="date"
-                value={newDeadline}
-                onChange={(e) => setNewDeadline(e.target.value)}
-                className="px-2.5 py-1.5 bg-white border-2 border-[#22408F]/40 rounded-lg font-mono text-xs text-[#22408F]"
-              />
-
-              <div className="flex items-center gap-1 font-mono">
-                <input
-                  type="number"
-                  min={15}
-                  max={240}
-                  step={15}
-                  value={newDuration}
-                  onChange={(e) => setNewDuration(Number(e.target.value))}
-                  className="w-16 px-2 py-1.5 bg-white border-2 border-[#22408F]/40 rounded-lg text-xs text-center font-bold"
-                  title="Durée en minutes"
-                />
-                <span className="text-[#5A6A94] text-[10px]">min</span>
-              </div>
-
-              <select
-                value={newPredecessorId}
-                onChange={(e) => setNewPredecessorId(e.target.value)}
-                className="px-2.5 py-1.5 bg-white border-2 border-[#22408F]/40 rounded-lg text-xs text-[#5A6A94]"
-              >
-                <option value="">(Sans prérequis)</option>
-                {tasks.map((t) => (
-                  <option key={t.id} value={t.id}>
-                    Prérequis : {t.code} - {t.title}
-                  </option>
-                ))}
-              </select>
-
-              <button
-                type="submit"
-                disabled={!newTitle.trim()}
-                className="btn-riso-primary py-1.5 px-3.5 text-xs"
-              >
-                Ajouter
-              </button>
-            </form>
+            <div className="border-t-2 border-[#22408F]">
+              {renderAddTaskForm()}
+            </div>
           </div>
         </div>
       )}

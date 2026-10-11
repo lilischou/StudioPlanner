@@ -87,7 +87,11 @@ export const DesktopSidebar: React.FC<DesktopSidebarProps> = ({
           className="w-full flex items-center justify-between gap-2 p-2.5 bg-white hover:bg-[#EBF1FF] rounded-[8px] border-2 border-[#22408F] shadow-[0_4px_0_#22408F] hover:-translate-y-0.5 hover:shadow-[0_6px_0_#22408F] active:translate-y-1 active:shadow-none transition-all cursor-pointer text-left"
         >
           <div className="flex items-start gap-2 min-w-0 flex-1">
-            <FolderKanban className="w-4 h-4 text-[#22408F] shrink-0 mt-0.5 mx-auto xl:mx-0" />
+            <span
+              className="w-3.5 h-3.5 rounded-full shrink-0 border-2 border-[#22408F] mt-0.5 mx-auto xl:mx-0 shadow-xs"
+              style={{ backgroundColor: activeProject.settings.color || '#2F6DBB' }}
+              title={`Couleur du projet : ${activeProject.settings.name}`}
+            />
             <div className="hidden xl:flex flex-col min-w-0 flex-1 gap-1">
               <span className="font-bold text-[#22408F] text-[13px] leading-snug line-clamp-2 break-words font-heading">
                 {activeProject.settings.name || 'Projet'}
